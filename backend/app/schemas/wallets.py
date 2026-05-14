@@ -229,3 +229,23 @@ class SignalOutcomeSummary(BaseModel):
     unfavorable_outcomes: int
     neutral_outcomes: int
     needs_review_outcomes: int
+
+
+class WalletPerformance(BaseModel):
+    wallet_id: UUID
+    label: str | None = None
+    normalized_address: str
+    chain: str
+    wallet_type: str
+    watch_priority: int
+    total_outcomes: int
+    favorable_outcomes: int
+    unfavorable_outcomes: int
+    neutral_outcomes: int
+    needs_review_outcomes: int
+    win_rate_pct: Decimal
+    avg_return_pct: Decimal
+    avg_data_quality_score: Decimal
+    confidence_score: Decimal
+    last_outcome_at: datetime | None = None
+    paper_trading_only: bool = True

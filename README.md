@@ -109,4 +109,5 @@ Stage 2 has started with price outcome and signal validation foundations:
 - Signal classification for favorable, unfavorable, neutral and needs-review outcomes based on movement type and price direction.
 - Backend routes under `/signal-outcomes` for listing outcomes, viewing summary counts, running mock outcome backfills and running due-outcome checks.
 - Frontend Signal Outcomes panel for running mock/public validation and reviewing recent horizon outcomes with provider detail.
-- V1 remains research and paper-trading only; outcomes never execute trades.
+- Wallet performance ranking API and frontend panel that compares wallets by outcome counts, win rate, average return, data quality and sample-adjusted confidence score.
+- V1 remains research and paper-trading only; outcomes and rankings never execute trades.

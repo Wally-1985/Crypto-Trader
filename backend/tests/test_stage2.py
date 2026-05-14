@@ -4,6 +4,7 @@ from decimal import Decimal
 from app.main import app
 from app.services.market_data import CoinGeckoPublicMarketDataProvider, DEFAULT_SYMBOL_IDS
 from app.services.signal_outcomes import HORIZONS, MockPriceOutcomeProvider, classify_signal_result, price_change_pct
+from app.services.wallet_performance import confidence_adjusted_score
 
 
 def test_stage2_signal_outcome_routes_registered():
@@ -12,6 +13,7 @@ def test_stage2_signal_outcome_routes_registered():
     assert "/signal-outcomes/summary" in routes
     assert "/signal-outcomes/run-once" in routes
     assert "/signal-outcomes/run-due" in routes
+    assert "/wallet-performance" in routes
 
 
 def test_stage2_horizons_match_product_question():
@@ -54,3 +56,11 @@ def test_public_market_provider_is_read_only_and_allowlisted_without_network_for
     assert point.paper_trading_only is True
     assert point.source == "unsupported_symbol_allowlist"
     assert "ETH" in DEFAULT_SYMBOL_IDS
+
+
+def test_wallet_performance_score_is_sample_adjusted_and_bounded():
+    small_sample = confidence_adjusted_score(favorable=1, unfavorable=0, total=1, avg_return_pct=Decimal("10"))
+    bigger_sample = confidence_adjusted_score(favorable=20, unfavorable=0, total=20, avg_return_pct=Decimal("10"))
+    bad_sample = confidence_adjusted_score(favorable=0, unfavorable=20, total=20, avg_return_pct=Decimal("-10"))
+    assert Decimal("50") < small_sample < bigger_sample <= Decimal("100")
+    assert Decimal("0") <= bad_sample < Decimal("50")

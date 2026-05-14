@@ -10,6 +10,7 @@ type PollingSummary = { provider:string; checked_wallets:number; eligible_wallet
 type SignalOutcome = { id:string; wallet_movement_id:string; wallet_id:string; chain:string; token_symbol:string; horizon:string; provider:string; baseline_price:string|null; outcome_price:string|null; price_change_pct:string|null; direction:string; signal_result:string; measured_at:string; due_at:string; data_quality_score:number; paper_trading_only:boolean; raw_price_payload:Record<string, unknown>; created_at:string; updated_at:string; };
 type SignalOutcomeSummary = { total_outcomes:number; favorable_outcomes:number; unfavorable_outcomes:number; neutral_outcomes:number; needs_review_outcomes:number; };
 type SignalOutcomeRunSummary = { provider:string; checked_movements:number; created_outcomes:number; skipped_existing:number; checked_due_outcomes:number; skipped_not_due:number; provider_errors:number; paper_trading_only:boolean; };
+type WalletPerformance = { wallet_id:string; label:string|null; normalized_address:string; chain:string; wallet_type:string; watch_priority:number; total_outcomes:number; favorable_outcomes:number; unfavorable_outcomes:number; neutral_outcomes:number; needs_review_outcomes:number; win_rate_pct:string; avg_return_pct:string; avg_data_quality_score:string; confidence_score:string; last_outcome_at:string|null; paper_trading_only:boolean; };
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL ?? 'http://127.0.0.1:8000';
 const walletTypes = ['Unknown','Whale','Smart Money','VC/Fund','Exchange','Market Maker','Influencer Wallet','Developer Wallet','Suspicious','Do Not Copy'];
@@ -27,6 +28,7 @@ function App(){
   const [movements,setMovements] = useState<WalletMovement[]>([]);
   const [alerts,setAlerts] = useState<AgentAlert[]>([]);
   const [outcomes,setOutcomes] = useState<SignalOutcome[]>([]);
+  const [performance,setPerformance] = useState<WalletPerformance[]>([]);
   const [summary,setSummary] = useState<WalletSummary>(emptySummary);
   const [outcomeSummary,setOutcomeSummary] = useState<SignalOutcomeSummary>(emptyOutcomeSummary);
   const [loading,setLoading] = useState(true);
@@ -40,6 +42,7 @@ function App(){
   const [polling,setPolling] = useState<PollingSummary|null>(null);
   const [outcomeRun,setOutcomeRun] = useState<SignalOutcomeRunSummary|null>(null);
   const [outcomeFilter,setOutcomeFilter] = useState<'all'|'favorable'|'unfavorable'|'review'>('all');
+  const [performanceFilter,setPerformanceFilter] = useState<'all'|'mock'|'coingecko_public'>('all');
   const [form,setForm] = useState({ wallet_address:'', chain:'ethereum', label:'', wallet_type:'Unknown', alert_threshold_usd:'100000', watch_priority:'3', confidence_weighting:'1.00', copy_trade_enabled:false, do_not_copy:false, tags:'', sectors_of_interest:'', notes:'' });
   const [editId,setEditId] = useState('');
   const [editForm,setEditForm] = useState({ label:'', wallet_type:'Unknown', alert_threshold_usd:'100000', watch_priority:'3', confidence_weighting:'1.00', copy_trade_enabled:false, do_not_copy:false, tags:'', sectors_of_interest:'', notes:'', enabled:true });
@@ -59,13 +62,14 @@ function App(){
     setLoading(true); setError('');
     try{
       const alertPath = alertFilter === 'open' ? '/agent-alerts?acknowledged=false&limit=100' : '/agent-alerts?limit=100';
-      const [walletData,movementData,summaryData,alertData,outcomeData,outcomeSummaryData] = await Promise.all([api<WhaleWallet[]>('/wallets?limit=250'), api<WalletMovement[]>('/wallet-movements?limit=100'), api<WalletSummary>('/wallets/summary'), api<AgentAlert[]>(alertPath), api<SignalOutcome[]>('/signal-outcomes?limit=100'), api<SignalOutcomeSummary>('/signal-outcomes/summary')]);
-      setWallets(walletData); setMovements(movementData); setSummary(summaryData); setAlerts(alertData); setOutcomes(outcomeData); setOutcomeSummary(outcomeSummaryData);
+      const performancePath = performanceFilter === 'all' ? '/wallet-performance?limit=100' : `/wallet-performance?provider=${performanceFilter}&limit=100`;
+      const [walletData,movementData,summaryData,alertData,outcomeData,outcomeSummaryData,performanceData] = await Promise.all([api<WhaleWallet[]>('/wallets?limit=250'), api<WalletMovement[]>('/wallet-movements?limit=100'), api<WalletSummary>('/wallets/summary'), api<AgentAlert[]>(alertPath), api<SignalOutcome[]>('/signal-outcomes?limit=100'), api<SignalOutcomeSummary>('/signal-outcomes/summary'), api<WalletPerformance[]>(performancePath)]);
+      setWallets(walletData); setMovements(movementData); setSummary(summaryData); setAlerts(alertData); setOutcomes(outcomeData); setOutcomeSummary(outcomeSummaryData); setPerformance(performanceData);
       setMovementForm((current)=>({...current, wallet_id: current.wallet_id || walletData[0]?.id || ''}));
     }catch(err){ setError(err instanceof Error ? err.message : 'Failed to load wallet intelligence'); }
     finally{ setLoading(false); }
   }
-  useEffect(()=>{ loadData(); }, []);
+  useEffect(()=>{ loadData(); }, [performanceFilter]);
 
   function startEdit(wallet:WhaleWallet){
     setEditId(wallet.id);
@@ -83,6 +87,8 @@ function App(){
     <section className="hero panel"><div><p className="eyebrow">Stage 2 · Wallets, Movements, Outcomes</p><h1>Wallet-led intelligence console</h1><p>Add watched wallets, store movements, review alerts and validate whether signals worked after 15m, 1h, 4h, 24h and 7d. V1 remains research and paper-trading only.</p></div><button className="ghost-button" onClick={loadData} disabled={loading}>{loading ? 'Refreshing…' : 'Refresh'}</button></section>
     <section className="stats-grid"><Stat label="Total wallets" value={summary.total_wallets}/><Stat label="Enabled" value={summary.enabled_wallets}/><Stat label="Movements" value={summary.movement_count}/><Stat label="Outcomes" value={outcomeSummary.total_outcomes}/><Stat label="Favorable" value={outcomeSummary.favorable_outcomes}/><Stat label="Unfavorable" value={outcomeSummary.unfavorable_outcomes}/></section>
     {error && <div className="notice error">{error}</div>}{message && <div className="notice success">{message}</div>}
+
+    <section className="panel wallet-list"><div className="list-header"><div><p className="eyebrow">Wallet performance ranking</p><h2>{performance.length} ranked</h2><p className="muted">Ranks wallets by confidence-adjusted signal outcomes. This is research only, not trading advice.</p></div><label className="compact-label">Provider<select value={performanceFilter} onChange={(e)=>setPerformanceFilter(e.target.value as 'all'|'mock'|'coingecko_public')}><option value="all">All</option><option value="mock">Mock</option><option value="coingecko_public">CoinGecko public</option></select></label></div>{performance.length===0 ? <p className="muted">No ranked wallets yet. Create signal outcomes first.</p> : <div className="cards">{performance.map((item,index)=><article className="wallet-card movement-card" key={item.wallet_id}><div className="wallet-card-top"><div><h3>#{index+1} · {item.label || item.normalized_address}</h3><p className="address">{item.normalized_address}</p></div><span className={Number(item.confidence_score) >= 55 ? 'badge enabled' : Number(item.confidence_score) < 45 ? 'badge alert' : 'badge disabled'}>Score {Number(item.confidence_score).toFixed(1)}</span></div><div className="wallet-meta"><span>{item.chain}</span><span>{item.wallet_type}</span><span>{item.total_outcomes} outcomes</span><span>Win {Number(item.win_rate_pct).toFixed(1)}%</span><span>Avg {Number(item.avg_return_pct).toFixed(2)}%</span><span>Quality {Number(item.avg_data_quality_score).toFixed(0)}</span></div><div className="policy-row"><span>F {item.favorable_outcomes} / U {item.unfavorable_outcomes} / N {item.neutral_outcomes} / Review {item.needs_review_outcomes}</span><strong>{item.last_outcome_at ? `Last ${new Date(item.last_outcome_at).toLocaleString()}` : 'No outcomes yet'}</strong></div></article>)}</div>}</section>
 
     <section className="content-grid"><WalletForm form={form} setForm={setForm} saving={saving} onSubmit={submitWallet}/><section className="panel wallet-list"><div className="list-header"><div><p className="eyebrow">Watched wallets</p><h2>{filteredWallets.length} shown</h2></div><label className="compact-label">Chain filter<input value={chainFilter} placeholder="all" onChange={(e)=>setChainFilter(e.target.value.trim().toLowerCase())}/></label></div>{filteredWallets.length === 0 ? <p className="muted">No wallets yet.</p> : <div className="cards">{filteredWallets.map((wallet)=><article className="wallet-card" key={wallet.id}><div className="wallet-card-top"><div><h3>{walletName(wallet)}</h3><p className="address">{wallet.normalized_address}</p></div><span className={wallet.enabled ? 'badge enabled' : 'badge disabled'}>{wallet.enabled ? 'Enabled' : 'Disabled'}</span></div><div className="wallet-meta"><span>{wallet.chain}</span><span>{wallet.wallet_type}</span><span>Priority {wallet.watch_priority}</span><span>{formatUsd(wallet.alert_threshold_usd)} alert</span></div>{(wallet.tags.length>0 || wallet.sectors_of_interest.length>0) && <div className="tag-row">{[...wallet.tags,...wallet.sectors_of_interest].map((tag)=><span key={tag}>{tag}</span>)}</div>}<div className="policy-row"><span>{wallet.copy_trade_enabled ? 'Paper copy-review allowed' : 'No copy-review'}</span>{wallet.do_not_copy && <strong>Do Not Copy</strong>}</div><div className="button-row"><button className="ghost-button" onClick={()=>startEdit(wallet)}>Edit</button><button className="ghost-button" onClick={()=>toggleWallet(wallet)}>{wallet.enabled ? 'Disable' : 'Enable'}</button></div></article>)}</div>}</section></section>
 
