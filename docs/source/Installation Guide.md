@@ -63,6 +63,13 @@ Stage 0 tables:
 - `schema_migrations`
 - `model_task_logs`
 
+Stage 1 wallet tracking tables:
+
+- `whale_wallets`
+- `watchlist`
+- `wallet_movements`
+- `agent_alerts`
+
 ## Ollama Setup
 
 Ollama must run locally only and the approved V1 local model is `qwen3:4b`.
@@ -161,7 +168,7 @@ Stage 0 checklist:
 - Backend skeleton imports and exposes `/health`
 - Frontend skeleton exists and builds once Node dependencies are installed
 - PostgreSQL Docker Compose config binds to localhost only
-- Migration runner creates `schema_migrations` and Stage 0 migration creates `model_task_logs`
+- Migration runner creates `schema_migrations`; migrations create `model_task_logs`, `whale_wallets`, `watchlist`, `wallet_movements` and `agent_alerts`
 - Ollama is installed locally on `127.0.0.1:11434` and responds with `qwen3:4b`
 - ChatGPT primary model is configured through environment/provider settings
 - Anthropic fallback is configured through environment/provider settings

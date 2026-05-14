@@ -27,5 +27,12 @@ fi
 psql -v ON_ERROR_STOP=1 -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" <<'SQL'
 SELECT current_database() AS database, current_user AS app_user, inet_server_addr() AS server_addr, inet_server_port() AS server_port;
 SELECT extname FROM pg_extension WHERE extname IN ('pgcrypto', 'uuid-ossp') ORDER BY extname;
-SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN ('schema_migrations', 'model_task_logs') ORDER BY table_name;
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name IN (
+    'schema_migrations',
+    'model_task_logs',
+    'whale_wallets',
+    'watchlist',
+    'wallet_movements',
+    'agent_alerts'
+) ORDER BY table_name;
 SQL

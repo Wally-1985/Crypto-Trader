@@ -76,3 +76,14 @@ Runtime validation on this host:
 - PostgreSQL runs through Docker Compose and is bound to `127.0.0.1:5432` only.
 - Stage 0 migrations have been applied and `db_status.sh` confirms `schema_migrations`, `model_task_logs`, `pgcrypto` and `uuid-ossp`.
 - Ollama has been validated in a persistent user-space systemd service on this host, bound to `127.0.0.1:11434`, with only `qwen3:4b` present.
+
+## Stage 1 Status
+
+Stage 1 has started with the whale wallet database and movement tracking foundation:
+
+- `whale_wallets`, `watchlist`, `wallet_movements` and `agent_alerts` migrations.
+- Data quality score and manual review fields on movement/alert foundations.
+- Wallet duplicate prevention by `(chain, normalized_address)`.
+- Wallet policy helpers for address normalisation, wallet type validation and manual-review rules.
+- Initial wallet management API routes under `/wallets`.
+- Frontend copy updated from Stage 0 skeleton to Stage 1 started state.

@@ -5,6 +5,7 @@ Stage 0 migration foundations live here.
 Included foundation SQL:
 
 - `0001_stage0_model_task_logs.sql` — enables `pgcrypto` and `uuid-ossp`, then creates `model_task_logs` for safe provider/fallback event logging.
+- `0002_stage1_wallet_tracking.sql` — creates `whale_wallets`, `watchlist`, `wallet_movements` and `agent_alerts` for Stage 1 wallet-led intelligence.
 
 Migration runner:
 

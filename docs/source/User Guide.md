@@ -39,6 +39,15 @@ The Crypto Wallet Intelligence and Paper Trading App monitors watched wallets, d
 
 V1 is paper trading only. It cannot execute live trades.
 
-## Stage 0 Note
+## Stage 1 Note
 
-The current repository state is a foundation skeleton only. User-facing workflows are not implemented yet.
+Stage 1 has started. The frontend currently indicates that wallet tracking foundations are underway. Full user-facing wallet management screens are not implemented yet.
+
+Available backend foundations:
+
+- `GET /wallets` — list watched wallets.
+- `POST /wallets` — add a watched wallet.
+- `PATCH /wallets/{wallet_id}/enabled` — enable or disable a watched wallet.
+- `GET /wallets/summary` — wallet and movement counts.
+
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. V1 remains paper-trading only.

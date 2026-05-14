@@ -3,7 +3,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R] /Count 4 >>
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] /Count 5 >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1510 >>
+<< /Length 1365 >>
 stream
 BT
 /F1 10 Tf
@@ -104,6 +104,13 @@ BT
 (- schema_migrations) Tj T*
 (- model_task_logs) Tj T*
 () Tj T*
+(Stage 1 wallet tracking tables:) Tj T*
+() Tj T*
+(- whale_wallets) Tj T*
+(- watchlist) Tj T*
+(- wallet_movements) Tj T*
+(- agent_alerts) Tj T*
+() Tj T*
 (OLLAMA SETUP) Tj T*
 () Tj T*
 (Ollama must run locally only and the approved V1 local model is qwen3:4b.) Tj T*
@@ -120,13 +127,6 @@ BT
 () Tj T*
 ([Service]) Tj T*
 (Type=simple) Tj T*
-(Environment=OLLAMA_HOST=127.0.0.1:11434) Tj T*
-(Environment=OLLAMA_MODELS=/home/robot/.ollama/models) Tj T*
-(Environment=PATH=/home/robot/.local/bin:/usr/local/bin:/usr/bin:/bin) Tj T*
-(ExecStart=/home/robot/.local/bin/ollama serve) Tj T*
-(Restart=on-failure) Tj T*
-(RestartSec=5) Tj T*
-() Tj T*
 ET
 endstream
 endobj
@@ -134,12 +134,19 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1620 >>
+<< /Length 1742 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(Environment=OLLAMA_HOST=127.0.0.1:11434) Tj T*
+(Environment=OLLAMA_MODELS=/home/robot/.ollama/models) Tj T*
+(Environment=PATH=/home/robot/.local/bin:/usr/local/bin:/usr/bin:/bin) Tj T*
+(ExecStart=/home/robot/.local/bin/ollama serve) Tj T*
+(Restart=on-failure) Tj T*
+(RestartSec=5) Tj T*
+() Tj T*
 ([Install]) Tj T*
 (WantedBy=default.target) Tj T*
 (EOF) Tj T*
@@ -181,13 +188,6 @@ BT
 (4. Latest suitable paid models only for final higher-risk production/research analysis) Tj T*
 (later.) Tj T*
 () Tj T*
-(Configure API keys only in the real .env file or host secret manager:) Tj T*
-() Tj T*
-(text) Tj T*
-(OPENAI_API_KEY=...) Tj T*
-(ANTHROPIC_API_KEY=...) Tj T*
-() Tj T*
-() Tj T*
 ET
 endstream
 endobj
@@ -195,12 +195,19 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 1906 >>
+<< /Length 1918 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(Configure API keys only in the real .env file or host secret manager:) Tj T*
+() Tj T*
+(text) Tj T*
+(OPENAI_API_KEY=...) Tj T*
+(ANTHROPIC_API_KEY=...) Tj T*
+() Tj T*
+() Tj T*
 (Do not commit real API keys. Do not expose paid provider keys to frontend code.) Tj T*
 () Tj T*
 (Fallback events are recorded through the model_task_logs foundation. Logs must not store) Tj T*
@@ -236,12 +243,25 @@ BT
 (- Backend skeleton imports and exposes /health) Tj T*
 (- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
 (- PostgreSQL Docker Compose config binds to localhost only) Tj T*
-(- Migration runner creates schema_migrations and Stage 0 migration creates) Tj T*
-(model_task_logs) Tj T*
+(- Migration runner creates schema_migrations; migrations create model_task_logs,) Tj T*
+(whale_wallets, watchlist, wallet_movements and agent_alerts) Tj T*
 (- Ollama is installed locally on 127.0.0.1:11434 and responds with qwen3:4b) Tj T*
 (- ChatGPT primary model is configured through environment/provider settings) Tj T*
 (- Anthropic fallback is configured through environment/provider settings) Tj T*
 (- Mock fallback tests cover token/rate-limit fallback behaviour) Tj T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 244 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 (- model_task_logs migration foundation exists for fallback event logging) Tj T*
 (- ASVS register exists and records that latest stable ASVS must be checked at audit time) Tj T*
 (- No secrets are committed) Tj T*
@@ -249,21 +269,23 @@ ET
 endstream
 endobj
 xref
-0 12
+0 14
 0000000000 65535 f
 0000000009 00000 n
 0000000058 00000 n
-0000000134 00000 n
-0000000204 00000 n
-0000000330 00000 n
-0000001976 00000 n
-0000002102 00000 n
-0000003664 00000 n
-0000003790 00000 n
-0000005462 00000 n
-0000005590 00000 n
+0000000141 00000 n
+0000000211 00000 n
+0000000337 00000 n
+0000001983 00000 n
+0000002109 00000 n
+0000003526 00000 n
+0000003652 00000 n
+0000005446 00000 n
+0000005574 00000 n
+0000007545 00000 n
+0000007673 00000 n
 trailer
-<< /Size 12 /Root 1 0 R >>
+<< /Size 14 /Root 1 0 R >>
 startxref
-7549
+7969
 %%EOF

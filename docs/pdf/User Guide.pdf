@@ -3,7 +3,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
@@ -12,7 +12,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1359 >>
+<< /Length 1430 >>
 stream
 BT
 /F1 10 Tf
@@ -61,23 +61,49 @@ BT
 () Tj T*
 (V1 is paper trading only. It cannot execute live trades.) Tj T*
 () Tj T*
-(STAGE 0 NOTE) Tj T*
+(STAGE 1 NOTE) Tj T*
 () Tj T*
-(The current repository state is a foundation skeleton only. User-facing workflows are) Tj T*
-(not implemented yet.) Tj T*
+(Stage 1 has started. The frontend currently indicates that wallet tracking foundations) Tj T*
+(are underway. Full user-facing wallet management screens are not implemented yet.) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 579 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(Available backend foundations:) Tj T*
+() Tj T*
+(- GET /wallets — list watched wallets.) Tj T*
+(- POST /wallets — add a watched wallet.) Tj T*
+(- PATCH /wallets/{wallet_id}/enabled — enable or disable a watched wallet.) Tj T*
+(- GET /wallets/summary — wallet and movement counts.) Tj T*
+() Tj T*
+(Wallet records support enabled/disabled status, wallet type, tags, sectors, alert) Tj T*
+(threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and) Tj T*
+(Do Not Copy policy. V1 remains paper-trading only.) Tj T*
 ET
 endstream
 endobj
 xref
-0 6
+0 8
 0000000000 65535 f
 0000000009 00000 n
 0000000058 00000 n
-0000000115 00000 n
-0000000185 00000 n
-0000000311 00000 n
+0000000121 00000 n
+0000000191 00000 n
+0000000317 00000 n
+0000001799 00000 n
+0000001925 00000 n
 trailer
-<< /Size 6 /Root 1 0 R >>
+<< /Size 8 /Root 1 0 R >>
 startxref
-1722
+2555
 %%EOF
