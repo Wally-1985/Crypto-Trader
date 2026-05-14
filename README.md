@@ -112,4 +112,6 @@ Stage 2 has started with price outcome and signal validation foundations:
 - Wallet performance ranking API and frontend panel that compares wallets by outcome counts, win rate, average return, data quality and sample-adjusted confidence score.
 - Bulk wallet import endpoint and frontend JSON import workflow for curated wallet-led seeding.
 - `token_mappings` table, API and frontend form for mapping wallet-led token symbols/contracts to provider IDs such as CoinGecko IDs.
-- V1 remains research and paper-trading only; imports, mappings, outcomes and rankings never execute trades.
+- Read-only Ethereum watched-wallet ingestion provider (`etherscan_readonly`) with optional `ETHERSCAN_API_KEY`, no private keys, no signing and no broad market scan.
+- Basic normalization of native ETH and ERC-20 transfers into existing movement types with raw source visibility in the frontend.
+- V1 remains research and paper-trading only; imports, mappings, movement ingestion, outcomes and rankings never execute trades.

@@ -195,7 +195,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 1704 >>
+<< /Length 1935 >>
 stream
 BT
 /F1 10 Tf
@@ -220,6 +220,18 @@ BT
 () Tj T*
 (Do not commit real API keys. Do not expose paid provider keys to frontend code.) Tj T*
 () Tj T*
+(Optional watched-wallet Ethereum ingestion can use Etherscan in read-only mode:) Tj T*
+() Tj T*
+(text) Tj T*
+(ETHERSCAN_API_KEY=***) Tj T*
+(ETHERSCAN_BASE_URL=https://api.etherscan.io/api) Tj T*
+(ETHERSCAN_MAX_TRANSACTIONS_PER_WALLET=10) Tj T*
+(ETHERSCAN_TIMEOUT_SECONDS=15) Tj T*
+() Tj T*
+() Tj T*
+(The Etherscan provider only reads watched Ethereum wallet transfers. It does not use) Tj T*
+(private keys, sign transactions, trade, or run broad market discovery.) Tj T*
+() Tj T*
 (Fallback events are recorded through the model_task_logs foundation. Logs must not store) Tj T*
 (prompts, raw responses, API keys or secrets.) Tj T*
 () Tj T*
@@ -237,6 +249,19 @@ BT
 (PostgreSQL backup and restore scripts load .env when present. Backups use custom-format) Tj T*
 (pg_dump files and write a .sha256 checksum. Restore verifies the checksum when the) Tj T*
 (checksum file is present.) Tj T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 1186 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 () Tj T*
 (Do not include unencrypted secrets in backups.) Tj T*
 () Tj T*
@@ -249,19 +274,6 @@ BT
 () Tj T*
 () Tj T*
 (Stage 0 checklist:) Tj T*
-ET
-endstream
-endobj
-12 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
-endobj
-13 0 obj
-<< /Length 936 >>
-stream
-BT
-/F1 10 Tf
-50 790 Td
-14 TL
 () Tj T*
 (- Backend skeleton imports and exposes /health) Tj T*
 (- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
@@ -292,10 +304,10 @@ xref
 0000003650 00000 n
 0000005274 00000 n
 0000005402 00000 n
-0000007159 00000 n
-0000007287 00000 n
+0000007390 00000 n
+0000007518 00000 n
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-8275
+8757
 %%EOF

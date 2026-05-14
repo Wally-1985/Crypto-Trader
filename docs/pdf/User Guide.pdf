@@ -3,7 +3,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R] /Count 3 >>
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R] /Count 4 >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
@@ -134,13 +134,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 3063 >>
+<< /Length 3392 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
 (future real-price outcomes can resolve token identity cleanly.) Tj T*
+(- Run read-only Etherscan ingestion for watched Ethereum wallets when ETHERSCAN_API_KEY) Tj T*
+(is configured.) Tj T*
+(- Inspect movement source payloads and unsupported-token warnings on recent movements.) Tj T*
 () Tj T*
 (Available backend routes:) Tj T*
 () Tj T*
@@ -159,6 +162,8 @@ BT
 (skeleton.) Tj T*
 (- POST /wallet-polling/run-once?provider=mock — run deterministic mock provider) Tj T*
 (ingestion through validate, score, dedupe, store and alert.) Tj T*
+(- POST /wallet-polling/run-once?provider=etherscan_readonly — read watched Ethereum) Tj T*
+(wallet transfers through Etherscan when an API key is configured; no signing/trading.) Tj T*
 (- GET /signal-outcomes — list/filter price outcome records.) Tj T*
 (- GET /signal-outcomes/summary — outcome counts by result.) Tj T*
 (- POST /signal-outcomes/run-once?provider=mock — create deterministic mock outcomes for) Tj T*
@@ -182,25 +187,40 @@ BT
 (horizon validation for 15m, 1h, 4h, 24h and 7d. Wallet performance ranking is) Tj T*
 (confidence-adjusted to avoid over-trusting tiny samples. Token mappings let the read-) Tj T*
 (only price provider resolve wallet-led tokens without broad market discovery. Public) Tj T*
-(market-data checks are read-only, narrow and wallet-led; they do not perform broad) Tj T*
-(market discovery or live trading. V1 remains paper-trading only.) Tj T*
+(market-data and Etherscan checks are read-only, narrow and wallet-led; they do not) Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 127 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(perform broad market discovery, signing or live trading. V1 remains paper-trading only.) Tj T*
 ET
 endstream
 endobj
 xref
-0 10
+0 12
 0000000000 65535 f
 0000000009 00000 n
 0000000058 00000 n
-0000000127 00000 n
-0000000197 00000 n
-0000000323 00000 n
-0000001887 00000 n
-0000002013 00000 n
-0000004689 00000 n
-0000004815 00000 n
+0000000134 00000 n
+0000000204 00000 n
+0000000330 00000 n
+0000001894 00000 n
+0000002020 00000 n
+0000004696 00000 n
+0000004822 00000 n
+0000008266 00000 n
+0000008394 00000 n
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-7930
+8573
 %%EOF

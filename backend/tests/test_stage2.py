@@ -6,6 +6,7 @@ from app.schemas.wallets import TokenMappingCreate, WhaleWalletImportRequest, Wh
 from app.services.market_data import CoinGeckoPublicMarketDataProvider, DEFAULT_SYMBOL_IDS
 from app.services.signal_outcomes import HORIZONS, MockPriceOutcomeProvider, classify_signal_result, price_change_pct
 from app.services.wallet_performance import confidence_adjusted_score
+from app.workers.wallet_polling import EtherscanReadOnlyMovementProvider
 
 
 def test_stage2_signal_outcome_routes_registered():
@@ -59,6 +60,15 @@ def test_public_market_provider_is_read_only_and_allowlisted_without_network_for
     assert point.paper_trading_only is True
     assert point.source == "unsupported_symbol_allowlist"
     assert "ETH" in DEFAULT_SYMBOL_IDS
+
+
+def test_etherscan_token_transfer_normalizes_to_existing_movement_shape():
+    provider = EtherscanReadOnlyMovementProvider(api_key="test")
+    wallet = {"id":"00000000-0000-0000-0000-000000000001", "chain":"ethereum", "normalized_address":"0xabc"}
+    movement = provider._normalize_token_transfer(wallet, {"value":"1000000", "tokenDecimal":"6", "from":"0xabc", "to":"0xdef", "hash":"0xtx", "tokenSymbol":"USDC", "contractAddress":"0xusdc", "timeStamp":"1715684100", "blockNumber":"1"})
+    assert movement["movement_type"] == "Position reduction"
+    assert movement["token_symbol"] == "USDC"
+    assert movement["raw_api_payload"]["read_only"] is True
 
 
 def test_wallet_import_request_and_token_mapping_schema_validate():

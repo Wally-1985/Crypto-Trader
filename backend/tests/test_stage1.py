@@ -6,7 +6,7 @@ from app.core.data_quality import score_wallet_movement
 from app.core.wallet_policy import normalize_wallet_address, should_require_manual_review
 from app.main import app
 from app.schemas.wallets import WhaleWalletCreate, WhaleWalletUpdate, WalletMovementCreate
-from app.workers.wallet_polling import DryRunWalletMovementProvider, MockWalletMovementProvider
+from app.workers.wallet_polling import DryRunWalletMovementProvider, EtherscanReadOnlyMovementProvider, MockWalletMovementProvider
 
 
 def test_stage1_wallet_routes_registered():
@@ -69,6 +69,13 @@ def test_dry_run_polling_provider_is_safe_default():
     provider = DryRunWalletMovementProvider()
     assert provider.name == "dry_run"
     assert provider.fetch_movements({"normalized_address": "0xabc"}) == []
+
+
+def test_etherscan_provider_is_read_only_and_safe_when_unconfigured():
+    provider = EtherscanReadOnlyMovementProvider(api_key="")
+    assert provider.name == "etherscan_readonly"
+    assert provider.configured() is False
+    assert provider.fetch_movements({"chain": "ethereum", "normalized_address": "0xabc"}) == []
 
 
 def test_mock_provider_returns_deterministic_safe_payload():

@@ -23,6 +23,10 @@ class Settings(BaseSettings):
     production_reasoning_model: str = "configure_latest_suitable_model_when_system_is_in_use"
     openai_api_key: str = ""
     anthropic_api_key: str = ""
+    etherscan_api_key: str = ""
+    etherscan_base_url: str = "https://api.etherscan.io/api"
+    etherscan_max_transactions_per_wallet: int = 10
+    etherscan_timeout_seconds: float = 15.0
 
     broad_market_search_enabled: bool = False
     paper_trading_enabled: bool = True

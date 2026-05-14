@@ -33,3 +33,4 @@
 - Added Stage 2 read-only market-data provider interface, due-outcome worker/API, CoinGecko public provider option and frontend provider detail controls.
 - Added wallet performance ranking API and frontend panel with confidence-adjusted scores, win rate, average return and provider filtering.
 - Added curated wallet JSON import workflow and token mapping table/API/UI for provider token identity resolution.
+- Added read-only Etherscan watched-wallet ingestion provider, movement source visibility and ETH/ERC-20 normalization into existing movement types.

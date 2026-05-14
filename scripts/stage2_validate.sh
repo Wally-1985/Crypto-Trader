@@ -52,6 +52,11 @@ if ! grep -q '/wallet-performance' backend/tests/test_stage2.py; then
   exit 1
 fi
 
+if ! grep -q 'etherscan_readonly' backend/app/api/polling.py; then
+  echo "Stage 2 polling API must expose the read-only Etherscan provider option" >&2
+  exit 1
+fi
+
 if ! grep -q 'coingecko_public' backend/app/api/outcomes.py; then
   echo "Stage 2 outcomes API must expose the read-only public market-data provider option" >&2
   exit 1

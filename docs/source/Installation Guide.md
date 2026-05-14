@@ -148,6 +148,17 @@ ANTHROPIC_API_KEY=...
 
 Do not commit real API keys. Do not expose paid provider keys to frontend code.
 
+Optional watched-wallet Ethereum ingestion can use Etherscan in read-only mode:
+
+```text
+ETHERSCAN_API_KEY=***
+ETHERSCAN_BASE_URL=https://api.etherscan.io/api
+ETHERSCAN_MAX_TRANSACTIONS_PER_WALLET=10
+ETHERSCAN_TIMEOUT_SECONDS=15
+```
+
+The Etherscan provider only reads watched Ethereum wallet transfers. It does not use private keys, sign transactions, trade, or run broad market discovery.
+
 Fallback events are recorded through the `model_task_logs` foundation. Logs must not store prompts, raw responses, API keys or secrets.
 
 ## Backup and Restore

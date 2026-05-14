@@ -189,6 +189,7 @@ class PollingRunSummary(BaseModel):
     created_movements: int
     skipped_duplicates: int = 0
     skipped_reason: str | None = None
+    provider_errors: int = 0
     paper_trading_only: bool = True
 
 
