@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.core.config import settings
 from app.core.model_routing import routing_summary
+from app.core.ollama_client import check_ollama_health
 
 router = APIRouter()
 
@@ -14,4 +15,5 @@ def health() -> dict[str, object]:
         "live_trading_enabled": settings.live_trading_enabled,
         "paper_trading_enabled": settings.paper_trading_enabled,
         "model_routing": routing_summary(),
+        "ollama": check_ollama_health().__dict__,
     }

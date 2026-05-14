@@ -12,8 +12,8 @@ This is the foundation register. It records security posture before feature deve
 | --- | --- | --- | --- |
 | Secrets management | Real `.env`, API keys, wallet private keys, seed phrases and withdrawal keys are not committed. | Foundation created | `.gitignore`, `.env.example`, Stage 0 validation script |
 | Database exposure | PostgreSQL is bound to localhost only when using Docker Compose. | Foundation created | `docker-compose.yml` |
-| Local model exposure | Ollama must remain local-only and use `qwen3:4b` only. | Foundation created | `.env.example`, `scripts/install_ollama_qwen3_4b.sh` |
+| Local model exposure | Ollama must remain local-only and use `qwen3:4b` only. | Validated on host | `.env.example`, `scripts/install_ollama_qwen3_4b.sh`, `scripts/test_ollama_qwen3_4b.sh`, local API check at `127.0.0.1:11434` |
 | Model output safety | Model output must not directly execute shell commands, trades or security changes. | Foundation created | `memory/Agent Operating Rules.md`, backend routing comments |
-| Model provider fallback logging | Fallback from ChatGPT/OpenAI to Anthropic must be logged without storing prompts, raw responses, API keys or secrets. | Foundation created | `backend/app/core/model_routing.py`, `backend/app/core/model_task_logs.py`, `database/migrations/0001_stage0_model_task_logs.sql` |
+| Model provider fallback logging | Fallback from ChatGPT/OpenAI to Anthropic and local Ollama model-task routing must be logged without storing prompts, raw responses, API keys or secrets. | Foundation created | `backend/app/core/model_routing.py`, `backend/app/core/model_task_logs.py`, `backend/app/core/ollama_client.py`, `database/migrations/0001_stage0_model_task_logs.sql` |
 | Trading safety | V1 live trading is disabled. | Foundation created | `.env.example`, backend settings/tests |
 | Audit process | Latest stable ASVS version must be checked at audit time. | Foundation created | `security/asvs/ASVS Audit v0.1.0-dev.md`, docs source |

@@ -45,10 +45,16 @@ fi
 python3 -m compileall -q backend/app
 
 if command -v ollama >/dev/null 2>&1; then
-  ollama list | grep -q 'qwen3:4b' || {
+  ollama list | awk '{print $1}' | grep -Fxq 'qwen3:4b' || {
     echo "Ollama is installed but qwen3:4b is not present" >&2
     exit 1
   }
+  unexpected_models=$(ollama list | awk 'NR>1 {print $1}' | grep -Fvx 'qwen3:4b' || true)
+  if [ -n "$unexpected_models" ]; then
+    echo "Unexpected local Ollama models found. Project policy allows qwen3:4b only:" >&2
+    echo "$unexpected_models" >&2
+    exit 1
+  fi
 else
   echo "WARN: Ollama is not installed on this host; install/test is blocked until system install is approved."
 fi

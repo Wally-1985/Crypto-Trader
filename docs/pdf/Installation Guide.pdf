@@ -73,17 +73,31 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1600 >>
+<< /Length 1773 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
-(Install Ollama and run:) Tj T*
+(Ollama must run locally only and the approved V1 local model is qwen3:4b.) Tj T*
+() Tj T*
+(Recommended secure defaults:) Tj T*
 () Tj T*
 (bash) Tj T*
-(ollama pull qwen3:4b) Tj T*
+(export PATH="$HOME/.local/bin:$PATH"   # only needed for a user-space install) Tj T*
+(export OLLAMA_HOST=127.0.0.1:11434) Tj T*
+(ollama serve) Tj T*
 () Tj T*
+() Tj T*
+(In another terminal, install and validate the approved model:) Tj T*
+() Tj T*
+(bash) Tj T*
+(./scripts/install_ollama_qwen3_4b.sh) Tj T*
+(./scripts/test_ollama_qwen3_4b.sh) Tj T*
+() Tj T*
+() Tj T*
+(The validation scripts fail if Ollama is unreachable, if qwen3:4b is missing, or if) Tj T*
+(unexpected local Ollama models are present.) Tj T*
 () Tj T*
 (PAID MODEL SETUP) Tj T*
 () Tj T*
@@ -113,6 +127,19 @@ BT
 () Tj T*
 (BACKUP AND RESTORE) Tj T*
 () Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1277 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 (Use the backup and restore scripts in /backup.) Tj T*
 () Tj T*
 (Stage 0 scripts:) Tj T*
@@ -127,19 +154,6 @@ BT
 (VALIDATION CHECKLIST) Tj T*
 () Tj T*
 (Run structural validation:) Tj T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 856 >>
-stream
-BT
-/F1 10 Tf
-50 790 Td
-14 TL
 () Tj T*
 (bash) Tj T*
 (./scripts/stage0_validate.sh) Tj T*
@@ -150,7 +164,7 @@ BT
 (- Backend skeleton imports and exposes /health) Tj T*
 (- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
 (- PostgreSQL Docker Compose config binds to localhost only) Tj T*
-(- Ollama is installed and responds with qwen3:4b) Tj T*
+(- Ollama is installed locally on 127.0.0.1:11434 and responds with qwen3:4b) Tj T*
 (- ChatGPT primary model is configured through environment/provider settings) Tj T*
 (- Anthropic fallback is configured through environment/provider settings) Tj T*
 (- Mock fallback tests cover token/rate-limit fallback behaviour) Tj T*
@@ -170,10 +184,10 @@ xref
 0000000323 00000 n
 0000001712 00000 n
 0000001838 00000 n
-0000003490 00000 n
-0000003616 00000 n
+0000003663 00000 n
+0000003789 00000 n
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-4523
+5118
 %%EOF

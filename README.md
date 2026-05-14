@@ -42,6 +42,8 @@ This repository contains the starting application skeleton, documentation, promp
 - `.env.example` - environment variable template.
 - `docker-compose.yml` - initial local PostgreSQL compose file bound to `127.0.0.1` only.
 - `scripts/stage0_validate.sh` - Stage 0 structural validation script.
+- `scripts/install_ollama_qwen3_4b.sh` - Pull and policy-check the approved local Ollama model.
+- `scripts/test_ollama_qwen3_4b.sh` - Verify local-only Ollama API access and a `qwen3:4b` response.
 
 ## Versioning
 
@@ -60,6 +62,7 @@ Stage 0 foundation has been normalized to the repository root and now includes:
 - FastAPI backend skeleton with `/health` route.
 - React + Vite frontend skeleton.
 - Model routing policy foundation: Ollama `qwen3:4b` for low-risk local tasks, ChatGPT primary paid development model, Anthropic fallback on token/context/rate/quota limit errors.
+- Local Ollama health/check client foundation for confirming the `qwen3:4b` API is reachable without storing prompts, raw responses, API keys or secrets.
 - PostgreSQL Docker Compose foundation bound to localhost only.
 - ASVS register foundation with latest-stable-ASVS-at-audit-time requirement.
 - `model_task_logs` migration foundation for safe provider/fallback event logging without storing prompts, raw responses, API keys or secrets.
@@ -68,4 +71,4 @@ Stage 0 foundation has been normalized to the repository root and now includes:
 Runtime blockers on this host at Stage 0 validation time:
 
 - Docker is not currently available, so PostgreSQL container startup cannot be validated yet.
-- Ollama is not currently installed, so `qwen3:4b` pull/response testing requires system installation approval first.
+- Ollama has been validated in a user-space local install on this host, bound to `127.0.0.1:11434`, with only `qwen3:4b` present.

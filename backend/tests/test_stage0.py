@@ -8,6 +8,7 @@ from app.core.model_routing import (
     routing_summary,
     should_fallback_to_anthropic,
 )
+from app.core.ollama_client import OllamaHealth
 from app.main import app
 
 
@@ -73,3 +74,14 @@ def test_non_limit_error_does_not_fallback():
 
 def test_should_fallback_to_anthropic_detects_rate_limit_text():
     assert should_fallback_to_anthropic(RuntimeError("rate limit exceeded")) is True
+
+
+def test_ollama_health_shape_for_qwen3_4b():
+    health = OllamaHealth(
+        reachable=True,
+        required_model="qwen3:4b",
+        model_available=True,
+        installed_models=["qwen3:4b"],
+    )
+    assert health.required_model == "qwen3:4b"
+    assert health.model_available is True

@@ -44,11 +44,24 @@ Required extensions for the first migration:
 
 ## Ollama Setup
 
-Install Ollama and run:
+Ollama must run locally only and the approved V1 local model is `qwen3:4b`.
+
+Recommended secure defaults:
 
 ```bash
-ollama pull qwen3:4b
+export PATH="$HOME/.local/bin:$PATH"   # only needed for a user-space install
+export OLLAMA_HOST=127.0.0.1:11434
+ollama serve
 ```
+
+In another terminal, install and validate the approved model:
+
+```bash
+./scripts/install_ollama_qwen3_4b.sh
+./scripts/test_ollama_qwen3_4b.sh
+```
+
+The validation scripts fail if Ollama is unreachable, if `qwen3:4b` is missing, or if unexpected local Ollama models are present.
 
 ## Paid Model Setup
 
@@ -98,7 +111,7 @@ Stage 0 checklist:
 - Backend skeleton imports and exposes `/health`
 - Frontend skeleton exists and builds once Node dependencies are installed
 - PostgreSQL Docker Compose config binds to localhost only
-- Ollama is installed and responds with `qwen3:4b`
+- Ollama is installed locally on `127.0.0.1:11434` and responds with `qwen3:4b`
 - ChatGPT primary model is configured through environment/provider settings
 - Anthropic fallback is configured through environment/provider settings
 - Mock fallback tests cover token/rate-limit fallback behaviour

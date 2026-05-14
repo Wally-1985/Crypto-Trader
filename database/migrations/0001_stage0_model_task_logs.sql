@@ -21,3 +21,6 @@ CREATE INDEX IF NOT EXISTS idx_model_task_logs_task_type_created_at
 
 CREATE INDEX IF NOT EXISTS idx_model_task_logs_fallback_created_at
     ON model_task_logs (fallback_used, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_model_task_logs_provider_created_at
+    ON model_task_logs (selected_provider, selected_model, created_at DESC);
