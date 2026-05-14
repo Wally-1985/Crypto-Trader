@@ -12,6 +12,7 @@ required_paths=(
   security/asvs/ASVS\ Audit\ v0.1.0-dev.md security/asvs/ASVS\ Control\ Register\ Template.csv security/asvs/ASVS\ Evidence\ Register.md
   docs/source/First\ Installation.md docs/source/Installation\ Guide.md docs/source/User\ Guide.md docs/source/ASVS\ Audit\ Template.md
   backup/backup_postgres.sh backup/restore_postgres.sh backup/backup_app_config.sh backup/restore_app_config.sh
+  scripts/db_migrate.sh scripts/db_status.sh
 )
 
 for path in "${required_paths[@]}"; do
@@ -29,6 +30,31 @@ fi
 
 if ! grep -q '127.0.0.1:5432:5432' docker-compose.yml; then
   echo "PostgreSQL must bind to 127.0.0.1 only in docker-compose.yml" >&2
+  exit 1
+fi
+
+if grep -Eq "(^|[\"' ])(0\.0\.0\.0|::):5432:5432" docker-compose.yml; then
+  echo "PostgreSQL must not bind to all interfaces in docker-compose.yml" >&2
+  exit 1
+fi
+
+if ! grep -q 'CREATE EXTENSION IF NOT EXISTS pgcrypto' database/migrations/*.sql; then
+  echo "PostgreSQL migration must enable pgcrypto" >&2
+  exit 1
+fi
+
+if ! grep -q 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"' database/migrations/*.sql; then
+  echo "PostgreSQL migration must enable uuid-ossp" >&2
+  exit 1
+fi
+
+if ! grep -q 'CREATE TABLE IF NOT EXISTS model_task_logs' database/migrations/*.sql; then
+  echo "Stage 0 model_task_logs table migration is missing" >&2
+  exit 1
+fi
+
+if ! grep -q 'CREATE TABLE IF NOT EXISTS schema_migrations' scripts/db_migrate.sh; then
+  echo "Migration runner must create schema_migrations" >&2
   exit 1
 fi
 
@@ -63,6 +89,12 @@ if command -v docker >/dev/null 2>&1; then
   docker compose config >/dev/null
 else
   echo "WARN: Docker is not installed/available; PostgreSQL compose runtime validation is blocked."
+fi
+
+if command -v psql >/dev/null 2>&1; then
+  echo "PostgreSQL client is available for migration/runtime validation."
+else
+  echo "WARN: psql is not installed/available; PostgreSQL migration/runtime validation is blocked."
 fi
 
 echo "Stage 0 structural validation passed."

@@ -5,9 +5,14 @@ BACKUP_DIR=${BACKUP_DIR:-./backups}
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 DB_NAME=${POSTGRES_DB:-crypto_wallet_intelligence}
 DB_USER=${POSTGRES_USER:-cwi_app}
-DB_HOST=${POSTGRES_HOST:-localhost}
+DB_HOST=${POSTGRES_HOST:-127.0.0.1}
 DB_PORT=${POSTGRES_PORT:-5432}
 OUTPUT_FILE="$BACKUP_DIR/crypto-wallet-intelligence-db-$TIMESTAMP.dump"
+
+if ! command -v pg_dump >/dev/null 2>&1; then
+  echo "pg_dump is not installed. Install PostgreSQL client tools before backing up." >&2
+  exit 1
+fi
 
 mkdir -p "$BACKUP_DIR"
 

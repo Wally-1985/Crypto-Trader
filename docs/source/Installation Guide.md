@@ -23,24 +23,45 @@ Use `.env.example` as the template. Do not commit the real `.env` file.
 
 ## PostgreSQL Setup
 
-Use Docker Compose or native PostgreSQL. PostgreSQL must not be exposed to the internet.
+Use Docker Compose by default because the repository already includes a local-only PostgreSQL service. Native PostgreSQL is acceptable later if it is configured with the same local-only exposure and environment-variable credential rules.
 
-Stage 0 Docker Compose configuration is provided in the repository root:
-
-```bash
-docker compose up -d postgres
-```
-
-The included configuration binds PostgreSQL to localhost only:
+PostgreSQL must not be exposed to the internet. The included Compose configuration binds PostgreSQL to localhost only:
 
 ```text
 127.0.0.1:5432:5432
 ```
 
+Create the real `.env` from `.env.example`, then replace placeholder database credentials with local secrets. Do not commit `.env`.
+
+```bash
+cp .env.example .env
+# edit POSTGRES_PASSWORD and DATABASE_URL in .env only
+```
+
+Start PostgreSQL with Docker Compose:
+
+```bash
+docker compose up -d postgres
+```
+
+Apply Stage 0 migrations:
+
+```bash
+./scripts/db_migrate.sh
+./scripts/db_status.sh
+```
+
+The migration runner creates `schema_migrations` and applies SQL files from `database/migrations` in filename order. The first migration enables required extensions and creates the Stage 0 model-task logging table.
+
 Required extensions for the first migration:
 
 - `pgcrypto`
 - `uuid-ossp`
+
+Stage 0 tables:
+
+- `schema_migrations`
+- `model_task_logs`
 
 ## Ollama Setup
 
@@ -96,6 +117,8 @@ Stage 0 scripts:
 - `backup/backup_app_config.sh`
 - `backup/restore_app_config.sh`
 
+PostgreSQL backups use custom-format `pg_dump` files and write a `.sha256` checksum. Restore verifies the checksum when the checksum file is present.
+
 Do not include unencrypted secrets in backups.
 
 ## Validation Checklist
@@ -111,6 +134,7 @@ Stage 0 checklist:
 - Backend skeleton imports and exposes `/health`
 - Frontend skeleton exists and builds once Node dependencies are installed
 - PostgreSQL Docker Compose config binds to localhost only
+- Migration runner creates `schema_migrations` and Stage 0 migration creates `model_task_logs`
 - Ollama is installed locally on `127.0.0.1:11434` and responds with `qwen3:4b`
 - ChatGPT primary model is configured through environment/provider settings
 - Anthropic fallback is configured through environment/provider settings

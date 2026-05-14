@@ -21,3 +21,4 @@
 - Added `model_task_logs` migration foundation for safe model routing/fallback event logging.
 - Added local Ollama `qwen3:4b` health/client foundation and validation scripts.
 - Validated a local user-space Ollama install bound to `127.0.0.1:11434` with only `qwen3:4b` present.
+- Added PostgreSQL migration/status scripts, stricter localhost validation and backup/restore tool checks.

@@ -42,6 +42,8 @@ This repository contains the starting application skeleton, documentation, promp
 - `.env.example` - environment variable template.
 - `docker-compose.yml` - initial local PostgreSQL compose file bound to `127.0.0.1` only.
 - `scripts/stage0_validate.sh` - Stage 0 structural validation script.
+- `scripts/db_migrate.sh` - Apply SQL migrations and track them in `schema_migrations`.
+- `scripts/db_status.sh` - Validate PostgreSQL connection, required extensions and Stage 0 tables.
 - `scripts/install_ollama_qwen3_4b.sh` - Pull and policy-check the approved local Ollama model.
 - `scripts/test_ollama_qwen3_4b.sh` - Verify local-only Ollama API access and a `qwen3:4b` response.
 
@@ -63,9 +65,9 @@ Stage 0 foundation has been normalized to the repository root and now includes:
 - React + Vite frontend skeleton.
 - Model routing policy foundation: Ollama `qwen3:4b` for low-risk local tasks, ChatGPT primary paid development model, Anthropic fallback on token/context/rate/quota limit errors.
 - Local Ollama health/check client foundation for confirming the `qwen3:4b` API is reachable without storing prompts, raw responses, API keys or secrets.
-- PostgreSQL Docker Compose foundation bound to localhost only.
+- PostgreSQL Docker Compose foundation bound to localhost only, with migration/status scripts for Stage 0 database setup.
 - ASVS register foundation with latest-stable-ASVS-at-audit-time requirement.
-- `model_task_logs` migration foundation for safe provider/fallback event logging without storing prompts, raw responses, API keys or secrets.
+- `schema_migrations` runner foundation and `model_task_logs` migration foundation for safe provider/fallback event logging without storing prompts, raw responses, API keys or secrets.
 - Backup/restore script foundations.
 
 Runtime blockers on this host at Stage 0 validation time:

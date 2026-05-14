@@ -3,7 +3,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R] /Count 3 >>
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R] /Count 4 >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
@@ -12,7 +12,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1337 >>
+<< /Length 1594 >>
 stream
 BT
 /F1 10 Tf
@@ -45,26 +45,26 @@ BT
 () Tj T*
 (POSTGRESQL SETUP) Tj T*
 () Tj T*
-(Use Docker Compose or native PostgreSQL. PostgreSQL must not be exposed to the internet.) Tj T*
+(Use Docker Compose by default because the repository already includes a local-only) Tj T*
+(PostgreSQL service. Native PostgreSQL is acceptable later if it is configured with the) Tj T*
+(same local-only exposure and environment-variable credential rules.) Tj T*
 () Tj T*
-(Stage 0 Docker Compose configuration is provided in the repository root:) Tj T*
-() Tj T*
-(bash) Tj T*
-(docker compose up -d postgres) Tj T*
-() Tj T*
-() Tj T*
-(The included configuration binds PostgreSQL to localhost only:) Tj T*
+(PostgreSQL must not be exposed to the internet. The included Compose configuration binds) Tj T*
+(PostgreSQL to localhost only:) Tj T*
 () Tj T*
 (text) Tj T*
 (127.0.0.1:5432:5432) Tj T*
 () Tj T*
 () Tj T*
-(Required extensions for the first migration:) Tj T*
+(Create the real .env from .env.example, then replace placeholder database credentials) Tj T*
+(with local secrets. Do not commit .env.) Tj T*
 () Tj T*
-(- pgcrypto) Tj T*
-(- uuid-ossp) Tj T*
+(bash) Tj T*
+(cp .env.example .env) Tj T*
+(EDIT POSTGRES_PASSWORD AND DATABASE_URL IN .ENV ONLY) Tj T*
 () Tj T*
-(OLLAMA SETUP) Tj T*
+() Tj T*
+(Start PostgreSQL with Docker Compose:) Tj T*
 () Tj T*
 ET
 endstream
@@ -73,12 +73,39 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1773 >>
+<< /Length 1410 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(bash) Tj T*
+(docker compose up -d postgres) Tj T*
+() Tj T*
+() Tj T*
+(Apply Stage 0 migrations:) Tj T*
+() Tj T*
+(bash) Tj T*
+(./scripts/db_migrate.sh) Tj T*
+(./scripts/db_status.sh) Tj T*
+() Tj T*
+() Tj T*
+(The migration runner creates schema_migrations and applies SQL files from) Tj T*
+(database/migrations in filename order. The first migration enables required extensions) Tj T*
+(and creates the Stage 0 model-task logging table.) Tj T*
+() Tj T*
+(Required extensions for the first migration:) Tj T*
+() Tj T*
+(- pgcrypto) Tj T*
+(- uuid-ossp) Tj T*
+() Tj T*
+(Stage 0 tables:) Tj T*
+() Tj T*
+(- schema_migrations) Tj T*
+(- model_task_logs) Tj T*
+() Tj T*
+(OLLAMA SETUP) Tj T*
+() Tj T*
 (Ollama must run locally only and the approved V1 local model is qwen3:4b.) Tj T*
 () Tj T*
 (Recommended secure defaults:) Tj T*
@@ -100,6 +127,19 @@ BT
 (unexpected local Ollama models are present.) Tj T*
 () Tj T*
 (PAID MODEL SETUP) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1713 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 () Tj T*
 (Configure ChatGPT as the primary development model and Anthropic as fallback.) Tj T*
 () Tj T*
@@ -127,19 +167,6 @@ BT
 () Tj T*
 (BACKUP AND RESTORE) Tj T*
 () Tj T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1277 >>
-stream
-BT
-/F1 10 Tf
-50 790 Td
-14 TL
 (Use the backup and restore scripts in /backup.) Tj T*
 () Tj T*
 (Stage 0 scripts:) Tj T*
@@ -148,6 +175,9 @@ BT
 (- backup/restore_postgres.sh) Tj T*
 (- backup/backup_app_config.sh) Tj T*
 (- backup/restore_app_config.sh) Tj T*
+() Tj T*
+(PostgreSQL backups use custom-format pg_dump files and write a .sha256 checksum. Restore) Tj T*
+(verifies the checksum when the checksum file is present.) Tj T*
 () Tj T*
 (Do not include unencrypted secrets in backups.) Tj T*
 () Tj T*
@@ -158,12 +188,27 @@ BT
 (bash) Tj T*
 (./scripts/stage0_validate.sh) Tj T*
 () Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 922 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 () Tj T*
 (Stage 0 checklist:) Tj T*
 () Tj T*
 (- Backend skeleton imports and exposes /health) Tj T*
 (- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
 (- PostgreSQL Docker Compose config binds to localhost only) Tj T*
+(- Migration runner creates schema_migrations and Stage 0 migration creates) Tj T*
+(model_task_logs) Tj T*
 (- Ollama is installed locally on 127.0.0.1:11434 and responds with qwen3:4b) Tj T*
 (- ChatGPT primary model is configured through environment/provider settings) Tj T*
 (- Anthropic fallback is configured through environment/provider settings) Tj T*
@@ -175,19 +220,21 @@ ET
 endstream
 endobj
 xref
-0 10
+0 12
 0000000000 65535 f
 0000000009 00000 n
 0000000058 00000 n
-0000000127 00000 n
-0000000197 00000 n
-0000000323 00000 n
-0000001712 00000 n
-0000001838 00000 n
-0000003663 00000 n
-0000003789 00000 n
+0000000134 00000 n
+0000000204 00000 n
+0000000330 00000 n
+0000001976 00000 n
+0000002102 00000 n
+0000003564 00000 n
+0000003690 00000 n
+0000005455 00000 n
+0000005583 00000 n
 trailer
-<< /Size 10 /Root 1 0 R >>
+<< /Size 12 /Root 1 0 R >>
 startxref
-5118
+6557
 %%EOF
