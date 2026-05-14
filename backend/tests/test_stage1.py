@@ -11,6 +11,7 @@ def test_stage1_wallet_routes_registered():
     routes = {route.path for route in app.routes}
     assert "/wallets" in routes
     assert "/wallets/summary" in routes
+    assert "/wallet-movements" in routes
 
 
 def test_frontend_cors_origin_configured():

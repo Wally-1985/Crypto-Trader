@@ -86,4 +86,7 @@ Stage 1 has started with the whale wallet database and movement tracking foundat
 - Wallet duplicate prevention by `(chain, normalized_address)`.
 - Wallet policy helpers for address normalisation, wallet type validation and manual-review rules.
 - Initial wallet management API routes under `/wallets`.
+- Wallet movement API routes under `/wallet-movements` for manual/test movement entry and movement listing/filtering.
+- Automatic review alert creation when a stored movement crosses the watched wallet's configured USD alert threshold.
 - Whale Wallets frontend screen wired to `/wallets`, including add wallet, summary cards, chain filter and enable/disable controls.
+- Wallet Movements frontend section for manual smoke entries, recent movement review, manual-review filtering and large-alert filtering.

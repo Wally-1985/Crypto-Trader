@@ -41,9 +41,9 @@ V1 is paper trading only. It cannot execute live trades.
 
 ## Whale Wallets Page
 
-The Whale Wallets screen is the first Stage 1 user-facing workflow. It connects to the backend `/wallets` API.
+The Whale Wallets screen is the first Stage 1 user-facing workflow. It connects to the backend `/wallets` and `/wallet-movements` APIs.
 
-Current actions:
+Current wallet actions:
 
 - View wallet summary counts.
 - List watched wallets.
@@ -56,11 +56,21 @@ Current actions:
 - Mark a wallet as Do Not Copy.
 - Enable or disable an existing wallet.
 
+Current movement actions:
+
+- Manually store a wallet movement for smoke testing and research history.
+- Record movement type, transaction hash, token, estimated USD value, protocol, transaction time and data quality score.
+- View recent movements.
+- Filter movements by manual-review requirement or large-alert status.
+- Automatically create a review alert when a stored movement crosses the watched wallet's configured USD threshold.
+
 Available backend routes:
 
 - `GET /wallets` — list watched wallets.
 - `POST /wallets` — add a watched wallet.
 - `PATCH /wallets/{wallet_id}/enabled` — enable or disable a watched wallet.
 - `GET /wallets/summary` — wallet and movement counts.
+- `GET /wallet-movements` — list/filter wallet movements.
+- `POST /wallet-movements` — manually store a wallet movement and create review alerts when thresholds are crossed.
 
-Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. V1 remains paper-trading only.
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality and manual-review flags. V1 remains paper-trading only.

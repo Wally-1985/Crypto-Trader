@@ -9,6 +9,7 @@ cd "$ROOT"
 required_paths=(
   database/migrations/0002_stage1_wallet_tracking.sql
   backend/app/api/wallets.py
+  backend/app/api/movements.py
   backend/app/core/wallet_policy.py
   backend/app/schemas/wallets.py
   backend/tests/test_stage1.py

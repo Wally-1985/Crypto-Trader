@@ -82,6 +82,10 @@ label {
   align-items: start;
 }
 
+.movements-grid {
+  margin-top: 1rem;
+}
+
 .wallet-form,
 .wallet-list {
   padding: 1.4rem;
@@ -225,6 +229,11 @@ input[type="checkbox"] { width: auto; }
 
 .badge.enabled { color: #bbf7d0; background: rgba(34, 197, 94, 0.16); }
 .badge.disabled { color: #cbd5e1; background: rgba(100, 116, 139, 0.2); }
+.badge.alert { color: #fed7aa; background: rgba(194, 65, 12, 0.28); }
+
+.movement-card {
+  border-color: rgba(56, 189, 248, 0.22);
+}
 
 .wallet-meta,
 .tag-row,

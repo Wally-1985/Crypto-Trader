@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.health import router as health_router
+from app.api.movements import router as movements_router
 from app.api.wallets import router as wallets_router
 from app.core.config import settings
 
@@ -22,3 +23,4 @@ app.add_middleware(
 
 app.include_router(health_router, tags=["health"])
 app.include_router(wallets_router)
+app.include_router(movements_router)
