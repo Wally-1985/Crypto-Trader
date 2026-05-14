@@ -59,9 +59,10 @@ Stage 0 foundation has been normalized to the repository root and now includes:
 
 - FastAPI backend skeleton with `/health` route.
 - React + Vite frontend skeleton.
-- Model routing policy foundation: Ollama `qwen3:4b` for low-risk local tasks, ChatGPT primary paid development model, Anthropic fallback.
+- Model routing policy foundation: Ollama `qwen3:4b` for low-risk local tasks, ChatGPT primary paid development model, Anthropic fallback on token/context/rate/quota limit errors.
 - PostgreSQL Docker Compose foundation bound to localhost only.
 - ASVS register foundation with latest-stable-ASVS-at-audit-time requirement.
+- `model_task_logs` migration foundation for safe provider/fallback event logging without storing prompts, raw responses, API keys or secrets.
 - Backup/restore script foundations.
 
 Runtime blockers on this host at Stage 0 validation time:

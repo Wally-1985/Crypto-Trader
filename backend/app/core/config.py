@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     fallback_paid_provider: str = "anthropic"
     fallback_development_model: str = "configure_cost_effective_anthropic_model"
     production_reasoning_model: str = "configure_latest_suitable_model_when_system_is_in_use"
+    openai_api_key: str = ""
+    anthropic_api_key: str = ""
 
     broad_market_search_enabled: bool = False
     paper_trading_enabled: bool = True

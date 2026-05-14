@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1668 >>
+<< /Length 1600 >>
 stream
 BT
 /F1 10 Tf
@@ -93,10 +93,23 @@ BT
 () Tj T*
 (1. Ollama qwen3:4b for low-risk cleanup, classification, extraction, tagging and first-) Tj T*
 (pass summaries.) Tj T*
-(2. ChatGPT as the primary paid development/reasoning provider.) Tj T*
-(3. Anthropic as fallback when ChatGPT token/rate limits block progress.) Tj T*
+(2. ChatGPT/OpenAI as the primary paid development/reasoning provider.) Tj T*
+(3. Anthropic as fallback when ChatGPT/OpenAI token, context, rate or quota limits block) Tj T*
+(progress.) Tj T*
 (4. Latest suitable paid models only for final higher-risk production/research analysis) Tj T*
 (later.) Tj T*
+() Tj T*
+(Configure API keys only in the real .env file or host secret manager:) Tj T*
+() Tj T*
+(text) Tj T*
+(OPENAI_API_KEY=...) Tj T*
+(ANTHROPIC_API_KEY=...) Tj T*
+() Tj T*
+() Tj T*
+(Do not commit real API keys. Do not expose paid provider keys to frontend code.) Tj T*
+() Tj T*
+(Fallback events are recorded through the model_task_logs foundation. Logs must not store) Tj T*
+(prompts, raw responses, API keys or secrets.) Tj T*
 () Tj T*
 (BACKUP AND RESTORE) Tj T*
 () Tj T*
@@ -114,6 +127,19 @@ BT
 (VALIDATION CHECKLIST) Tj T*
 () Tj T*
 (Run structural validation:) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 856 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 () Tj T*
 (bash) Tj T*
 (./scripts/stage0_validate.sh) Tj T*
@@ -127,19 +153,8 @@ BT
 (- Ollama is installed and responds with qwen3:4b) Tj T*
 (- ChatGPT primary model is configured through environment/provider settings) Tj T*
 (- Anthropic fallback is configured through environment/provider settings) Tj T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 163 >>
-stream
-BT
-/F1 10 Tf
-50 790 Td
-14 TL
+(- Mock fallback tests cover token/rate-limit fallback behaviour) Tj T*
+(- model_task_logs migration foundation exists for fallback event logging) Tj T*
 (- ASVS register exists and records that latest stable ASVS must be checked at audit time) Tj T*
 (- No secrets are committed) Tj T*
 ET
@@ -155,10 +170,10 @@ xref
 0000000323 00000 n
 0000001712 00000 n
 0000001838 00000 n
-0000003558 00000 n
-0000003684 00000 n
+0000003490 00000 n
+0000003616 00000 n
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-3898
+4523
 %%EOF

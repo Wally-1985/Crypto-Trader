@@ -16,3 +16,6 @@
 - Added database migration/seed placeholders and worker foundation notes.
 - Added Stage 0 ASVS control register foundation.
 - Added Stage 0 structural validation script.
+- Implemented Anthropic fallback routing foundation for paid development tasks when ChatGPT/OpenAI hits token, context, rate or quota limits.
+- Added mock tests for fallback behaviour.
+- Added `model_task_logs` migration foundation for safe model routing/fallback event logging.

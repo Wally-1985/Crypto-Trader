@@ -14,6 +14,7 @@ backend/app/api/__init__.py
 backend/app/core/config.py
 backend/app/core/__init__.py
 backend/app/core/model_routing.py
+backend/app/core/model_task_logs.py
 backend/app/db/__init__.py
 backend/app/db/session.py
 backend/app/__init__.py
@@ -25,6 +26,7 @@ backup/backup_postgres.sh
 backup/restore_app_config.sh
 backup/restore_postgres.sh
 CHANGELOG.md
+database/migrations/0001_stage0_model_task_logs.sql
 database/migrations/README.md
 database/seed/README.md
 DEVELOPMENT_PLAN.md
