@@ -21,6 +21,11 @@ This application runs on an Ubuntu 24.04 computer with OpenClaw, PostgreSQL, Oll
 
 Use `.env.example` as the template. Do not commit the real `.env` file.
 
+Frontend/backend local wiring defaults:
+
+- `VITE_BACKEND_BASE_URL=http://127.0.0.1:8000`
+- `CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173`
+
 ## PostgreSQL Setup
 
 Use Docker Compose by default because the repository already includes a local-only PostgreSQL service. Native PostgreSQL is acceptable later if it is configured with the same local-only exposure and environment-variable credential rules.

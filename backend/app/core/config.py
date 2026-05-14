@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_name: str = "crypto-wallet-intelligence"
     app_version: str = "v0.1.0-dev"
     app_env: str = "development"
+    cors_allowed_origins: str = "http://127.0.0.1:5173,http://localhost:5173"
 
     database_url: str = "postgresql+psycopg://cwi_app:change_me_do_not_commit_real_password@localhost:5432/crypto_wallet_intelligence"
 

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.health import router as health_router
 from app.api.wallets import router as wallets_router
@@ -8,6 +9,15 @@ app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
     description="Crypto wallet intelligence backend. V1 is research and paper-trading only; live trading is disabled.",
+)
+
+allowed_origins = [origin.strip() for origin in settings.cors_allowed_origins.split(",") if origin.strip()]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PATCH", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
 
 app.include_router(health_router, tags=["health"])

@@ -86,4 +86,4 @@ Stage 1 has started with the whale wallet database and movement tracking foundat
 - Wallet duplicate prevention by `(chain, normalized_address)`.
 - Wallet policy helpers for address normalisation, wallet type validation and manual-review rules.
 - Initial wallet management API routes under `/wallets`.
-- Frontend copy updated from Stage 0 skeleton to Stage 1 started state.
+- Whale Wallets frontend screen wired to `/wallets`, including add wallet, summary cards, chain filter and enable/disable controls.

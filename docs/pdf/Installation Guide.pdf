@@ -12,7 +12,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1594 >>
+<< /Length 1655 >>
 stream
 BT
 /F1 10 Tf
@@ -43,6 +43,11 @@ BT
 () Tj T*
 (Use .env.example as the template. Do not commit the real .env file.) Tj T*
 () Tj T*
+(Frontend/backend local wiring defaults:) Tj T*
+() Tj T*
+(- VITE_BACKEND_BASE_URL=http://127.0.0.1:8000) Tj T*
+(- CORS_ALLOWED_ORIGINS=http://127.0.0.1:5173,http://localhost:5173) Tj T*
+() Tj T*
 (POSTGRESQL SETUP) Tj T*
 () Tj T*
 (Use Docker Compose by default because the repository already includes a local-only) Tj T*
@@ -61,11 +66,6 @@ BT
 () Tj T*
 (bash) Tj T*
 (cp .env.example .env) Tj T*
-(EDIT POSTGRES_PASSWORD AND DATABASE_URL IN .ENV ONLY) Tj T*
-() Tj T*
-() Tj T*
-(Start PostgreSQL with Docker Compose:) Tj T*
-() Tj T*
 ET
 endstream
 endobj
@@ -73,12 +73,17 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1365 >>
+<< /Length 1380 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(EDIT POSTGRES_PASSWORD AND DATABASE_URL IN .ENV ONLY) Tj T*
+() Tj T*
+() Tj T*
+(Start PostgreSQL with Docker Compose:) Tj T*
+() Tj T*
 (bash) Tj T*
 (docker compose up -d postgres) Tj T*
 () Tj T*
@@ -122,11 +127,6 @@ BT
 (cat > ~/.config/systemd/user/ollama.service <<'EOF') Tj T*
 ([Unit]) Tj T*
 (Description=Ollama local model server \(user-space\)) Tj T*
-(After=network-online.target) Tj T*
-(Wants=network-online.target) Tj T*
-() Tj T*
-([Service]) Tj T*
-(Type=simple) Tj T*
 ET
 endstream
 endobj
@@ -134,12 +134,17 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1742 >>
+<< /Length 1628 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(After=network-online.target) Tj T*
+(Wants=network-online.target) Tj T*
+() Tj T*
+([Service]) Tj T*
+(Type=simple) Tj T*
 (Environment=OLLAMA_HOST=127.0.0.1:11434) Tj T*
 (Environment=OLLAMA_MODELS=/home/robot/.ollama/models) Tj T*
 (Environment=PATH=/home/robot/.local/bin:/usr/local/bin:/usr/bin:/bin) Tj T*
@@ -183,11 +188,6 @@ BT
 (1. Ollama qwen3:4b for low-risk cleanup, classification, extraction, tagging and first-) Tj T*
 (pass summaries.) Tj T*
 (2. ChatGPT/OpenAI as the primary paid development/reasoning provider.) Tj T*
-(3. Anthropic as fallback when ChatGPT/OpenAI token, context, rate or quota limits block) Tj T*
-(progress.) Tj T*
-(4. Latest suitable paid models only for final higher-risk production/research analysis) Tj T*
-(later.) Tj T*
-() Tj T*
 ET
 endstream
 endobj
@@ -195,12 +195,17 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 1918 >>
+<< /Length 1762 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(3. Anthropic as fallback when ChatGPT/OpenAI token, context, rate or quota limits block) Tj T*
+(progress.) Tj T*
+(4. Latest suitable paid models only for final higher-risk production/research analysis) Tj T*
+(later.) Tj T*
+() Tj T*
 (Configure API keys only in the real .env file or host secret manager:) Tj T*
 () Tj T*
 (text) Tj T*
@@ -244,11 +249,6 @@ BT
 (- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
 (- PostgreSQL Docker Compose config binds to localhost only) Tj T*
 (- Migration runner creates schema_migrations; migrations create model_task_logs,) Tj T*
-(whale_wallets, watchlist, wallet_movements and agent_alerts) Tj T*
-(- Ollama is installed locally on 127.0.0.1:11434 and responds with qwen3:4b) Tj T*
-(- ChatGPT primary model is configured through environment/provider settings) Tj T*
-(- Anthropic fallback is configured through environment/provider settings) Tj T*
-(- Mock fallback tests cover token/rate-limit fallback behaviour) Tj T*
 ET
 endstream
 endobj
@@ -256,12 +256,17 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 244 >>
+<< /Length 633 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(whale_wallets, watchlist, wallet_movements and agent_alerts) Tj T*
+(- Ollama is installed locally on 127.0.0.1:11434 and responds with qwen3:4b) Tj T*
+(- ChatGPT primary model is configured through environment/provider settings) Tj T*
+(- Anthropic fallback is configured through environment/provider settings) Tj T*
+(- Mock fallback tests cover token/rate-limit fallback behaviour) Tj T*
 (- model_task_logs migration foundation exists for fallback event logging) Tj T*
 (- ASVS register exists and records that latest stable ASVS must be checked at audit time) Tj T*
 (- No secrets are committed) Tj T*
@@ -276,16 +281,16 @@ xref
 0000000141 00000 n
 0000000211 00000 n
 0000000337 00000 n
-0000001983 00000 n
-0000002109 00000 n
-0000003526 00000 n
-0000003652 00000 n
-0000005446 00000 n
-0000005574 00000 n
-0000007545 00000 n
-0000007673 00000 n
+0000002044 00000 n
+0000002170 00000 n
+0000003602 00000 n
+0000003728 00000 n
+0000005408 00000 n
+0000005536 00000 n
+0000007351 00000 n
+0000007479 00000 n
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-7969
+8164
 %%EOF

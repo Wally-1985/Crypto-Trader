@@ -13,6 +13,11 @@ def test_stage1_wallet_routes_registered():
     assert "/wallets/summary" in routes
 
 
+def test_frontend_cors_origin_configured():
+    middleware_names = {middleware.cls.__name__ for middleware in app.user_middleware}
+    assert "CORSMiddleware" in middleware_names
+
+
 def test_wallet_address_normalisation_prevents_case_duplicates():
     assert normalize_wallet_address("  0xABCDEF1234  ") == "0xabcdef1234"
 

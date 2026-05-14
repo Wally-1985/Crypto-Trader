@@ -39,11 +39,24 @@ The Crypto Wallet Intelligence and Paper Trading App monitors watched wallets, d
 
 V1 is paper trading only. It cannot execute live trades.
 
-## Stage 1 Note
+## Whale Wallets Page
 
-Stage 1 has started. The frontend currently indicates that wallet tracking foundations are underway. Full user-facing wallet management screens are not implemented yet.
+The Whale Wallets screen is the first Stage 1 user-facing workflow. It connects to the backend `/wallets` API.
 
-Available backend foundations:
+Current actions:
+
+- View wallet summary counts.
+- List watched wallets.
+- Filter listed wallets by chain.
+- Add a watched wallet.
+- Classify wallet type.
+- Set alert threshold, watch priority and confidence weighting.
+- Add tags and sectors of interest.
+- Mark a wallet as paper copy-review allowed.
+- Mark a wallet as Do Not Copy.
+- Enable or disable an existing wallet.
+
+Available backend routes:
 
 - `GET /wallets` — list watched wallets.
 - `POST /wallets` — add a watched wallet.

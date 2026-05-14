@@ -25,3 +25,4 @@
 - Validated Docker Compose PostgreSQL runtime, Stage 0 migrations and PostgreSQL backup creation on the host.
 - Added persistent user-space systemd service for local-only Ollama `qwen3:4b` runtime.
 - Started Stage 1 with whale wallet, watchlist, wallet movement and agent alert database foundations plus initial wallet management API routes.
+- Added Whale Wallets frontend screen wired to `/wallets`, with wallet creation, chain filtering, summary cards and enable/disable controls.
