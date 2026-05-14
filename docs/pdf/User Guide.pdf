@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2483 >>
+<< /Length 2624 >>
 stream
 BT
 /F1 10 Tf
@@ -125,8 +125,8 @@ BT
 (outcome count and data quality.) Tj T*
 (- Filter wallet ranking by provider so mock and public market-data outcomes can be) Tj T*
 (evaluated separately.) Tj T*
-() Tj T*
-(Available backend routes:) Tj T*
+(- Import curated wallet lists from JSON while skipping duplicates by chain/address.) Tj T*
+(- Map wallet-led token symbols/contracts to provider IDs, such as CoinGecko IDs, so) Tj T*
 ET
 endstream
 endobj
@@ -134,12 +134,15 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 2566 >>
+<< /Length 3063 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(future real-price outcomes can resolve token identity cleanly.) Tj T*
+() Tj T*
+(Available backend routes:) Tj T*
 () Tj T*
 (- GET /wallets — list watched wallets.) Tj T*
 (- POST /wallets — add a watched wallet.) Tj T*
@@ -166,6 +169,10 @@ BT
 (read-only public CoinGecko price checks for supported wallet-led token symbols.) Tj T*
 (- GET /wallet-performance — rank wallets by signal outcomes, with optional provider,) Tj T*
 (horizon, min_outcomes and limit filters.) Tj T*
+(- POST /wallets/import — bulk import curated wallets; duplicate chain/address records) Tj T*
+(are skipped.) Tj T*
+(- GET /token-mappings — list token identity mappings.) Tj T*
+(- POST /token-mappings — create or update a token/provider identity mapping.) Tj T*
 () Tj T*
 (Wallet records support enabled/disabled status, wallet type, tags, sectors, alert) Tj T*
 (threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and) Tj T*
@@ -173,9 +180,10 @@ BT
 (and manual-review flags. Alerts preserve decision snapshots and support review status,) Tj T*
 (analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only) Tj T*
 (horizon validation for 15m, 1h, 4h, 24h and 7d. Wallet performance ranking is) Tj T*
-(confidence-adjusted to avoid over-trusting tiny samples. Public market-data checks are) Tj T*
-(read-only, narrow and wallet-led; they do not perform broad market discovery or live) Tj T*
-(trading. V1 remains paper-trading only.) Tj T*
+(confidence-adjusted to avoid over-trusting tiny samples. Token mappings let the read-) Tj T*
+(only price provider resolve wallet-led tokens without broad market discovery. Public) Tj T*
+(market-data checks are read-only, narrow and wallet-led; they do not perform broad) Tj T*
+(market discovery or live trading. V1 remains paper-trading only.) Tj T*
 ET
 endstream
 endobj
@@ -189,10 +197,10 @@ xref
 0000000323 00000 n
 0000001887 00000 n
 0000002013 00000 n
-0000004548 00000 n
-0000004674 00000 n
+0000004689 00000 n
+0000004815 00000 n
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-7292
+7930
 %%EOF

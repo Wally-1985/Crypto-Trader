@@ -34,6 +34,7 @@ SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' A
     'watchlist',
     'wallet_movements',
     'agent_alerts',
-    'signal_outcomes'
+    'signal_outcomes',
+    'token_mappings'
 ) ORDER BY table_name;
 SQL

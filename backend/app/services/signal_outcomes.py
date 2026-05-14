@@ -7,7 +7,7 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from app.services.market_data import MarketDataProvider, PricePoint, market_provider_for_name
+from app.services.market_data import DatabaseBackedCoinGeckoProvider, MarketDataProvider, PricePoint, market_provider_for_name
 
 HORIZONS: dict[str, timedelta] = {
     "15m": timedelta(minutes=15),
@@ -309,8 +309,9 @@ def run_due_outcome_backfill(
                 raw_payload = prices["raw_price_payload"] | {"due_only_worker": True, "target_due_at": due_at.isoformat()}
             else:
                 try:
+                    provider_for_movement = DatabaseBackedCoinGeckoProvider(db, movement["chain"], movement.get("token_contract")) if provider_name == "coingecko_public" else real_provider
                     baseline_price, outcome_price, change, measured_at, raw_payload = build_real_provider_payload(
-                        provider=real_provider, movement=movement, horizon=horizon, due_at=due_at
+                        provider=provider_for_movement, movement=movement, horizon=horizon, due_at=due_at
                     )
                 except Exception as exc:  # provider/network errors are recorded as needs-review outcomes
                     provider_errors += 1

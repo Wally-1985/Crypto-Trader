@@ -110,4 +110,6 @@ Stage 2 has started with price outcome and signal validation foundations:
 - Backend routes under `/signal-outcomes` for listing outcomes, viewing summary counts, running mock outcome backfills and running due-outcome checks.
 - Frontend Signal Outcomes panel for running mock/public validation and reviewing recent horizon outcomes with provider detail.
 - Wallet performance ranking API and frontend panel that compares wallets by outcome counts, win rate, average return, data quality and sample-adjusted confidence score.
-- V1 remains research and paper-trading only; outcomes and rankings never execute trades.
+- Bulk wallet import endpoint and frontend JSON import workflow for curated wallet-led seeding.
+- `token_mappings` table, API and frontend form for mapping wallet-led token symbols/contracts to provider IDs such as CoinGecko IDs.
+- V1 remains research and paper-trading only; imports, mappings, outcomes and rankings never execute trades.

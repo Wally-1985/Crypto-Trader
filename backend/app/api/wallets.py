@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.schemas.wallets import WhaleWallet, WhaleWalletCreate, WhaleWalletUpdate, WalletSummary
+from app.schemas.wallets import WhaleWallet, WhaleWalletCreate, WhaleWalletImportRequest, WhaleWalletImportSummary, WhaleWalletUpdate, WalletSummary
 
 router = APIRouter(prefix="/wallets", tags=["wallets"])
 
@@ -84,6 +84,47 @@ def create_wallet(payload: WhaleWalletCreate, db: Session = Depends(get_db)) -> 
             detail="wallet already exists for this chain or violates wallet policy",
         ) from exc
     return _row_to_dict(row)
+
+
+@router.post("/import", response_model=WhaleWalletImportSummary)
+def import_wallets(payload: WhaleWalletImportRequest, db: Session = Depends(get_db)) -> WhaleWalletImportSummary:
+    imported = 0
+    skipped = 0
+    failed = 0
+    wallet_ids: list[UUID] = []
+    for wallet in payload.wallets:
+        values = wallet.model_dump()
+        values["normalized_address"] = wallet.normalized_address
+        values["chain"] = values["chain"].lower()
+        try:
+            row = db.execute(
+                text(
+                    """
+                    INSERT INTO whale_wallets (
+                        wallet_address, normalized_address, chain, label, wallet_type, notes, enabled,
+                        alert_threshold_usd, watch_priority, confidence_weighting, copy_trade_enabled,
+                        do_not_copy, tags, sectors_of_interest
+                    ) VALUES (
+                        :wallet_address, :normalized_address, :chain, :label, :wallet_type, :notes, :enabled,
+                        :alert_threshold_usd, :watch_priority, :confidence_weighting, :copy_trade_enabled,
+                        :do_not_copy, :tags, :sectors_of_interest
+                    )
+                    ON CONFLICT (chain, normalized_address) DO NOTHING
+                    RETURNING id
+                    """
+                ),
+                values,
+            ).fetchone()
+            if row is None:
+                skipped += 1
+            else:
+                imported += 1
+                wallet_ids.append(row._mapping["id"])
+        except IntegrityError:
+            db.rollback()
+            failed += 1
+    db.commit()
+    return WhaleWalletImportSummary(imported=imported, skipped_duplicates=skipped, failed=failed, wallet_ids=wallet_ids)
 
 
 @router.get("/summary", response_model=WalletSummary)

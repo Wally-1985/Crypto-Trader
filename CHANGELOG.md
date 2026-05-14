@@ -32,3 +32,4 @@
 - Started Stage 2 with `signal_outcomes`, deterministic mock price validation, signal outcome APIs and frontend outcome review panel.
 - Added Stage 2 read-only market-data provider interface, due-outcome worker/API, CoinGecko public provider option and frontend provider detail controls.
 - Added wallet performance ranking API and frontend panel with confidence-adjusted scores, win rate, average return and provider filtering.
+- Added curated wallet JSON import workflow and token mapping table/API/UI for provider token identity resolution.

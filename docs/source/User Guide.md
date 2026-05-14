@@ -80,6 +80,8 @@ Current alert, polling and outcome actions:
 - Inspect provider detail to distinguish mock outcomes from public market-data outcomes.
 - Review wallet performance ranking by confidence score, win rate, average return, outcome count and data quality.
 - Filter wallet ranking by provider so mock and public market-data outcomes can be evaluated separately.
+- Import curated wallet lists from JSON while skipping duplicates by chain/address.
+- Map wallet-led token symbols/contracts to provider IDs, such as CoinGecko IDs, so future real-price outcomes can resolve token identity cleanly.
 
 Available backend routes:
 
@@ -101,5 +103,8 @@ Available backend routes:
 - `POST /signal-outcomes/run-due?provider=mock` — create deterministic mock outcomes only for due horizons.
 - `POST /signal-outcomes/run-due?provider=coingecko_public` — create due outcomes with read-only public CoinGecko price checks for supported wallet-led token symbols.
 - `GET /wallet-performance` — rank wallets by signal outcomes, with optional `provider`, `horizon`, `min_outcomes` and `limit` filters.
+- `POST /wallets/import` — bulk import curated wallets; duplicate chain/address records are skipped.
+- `GET /token-mappings` — list token identity mappings.
+- `POST /token-mappings` — create or update a token/provider identity mapping.
 
-Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons and manual-review flags. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only horizon validation for 15m, 1h, 4h, 24h and 7d. Wallet performance ranking is confidence-adjusted to avoid over-trusting tiny samples. Public market-data checks are read-only, narrow and wallet-led; they do not perform broad market discovery or live trading. V1 remains paper-trading only.
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons and manual-review flags. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only horizon validation for 15m, 1h, 4h, 24h and 7d. Wallet performance ranking is confidence-adjusted to avoid over-trusting tiny samples. Token mappings let the read-only price provider resolve wallet-led tokens without broad market discovery. Public market-data checks are read-only, narrow and wallet-led; they do not perform broad market discovery or live trading. V1 remains paper-trading only.

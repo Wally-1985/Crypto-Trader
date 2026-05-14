@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 from app.main import app
+from app.schemas.wallets import TokenMappingCreate, WhaleWalletImportRequest, WhaleWalletCreate
 from app.services.market_data import CoinGeckoPublicMarketDataProvider, DEFAULT_SYMBOL_IDS
 from app.services.signal_outcomes import HORIZONS, MockPriceOutcomeProvider, classify_signal_result, price_change_pct
 from app.services.wallet_performance import confidence_adjusted_score
@@ -14,6 +15,8 @@ def test_stage2_signal_outcome_routes_registered():
     assert "/signal-outcomes/run-once" in routes
     assert "/signal-outcomes/run-due" in routes
     assert "/wallet-performance" in routes
+    assert "/wallets/import" in routes
+    assert "/token-mappings" in routes
 
 
 def test_stage2_horizons_match_product_question():
@@ -56,6 +59,13 @@ def test_public_market_provider_is_read_only_and_allowlisted_without_network_for
     assert point.paper_trading_only is True
     assert point.source == "unsupported_symbol_allowlist"
     assert "ETH" in DEFAULT_SYMBOL_IDS
+
+
+def test_wallet_import_request_and_token_mapping_schema_validate():
+    request = WhaleWalletImportRequest(wallets=[WhaleWalletCreate(wallet_address="0xabc", chain="ethereum", wallet_type="Whale")])
+    mapping = TokenMappingCreate(chain="ethereum", token_symbol="ETH", provider_token_id="ethereum")
+    assert request.wallets[0].normalized_address == "0xabc"
+    assert mapping.provider == "coingecko_public"
 
 
 def test_wallet_performance_score_is_sample_adjusted_and_bounded():

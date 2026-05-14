@@ -8,8 +8,10 @@ cd "$ROOT"
 
 required_paths=(
   database/migrations/0004_stage2_signal_outcomes.sql
+  database/migrations/0005_stage2_wallet_import_token_mapping.sql
   backend/app/api/outcomes.py
   backend/app/api/performance.py
+  backend/app/api/tokens.py
   backend/app/services/signal_outcomes.py
   backend/app/services/wallet_performance.py
   backend/app/services/market_data.py
@@ -23,6 +25,11 @@ for path in "${required_paths[@]}"; do
   fi
 done
 
+if ! grep -q 'CREATE TABLE IF NOT EXISTS token_mappings' database/migrations/0005_stage2_wallet_import_token_mapping.sql; then
+  echo "Stage 2 token mapping migration missing token_mappings table" >&2
+  exit 1
+fi
+
 if ! grep -q 'CREATE TABLE IF NOT EXISTS signal_outcomes' database/migrations/0004_stage2_signal_outcomes.sql; then
   echo "Stage 2 migration missing signal_outcomes table" >&2
   exit 1
@@ -34,6 +41,11 @@ for horizon in 15m 1h 4h 24h 7d; do
     exit 1
   fi
 done
+
+if ! grep -q '/token-mappings' backend/tests/test_stage2.py; then
+  echo "Stage 2 tests must cover token mapping route" >&2
+  exit 1
+fi
 
 if ! grep -q '/wallet-performance' backend/tests/test_stage2.py; then
   echo "Stage 2 tests must cover wallet performance ranking route" >&2
@@ -62,6 +74,11 @@ npm --prefix frontend run build
 
 if command -v psql >/dev/null 2>&1 && [ -f .env ]; then
   ./scripts/db_status.sh >/tmp/stage2_db_status.txt
+  if ! grep -q "token_mappings" /tmp/stage2_db_status.txt; then
+    echo "Database status missing Stage 2 table: token_mappings" >&2
+    cat /tmp/stage2_db_status.txt >&2
+    exit 1
+  fi
   if ! grep -q "signal_outcomes" /tmp/stage2_db_status.txt; then
     echo "Database status missing Stage 2 table: signal_outcomes" >&2
     cat /tmp/stage2_db_status.txt >&2

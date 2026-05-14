@@ -7,6 +7,9 @@ from typing import Any, Protocol
 
 import httpx
 
+from sqlalchemy import text
+from sqlalchemy.orm import Session
+
 from app.core.config import settings
 
 DEFAULT_SYMBOL_IDS = {
@@ -101,6 +104,44 @@ class CoinGeckoPublicMarketDataProvider:
             source="coingecko_simple_price_current_usd",
             raw_payload={"coin_id": coin_id, "target_time": target_time.isoformat(), "response": payload},
         )
+
+
+def resolve_provider_token_id(db: Session, *, chain: str, token_symbol: str, provider: str, token_contract: str | None = None) -> str | None:
+    row = db.execute(
+        text(
+            """
+            SELECT provider_token_id
+            FROM token_mappings
+            WHERE enabled = TRUE
+              AND provider = :provider
+              AND chain = :chain
+              AND token_symbol = :token_symbol
+              AND (token_contract IS NULL OR token_contract = COALESCE(:token_contract, token_contract))
+            ORDER BY confidence_score DESC, updated_at DESC
+            LIMIT 1
+            """
+        ),
+        {"provider": provider, "chain": chain.lower(), "token_symbol": token_symbol.upper(), "token_contract": token_contract},
+    ).fetchone()
+    return row._mapping["provider_token_id"] if row else None
+
+
+class DatabaseBackedCoinGeckoProvider(CoinGeckoPublicMarketDataProvider):
+    def __init__(self, db: Session, chain: str, token_contract: str | None = None, timeout_seconds: float = 10.0) -> None:
+        super().__init__(timeout_seconds=timeout_seconds)
+        self.db = db
+        self.chain = chain
+        self.token_contract = token_contract
+
+    def coin_id_for_symbol(self, token_symbol: str) -> str | None:
+        mapped = resolve_provider_token_id(
+            self.db,
+            chain=self.chain,
+            token_symbol=token_symbol,
+            provider=self.name,
+            token_contract=self.token_contract,
+        )
+        return mapped or super().coin_id_for_symbol(token_symbol)
 
 
 def market_provider_for_name(name: str) -> MarketDataProvider:

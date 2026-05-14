@@ -67,6 +67,18 @@ class WhaleWalletUpdate(BaseModel):
         return self
 
 
+class WhaleWalletImportRequest(BaseModel):
+    wallets: list[WhaleWalletCreate] = Field(min_length=1, max_length=500)
+
+
+class WhaleWalletImportSummary(BaseModel):
+    imported: int
+    skipped_duplicates: int
+    failed: int
+    wallet_ids: list[UUID]
+    paper_trading_only: bool = True
+
+
 class WhaleWallet(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -229,6 +241,26 @@ class SignalOutcomeSummary(BaseModel):
     unfavorable_outcomes: int
     neutral_outcomes: int
     needs_review_outcomes: int
+
+
+class TokenMappingCreate(BaseModel):
+    chain: str = Field(min_length=2, max_length=64)
+    token_symbol: str = Field(min_length=1, max_length=32)
+    token_contract: str | None = Field(default=None, max_length=256)
+    provider: str = "coingecko_public"
+    provider_token_id: str = Field(min_length=1, max_length=160)
+    source: str = Field(default="manual", max_length=80)
+    confidence_score: int = Field(default=80, ge=0, le=100)
+    notes: str | None = Field(default=None, max_length=1000)
+    enabled: bool = True
+
+
+class TokenMapping(TokenMappingCreate):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    created_at: datetime
+    updated_at: datetime
 
 
 class WalletPerformance(BaseModel):

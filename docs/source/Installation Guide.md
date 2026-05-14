@@ -78,6 +78,7 @@ Stage 1 wallet tracking tables:
 Stage 2 signal validation tables:
 
 - `signal_outcomes`
+- `token_mappings`
 
 ## Ollama Setup
 

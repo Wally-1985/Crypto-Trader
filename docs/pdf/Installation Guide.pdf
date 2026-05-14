@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1290 >>
+<< /Length 1302 >>
 stream
 BT
 /F1 10 Tf
@@ -119,6 +119,7 @@ BT
 (Stage 2 signal validation tables:) Tj T*
 () Tj T*
 (- signal_outcomes) Tj T*
+(- token_mappings) Tj T*
 () Tj T*
 (OLLAMA SETUP) Tj T*
 () Tj T*
@@ -126,7 +127,6 @@ BT
 () Tj T*
 (Recommended secure defaults for a user-space service:) Tj T*
 () Tj T*
-(bash) Tj T*
 ET
 endstream
 endobj
@@ -134,12 +134,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1597 >>
+<< /Length 1572 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(bash) Tj T*
 (mkdir -p ~/.config/systemd/user) Tj T*
 (cat > ~/.config/systemd/user/ollama.service <<'EOF') Tj T*
 ([Unit]) Tj T*
@@ -187,7 +188,6 @@ BT
 () Tj T*
 (Configure ChatGPT as the primary development model and Anthropic as fallback.) Tj T*
 () Tj T*
-(Stage 0 model routing policy:) Tj T*
 ET
 endstream
 endobj
@@ -195,12 +195,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 1675 >>
+<< /Length 1704 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(Stage 0 model routing policy:) Tj T*
 () Tj T*
 (1. Ollama qwen3:4b for low-risk cleanup, classification, extraction, tagging and first-) Tj T*
 (pass summaries.) Tj T*
@@ -248,7 +249,6 @@ BT
 () Tj T*
 () Tj T*
 (Stage 0 checklist:) Tj T*
-() Tj T*
 ET
 endstream
 endobj
@@ -256,12 +256,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 927 >>
+<< /Length 936 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+() Tj T*
 (- Backend skeleton imports and exposes /health) Tj T*
 (- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
 (- PostgreSQL Docker Compose config binds to localhost only) Tj T*
@@ -287,14 +288,14 @@ xref
 0000000337 00000 n
 0000002044 00000 n
 0000002170 00000 n
-0000003512 00000 n
-0000003638 00000 n
-0000005287 00000 n
-0000005415 00000 n
-0000007143 00000 n
-0000007271 00000 n
+0000003524 00000 n
+0000003650 00000 n
+0000005274 00000 n
+0000005402 00000 n
+0000007159 00000 n
+0000007287 00000 n
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-8250
+8275
 %%EOF
