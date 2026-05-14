@@ -89,8 +89,11 @@ Stage 1 has started with the whale wallet database and movement tracking foundat
 - Wallet movement API routes under `/wallet-movements` for manual/test movement entry and movement listing/filtering.
 - Wallet details/edit API routes under `/wallets/{wallet_id}` for metadata, threshold, policy and tag updates.
 - Agent alert review API routes under `/agent-alerts`, including acknowledgement.
-- Dry-run wallet polling worker skeleton under `/wallet-polling/run-once`; no external provider keys are committed and V1 remains paper-trading only.
+- Dry-run and deterministic mock wallet polling providers under `/wallet-polling/run-once`; no external provider keys are committed and V1 remains paper-trading only.
+- Movement ingestion pipeline for provider/manual payloads: validate, score, dedupe, store and alert.
+- Deterministic data quality scoring with stored `data_quality_reasons` for review explainability.
 - Automatic review alert creation when a stored movement crosses the watched wallet's configured USD alert threshold.
+- Alert review fields for status, analyst notes and candidate decision (`watch`, `manual_review`, `ignore`, `paper_copy_candidate`).
 - Whale Wallets frontend screen wired to `/wallets`, including add wallet, summary cards, chain filter, edit/details and enable/disable controls.
 - Wallet Movements frontend section for manual smoke entries, recent movement review, manual-review filtering and large-alert filtering.
 - Agent Alerts frontend section for reviewing decision snapshots and acknowledging alerts.

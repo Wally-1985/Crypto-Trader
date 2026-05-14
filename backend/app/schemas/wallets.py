@@ -111,6 +111,7 @@ class WalletMovementCreate(BaseModel):
     data_quality_score: int = Field(default=0, ge=0, le=100)
     manual_review_required: bool = True
     raw_api_payload: dict = Field(default_factory=dict)
+    data_quality_reasons: list[str] = Field(default_factory=list)
 
     @field_validator("movement_type")
     @classmethod
@@ -141,15 +142,40 @@ class AgentAlert(BaseModel):
     data_quality_score: int
     manual_review_required: bool
     decision_snapshot: dict
+    status: str = "open"
+    analyst_notes: str | None = None
+    candidate_decision: str = "manual_review"
     created_at: datetime
     acknowledged_at: datetime | None = None
+
+
+class AgentAlertUpdate(BaseModel):
+    status: str | None = None
+    analyst_notes: str | None = Field(default=None, max_length=4000)
+    candidate_decision: str | None = None
+
+    @field_validator("status")
+    @classmethod
+    def status_allowed(cls, value: str | None) -> str | None:
+        if value is not None and value not in {"open", "acknowledged", "dismissed", "escalated"}:
+            raise ValueError(f"unsupported alert status: {value}")
+        return value
+
+    @field_validator("candidate_decision")
+    @classmethod
+    def decision_allowed(cls, value: str | None) -> str | None:
+        if value is not None and value not in {"watch", "manual_review", "ignore", "paper_copy_candidate"}:
+            raise ValueError(f"unsupported candidate decision: {value}")
+        return value
 
 
 class PollingRunSummary(BaseModel):
     provider: str
     checked_wallets: int
     eligible_wallets: int
+    fetched_movements: int = 0
     created_movements: int
+    skipped_duplicates: int = 0
     skipped_reason: str | None = None
     paper_trading_only: bool = True
 

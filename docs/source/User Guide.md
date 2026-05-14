@@ -70,6 +70,9 @@ Current alert and polling actions:
 - Inspect decision snapshots for paper-trading-only context.
 - Acknowledge reviewed alerts.
 - Run a dry-run polling skeleton that checks enabled, non-Do-Not-Copy wallets without using external provider keys.
+- Run deterministic mock ingestion to validate the full provider pipeline without real chain APIs.
+- Review data quality score reasons on movement decision snapshots.
+- Track alert status, candidate decision and analyst notes through the backend API.
 
 Available backend routes:
 
@@ -83,6 +86,7 @@ Available backend routes:
 - `POST /wallet-movements` — manually store a wallet movement and create review alerts when thresholds are crossed.
 - `GET /agent-alerts` — list/filter generated alerts.
 - `PATCH /agent-alerts/{alert_id}/acknowledge` — acknowledge an alert after review.
-- `POST /wallet-polling/run-once` — run the Stage 1 dry-run polling skeleton.
+- `POST /wallet-polling/run-once?provider=dry_run` — run the Stage 1 dry-run polling skeleton.
+- `POST /wallet-polling/run-once?provider=mock` — run deterministic mock provider ingestion through validate, score, dedupe, store and alert.
 
-Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality and manual-review flags. Alerts preserve decision snapshots. V1 remains paper-trading only.
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons and manual-review flags. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. V1 remains paper-trading only.

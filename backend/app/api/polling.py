@@ -1,14 +1,21 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.schemas.wallets import PollingRunSummary
-from app.workers.wallet_polling import run_wallet_polling_once
+from app.workers.wallet_polling import provider_for_name, run_wallet_polling_once
 
 router = APIRouter(prefix="/wallet-polling", tags=["wallet-polling"])
 
 
 @router.post("/run-once", response_model=PollingRunSummary)
-def run_polling_once(db: Session = Depends(get_db)) -> dict:
-    """Run the Stage 1 dry-run wallet polling skeleton once."""
-    return run_wallet_polling_once(db)
+def run_polling_once(
+    provider: str = Query(default="dry_run", pattern="^(dry_run|mock)$"),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Run the Stage 1 wallet polling pipeline once.
+
+    `dry_run` performs no external work. `mock` creates deterministic fake movements
+    to validate ingestion, scoring, dedupe and alert generation.
+    """
+    return run_wallet_polling_once(db, provider_for_name(provider))

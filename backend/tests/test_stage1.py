@@ -2,10 +2,11 @@ from decimal import Decimal
 
 import pytest
 
+from app.core.data_quality import score_wallet_movement
 from app.core.wallet_policy import normalize_wallet_address, should_require_manual_review
 from app.main import app
 from app.schemas.wallets import WhaleWalletCreate, WhaleWalletUpdate, WalletMovementCreate
-from app.workers.wallet_polling import DryRunWalletMovementProvider
+from app.workers.wallet_polling import DryRunWalletMovementProvider, MockWalletMovementProvider
 
 
 def test_stage1_wallet_routes_registered():
@@ -68,6 +69,38 @@ def test_dry_run_polling_provider_is_safe_default():
     provider = DryRunWalletMovementProvider()
     assert provider.name == "dry_run"
     assert provider.fetch_movements({"normalized_address": "0xabc"}) == []
+
+
+def test_mock_provider_returns_deterministic_safe_payload():
+    provider = MockWalletMovementProvider()
+    movements = provider.fetch_movements(
+        {
+            "id": "00000000-0000-0000-0000-000000000001",
+            "chain": "ethereum",
+            "normalized_address": "0xabc",
+            "alert_threshold_usd": Decimal("1000"),
+        }
+    )
+    assert provider.name == "mock"
+    assert movements[0]["transaction_hash"] == "mock-ethereum-0000000000000000-stage1"
+    assert movements[0]["raw_api_payload"]["paper_trading_only"] is True
+
+
+def test_data_quality_scoring_explains_manual_review():
+    result = score_wallet_movement(
+        wallet_type="Unknown",
+        movement_type="DEX buy",
+        token_contract=None,
+        estimated_usd_value=None,
+        protocol=None,
+        transaction_hash="0xtx",
+        transaction_time_present=True,
+        token_symbol="ETH",
+    )
+    assert result.score < 70
+    assert result.manual_review_required is True
+    assert "missing_token_contract" in result.reasons
+    assert "missing_or_nonpositive_usd_value" in result.reasons
 
 
 def test_manual_review_required_for_low_quality_or_risky_wallet_types():

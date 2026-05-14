@@ -8,11 +8,14 @@ cd "$ROOT"
 
 required_paths=(
   database/migrations/0002_stage1_wallet_tracking.sql
+  database/migrations/0003_stage1_provider_scoring_alert_review.sql
   backend/app/api/wallets.py
   backend/app/api/movements.py
   backend/app/api/alerts.py
   backend/app/api/polling.py
   backend/app/core/wallet_policy.py
+  backend/app/core/data_quality.py
+  backend/app/services/movement_ingestion.py
   backend/app/workers/wallet_polling.py
   backend/app/schemas/wallets.py
   backend/tests/test_stage1.py
@@ -39,6 +42,16 @@ fi
 
 if ! grep -q 'data_quality_score' database/migrations/0002_stage1_wallet_tracking.sql; then
   echo "Stage 1 migration must include data_quality_score fields" >&2
+  exit 1
+fi
+
+if ! grep -q 'data_quality_reasons' database/migrations/0003_stage1_provider_scoring_alert_review.sql; then
+  echo "Stage 1 provider/scoring migration must include data_quality_reasons" >&2
+  exit 1
+fi
+
+if ! grep -q 'candidate_decision' database/migrations/0003_stage1_provider_scoring_alert_review.sql; then
+  echo "Stage 1 alert review migration must include candidate_decision" >&2
   exit 1
 fi
 
