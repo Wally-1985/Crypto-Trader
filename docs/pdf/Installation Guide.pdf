@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1380 >>
+<< /Length 1290 >>
 stream
 BT
 /F1 10 Tf
@@ -116,6 +116,10 @@ BT
 (- wallet_movements) Tj T*
 (- agent_alerts) Tj T*
 () Tj T*
+(Stage 2 signal validation tables:) Tj T*
+() Tj T*
+(- signal_outcomes) Tj T*
+() Tj T*
 (OLLAMA SETUP) Tj T*
 () Tj T*
 (Ollama must run locally only and the approved V1 local model is qwen3:4b.) Tj T*
@@ -123,10 +127,6 @@ BT
 (Recommended secure defaults for a user-space service:) Tj T*
 () Tj T*
 (bash) Tj T*
-(mkdir -p ~/.config/systemd/user) Tj T*
-(cat > ~/.config/systemd/user/ollama.service <<'EOF') Tj T*
-([Unit]) Tj T*
-(Description=Ollama local model server \(user-space\)) Tj T*
 ET
 endstream
 endobj
@@ -134,12 +134,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1628 >>
+<< /Length 1597 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(mkdir -p ~/.config/systemd/user) Tj T*
+(cat > ~/.config/systemd/user/ollama.service <<'EOF') Tj T*
+([Unit]) Tj T*
+(Description=Ollama local model server \(user-space\)) Tj T*
 (After=network-online.target) Tj T*
 (Wants=network-online.target) Tj T*
 () Tj T*
@@ -184,10 +188,6 @@ BT
 (Configure ChatGPT as the primary development model and Anthropic as fallback.) Tj T*
 () Tj T*
 (Stage 0 model routing policy:) Tj T*
-() Tj T*
-(1. Ollama qwen3:4b for low-risk cleanup, classification, extraction, tagging and first-) Tj T*
-(pass summaries.) Tj T*
-(2. ChatGPT/OpenAI as the primary paid development/reasoning provider.) Tj T*
 ET
 endstream
 endobj
@@ -195,12 +195,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 1762 >>
+<< /Length 1675 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+() Tj T*
+(1. Ollama qwen3:4b for low-risk cleanup, classification, extraction, tagging and first-) Tj T*
+(pass summaries.) Tj T*
+(2. ChatGPT/OpenAI as the primary paid development/reasoning provider.) Tj T*
 (3. Anthropic as fallback when ChatGPT/OpenAI token, context, rate or quota limits block) Tj T*
 (progress.) Tj T*
 (4. Latest suitable paid models only for final higher-risk production/research analysis) Tj T*
@@ -245,10 +249,6 @@ BT
 () Tj T*
 (Stage 0 checklist:) Tj T*
 () Tj T*
-(- Backend skeleton imports and exposes /health) Tj T*
-(- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
-(- PostgreSQL Docker Compose config binds to localhost only) Tj T*
-(- Migration runner creates schema_migrations; migrations create model_task_logs,) Tj T*
 ET
 endstream
 endobj
@@ -256,12 +256,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
 endobj
 13 0 obj
-<< /Length 633 >>
+<< /Length 927 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(- Backend skeleton imports and exposes /health) Tj T*
+(- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
+(- PostgreSQL Docker Compose config binds to localhost only) Tj T*
+(- Migration runner creates schema_migrations; migrations create model_task_logs,) Tj T*
 (whale_wallets, watchlist, wallet_movements and agent_alerts) Tj T*
 (- Ollama is installed locally on 127.0.0.1:11434 and responds with qwen3:4b) Tj T*
 (- ChatGPT primary model is configured through environment/provider settings) Tj T*
@@ -283,14 +287,14 @@ xref
 0000000337 00000 n
 0000002044 00000 n
 0000002170 00000 n
-0000003602 00000 n
-0000003728 00000 n
-0000005408 00000 n
-0000005536 00000 n
-0000007351 00000 n
-0000007479 00000 n
+0000003512 00000 n
+0000003638 00000 n
+0000005287 00000 n
+0000005415 00000 n
+0000007143 00000 n
+0000007271 00000 n
 trailer
 << /Size 14 /Root 1 0 R >>
 startxref
-8164
+8250
 %%EOF

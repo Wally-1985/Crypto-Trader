@@ -41,7 +41,7 @@ V1 is paper trading only. It cannot execute live trades.
 
 ## Whale Wallets Page
 
-The Whale Wallets screen is the first Stage 1 user-facing workflow. It connects to the backend `/wallets` and `/wallet-movements` APIs.
+The Whale Wallets screen started as the first Stage 1 user-facing workflow and now includes the Stage 2 signal outcome review loop. It connects to the backend `/wallets`, `/wallet-movements`, `/agent-alerts`, `/wallet-polling` and `/signal-outcomes` APIs.
 
 Current wallet actions:
 
@@ -64,7 +64,7 @@ Current movement actions:
 - Filter movements by manual-review requirement or large-alert status.
 - Automatically create a review alert when a stored movement crosses the watched wallet's configured USD threshold.
 
-Current alert and polling actions:
+Current alert, polling and outcome actions:
 
 - Review generated agent alerts.
 - Inspect decision snapshots for paper-trading-only context.
@@ -73,6 +73,8 @@ Current alert and polling actions:
 - Run deterministic mock ingestion to validate the full provider pipeline without real chain APIs.
 - Review data quality score reasons on movement decision snapshots.
 - Track alert status, candidate decision and analyst notes through the backend API.
+- Run deterministic mock signal outcomes for 15m, 1h, 4h, 24h and 7d horizons.
+- Review whether each movement outcome was favorable, unfavorable, neutral or needs manual review.
 
 Available backend routes:
 
@@ -88,5 +90,8 @@ Available backend routes:
 - `PATCH /agent-alerts/{alert_id}/acknowledge` — acknowledge an alert after review.
 - `POST /wallet-polling/run-once?provider=dry_run` — run the Stage 1 dry-run polling skeleton.
 - `POST /wallet-polling/run-once?provider=mock` — run deterministic mock provider ingestion through validate, score, dedupe, store and alert.
+- `GET /signal-outcomes` — list/filter price outcome records.
+- `GET /signal-outcomes/summary` — outcome counts by result.
+- `POST /signal-outcomes/run-once?provider=mock` — create deterministic mock outcomes for existing movements.
 
-Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons and manual-review flags. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. V1 remains paper-trading only.
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons and manual-review flags. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only horizon validation for 15m, 1h, 4h, 24h and 7d. V1 remains paper-trading only.

@@ -75,6 +75,10 @@ Stage 1 wallet tracking tables:
 - `wallet_movements`
 - `agent_alerts`
 
+Stage 2 signal validation tables:
+
+- `signal_outcomes`
+
 ## Ollama Setup
 
 Ollama must run locally only and the approved V1 local model is `qwen3:4b`.

@@ -29,3 +29,4 @@
 - Added `/wallet-movements` API routes, manual movement entry UI, movement filters and review-alert creation for threshold-crossing wallet movements.
 - Added wallet detail/edit routes and UI, agent alert review/acknowledgement routes and UI, and a dry-run wallet polling worker skeleton.
 - Added provider ingestion pipeline with deterministic mock provider, data quality scoring reasons, dedupe, alert status, analyst notes and candidate decision fields.
+- Started Stage 2 with `signal_outcomes`, deterministic mock price validation, signal outcome APIs and frontend outcome review panel.

@@ -33,6 +33,7 @@ SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' A
     'whale_wallets',
     'watchlist',
     'wallet_movements',
-    'agent_alerts'
+    'agent_alerts',
+    'signal_outcomes'
 ) ORDER BY table_name;
 SQL

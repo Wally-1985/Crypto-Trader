@@ -97,3 +97,14 @@ Stage 1 has started with the whale wallet database and movement tracking foundat
 - Whale Wallets frontend screen wired to `/wallets`, including add wallet, summary cards, chain filter, edit/details and enable/disable controls.
 - Wallet Movements frontend section for manual smoke entries, recent movement review, manual-review filtering and large-alert filtering.
 - Agent Alerts frontend section for reviewing decision snapshots and acknowledging alerts.
+
+## Stage 2 Status
+
+Stage 2 has started with price outcome and signal validation foundations:
+
+- `signal_outcomes` migration for 15m, 1h, 4h, 24h and 7d movement outcome tracking.
+- Deterministic mock price outcome provider; no external market data keys are required or committed.
+- Signal classification for favorable, unfavorable, neutral and needs-review outcomes based on movement type and price direction.
+- Backend routes under `/signal-outcomes` for listing outcomes, viewing summary counts and running mock outcome backfills.
+- Frontend Signal Outcomes panel for running mock validation and reviewing recent horizon outcomes.
+- V1 remains research and paper-trading only; outcomes never execute trades.

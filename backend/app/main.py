@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.alerts import router as alerts_router
 from app.api.health import router as health_router
 from app.api.movements import router as movements_router
+from app.api.outcomes import router as outcomes_router
 from app.api.polling import router as polling_router
 from app.api.wallets import router as wallets_router
 from app.core.config import settings
@@ -28,3 +29,4 @@ app.include_router(wallets_router)
 app.include_router(movements_router)
 app.include_router(alerts_router)
 app.include_router(polling_router)
+app.include_router(outcomes_router)

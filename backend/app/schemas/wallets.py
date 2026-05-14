@@ -186,3 +186,43 @@ class WalletSummary(BaseModel):
     do_not_copy_wallets: int
     movement_count: int
     manual_review_movements: int
+
+
+class SignalOutcome(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    wallet_movement_id: UUID
+    wallet_id: UUID
+    chain: str
+    token_symbol: str
+    horizon: str
+    provider: str
+    baseline_price: Decimal | None = None
+    outcome_price: Decimal | None = None
+    price_change_pct: Decimal | None = None
+    direction: str
+    signal_result: str
+    measured_at: datetime
+    due_at: datetime
+    data_quality_score: int
+    paper_trading_only: bool
+    raw_price_payload: dict
+    created_at: datetime
+    updated_at: datetime
+
+
+class SignalOutcomeRunSummary(BaseModel):
+    provider: str
+    checked_movements: int
+    created_outcomes: int
+    skipped_existing: int
+    paper_trading_only: bool = True
+
+
+class SignalOutcomeSummary(BaseModel):
+    total_outcomes: int
+    favorable_outcomes: int
+    unfavorable_outcomes: int
+    neutral_outcomes: int
+    needs_review_outcomes: int

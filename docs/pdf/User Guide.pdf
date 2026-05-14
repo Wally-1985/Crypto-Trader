@@ -3,7 +3,7 @@
 << /Type /Catalog /Pages 2 0 R >>
 endobj
 2 0 obj
-<< /Type /Pages /Kids [4 0 R 6 0 R] /Count 2 >>
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R] /Count 3 >>
 endobj
 3 0 obj
 << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
@@ -12,7 +12,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
 endobj
 5 0 obj
-<< /Length 1376 >>
+<< /Length 1512 >>
 stream
 BT
 /F1 10 Tf
@@ -63,9 +63,9 @@ BT
 () Tj T*
 (WHALE WALLETS PAGE) Tj T*
 () Tj T*
-(The Whale Wallets screen is the first Stage 1 user-facing workflow. It connects to the) Tj T*
-(backend /wallets API.) Tj T*
-() Tj T*
+(The Whale Wallets screen started as the first Stage 1 user-facing workflow and now) Tj T*
+(includes the Stage 2 signal outcome review loop. It connects to the backend /wallets,) Tj T*
+(/wallet-movements, /agent-alerts, /wallet-polling and /signal-outcomes APIs.) Tj T*
 ET
 endstream
 endobj
@@ -73,13 +73,14 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1051 >>
+<< /Length 2378 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
-(Current actions:) Tj T*
+() Tj T*
+(Current wallet actions:) Tj T*
 () Tj T*
 (- View wallet summary counts.) Tj T*
 (- List watched wallets.) Tj T*
@@ -92,31 +93,89 @@ BT
 (- Mark a wallet as Do Not Copy.) Tj T*
 (- Enable or disable an existing wallet.) Tj T*
 () Tj T*
+(Current movement actions:) Tj T*
+() Tj T*
+(- Manually store a wallet movement for smoke testing and research history.) Tj T*
+(- Record movement type, transaction hash, token, estimated USD value, protocol,) Tj T*
+(transaction time and data quality score.) Tj T*
+(- View recent movements.) Tj T*
+(- Filter movements by manual-review requirement or large-alert status.) Tj T*
+(- Automatically create a review alert when a stored movement crosses the watched) Tj T*
+(wallet's configured USD threshold.) Tj T*
+() Tj T*
+(Current alert, polling and outcome actions:) Tj T*
+() Tj T*
+(- Review generated agent alerts.) Tj T*
+(- Inspect decision snapshots for paper-trading-only context.) Tj T*
+(- Acknowledge reviewed alerts.) Tj T*
+(- Run a dry-run polling skeleton that checks enabled, non-Do-Not-Copy wallets without) Tj T*
+(using external provider keys.) Tj T*
+(- Run deterministic mock ingestion to validate the full provider pipeline without real) Tj T*
+(chain APIs.) Tj T*
+(- Review data quality score reasons on movement decision snapshots.) Tj T*
+(- Track alert status, candidate decision and analyst notes through the backend API.) Tj T*
+(- Run deterministic mock signal outcomes for 15m, 1h, 4h, 24h and 7d horizons.) Tj T*
+(- Review whether each movement outcome was favorable, unfavorable, neutral or needs) Tj T*
+(manual review.) Tj T*
+() Tj T*
 (Available backend routes:) Tj T*
 () Tj T*
 (- GET /wallets — list watched wallets.) Tj T*
 (- POST /wallets — add a watched wallet.) Tj T*
+(- GET /wallets/{wallet_id} — get one watched wallet.) Tj T*
+(- PATCH /wallets/{wallet_id} — update wallet metadata and policy fields.) Tj T*
 (- PATCH /wallets/{wallet_id}/enabled — enable or disable a watched wallet.) Tj T*
 (- GET /wallets/summary — wallet and movement counts.) Tj T*
+(- GET /wallet-movements — list/filter wallet movements.) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1412 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(- POST /wallet-movements — manually store a wallet movement and create review alerts) Tj T*
+(when thresholds are crossed.) Tj T*
+(- GET /agent-alerts — list/filter generated alerts.) Tj T*
+(- PATCH /agent-alerts/{alert_id}/acknowledge — acknowledge an alert after review.) Tj T*
+(- POST /wallet-polling/run-once?provider=dry_run — run the Stage 1 dry-run polling) Tj T*
+(skeleton.) Tj T*
+(- POST /wallet-polling/run-once?provider=mock — run deterministic mock provider) Tj T*
+(ingestion through validate, score, dedupe, store and alert.) Tj T*
+(- GET /signal-outcomes — list/filter price outcome records.) Tj T*
+(- GET /signal-outcomes/summary — outcome counts by result.) Tj T*
+(- POST /signal-outcomes/run-once?provider=mock — create deterministic mock outcomes for) Tj T*
+(existing movements.) Tj T*
 () Tj T*
 (Wallet records support enabled/disabled status, wallet type, tags, sectors, alert) Tj T*
 (threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and) Tj T*
-(Do Not Copy policy. V1 remains paper-trading only.) Tj T*
+(Do Not Copy policy. Movement records support data quality score, data quality reasons) Tj T*
+(and manual-review flags. Alerts preserve decision snapshots and support review status,) Tj T*
+(analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only) Tj T*
+(horizon validation for 15m, 1h, 4h, 24h and 7d. V1 remains paper-trading only.) Tj T*
 ET
 endstream
 endobj
 xref
-0 8
+0 10
 0000000000 65535 f
 0000000009 00000 n
 0000000058 00000 n
-0000000121 00000 n
-0000000191 00000 n
-0000000317 00000 n
-0000001745 00000 n
-0000001871 00000 n
+0000000127 00000 n
+0000000197 00000 n
+0000000323 00000 n
+0000001887 00000 n
+0000002013 00000 n
+0000004443 00000 n
+0000004569 00000 n
 trailer
-<< /Size 8 /Root 1 0 R >>
+<< /Size 10 /Root 1 0 R >>
 startxref
-2974
+6033
 %%EOF
