@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: cwi-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-crypto_wallet_intelligence}
+      POSTGRES_USER: ${POSTGRES_USER:-cwi_app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - cwi_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cwi_app} -d ${POSTGRES_DB:-crypto_wallet_intelligence}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  cwi_postgres_data:
