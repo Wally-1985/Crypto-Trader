@@ -51,7 +51,7 @@ Apply Stage 0 migrations:
 ./scripts/db_status.sh
 ```
 
-The migration runner creates `schema_migrations` and applies SQL files from `database/migrations` in filename order. The first migration enables required extensions and creates the Stage 0 model-task logging table.
+The migration runner loads `.env` when present, creates `schema_migrations`, and applies SQL files from `database/migrations` in filename order. The first migration enables required extensions and creates the Stage 0 model-task logging table.
 
 Required extensions for the first migration:
 
@@ -117,7 +117,7 @@ Stage 0 scripts:
 - `backup/backup_app_config.sh`
 - `backup/restore_app_config.sh`
 
-PostgreSQL backups use custom-format `pg_dump` files and write a `.sha256` checksum. Restore verifies the checksum when the checksum file is present.
+PostgreSQL backup and restore scripts load `.env` when present. Backups use custom-format `pg_dump` files and write a `.sha256` checksum. Restore verifies the checksum when the checksum file is present.
 
 Do not include unencrypted secrets in backups.
 

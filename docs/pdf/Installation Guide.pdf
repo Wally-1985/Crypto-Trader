@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1410 >>
+<< /Length 1436 >>
 stream
 BT
 /F1 10 Tf
@@ -90,9 +90,9 @@ BT
 (./scripts/db_status.sh) Tj T*
 () Tj T*
 () Tj T*
-(The migration runner creates schema_migrations and applies SQL files from) Tj T*
-(database/migrations in filename order. The first migration enables required extensions) Tj T*
-(and creates the Stage 0 model-task logging table.) Tj T*
+(The migration runner loads .env when present, creates schema_migrations, and applies SQL) Tj T*
+(files from database/migrations in filename order. The first migration enables required) Tj T*
+(extensions and creates the Stage 0 model-task logging table.) Tj T*
 () Tj T*
 (Required extensions for the first migration:) Tj T*
 () Tj T*
@@ -134,7 +134,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1713 >>
+<< /Length 1763 >>
 stream
 BT
 /F1 10 Tf
@@ -176,8 +176,9 @@ BT
 (- backup/backup_app_config.sh) Tj T*
 (- backup/restore_app_config.sh) Tj T*
 () Tj T*
-(PostgreSQL backups use custom-format pg_dump files and write a .sha256 checksum. Restore) Tj T*
-(verifies the checksum when the checksum file is present.) Tj T*
+(PostgreSQL backup and restore scripts load .env when present. Backups use custom-format) Tj T*
+(pg_dump files and write a .sha256 checksum. Restore verifies the checksum when the) Tj T*
+(checksum file is present.) Tj T*
 () Tj T*
 (Do not include unencrypted secrets in backups.) Tj T*
 () Tj T*
@@ -187,7 +188,6 @@ BT
 () Tj T*
 (bash) Tj T*
 (./scripts/stage0_validate.sh) Tj T*
-() Tj T*
 ET
 endstream
 endobj
@@ -195,12 +195,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
 endobj
 11 0 obj
-<< /Length 922 >>
+<< /Length 931 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+() Tj T*
 () Tj T*
 (Stage 0 checklist:) Tj T*
 () Tj T*
@@ -229,12 +230,12 @@ xref
 0000000330 00000 n
 0000001976 00000 n
 0000002102 00000 n
-0000003564 00000 n
-0000003690 00000 n
-0000005455 00000 n
-0000005583 00000 n
+0000003590 00000 n
+0000003716 00000 n
+0000005531 00000 n
+0000005659 00000 n
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-6557
+6642
 %%EOF

@@ -12,7 +12,7 @@ Migration runner:
 ./scripts/db_migrate.sh
 ```
 
-The runner creates a `schema_migrations` table before applying SQL files in filename order. It requires `psql` and uses these environment variables when set:
+The runner creates a `schema_migrations` table before applying SQL files in filename order. It loads `.env` when present, requires `psql`, and uses these environment variables when set:
 
 - `POSTGRES_HOST` default `127.0.0.1`
 - `POSTGRES_PORT` default `5432`

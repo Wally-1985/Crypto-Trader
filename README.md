@@ -70,7 +70,9 @@ Stage 0 foundation has been normalized to the repository root and now includes:
 - `schema_migrations` runner foundation and `model_task_logs` migration foundation for safe provider/fallback event logging without storing prompts, raw responses, API keys or secrets.
 - Backup/restore script foundations.
 
-Runtime blockers on this host at Stage 0 validation time:
+Runtime validation on this host:
 
-- Docker is not currently available, so PostgreSQL container startup cannot be validated yet.
+- Docker and Docker Compose are installed and accessible to the OpenClaw user.
+- PostgreSQL runs through Docker Compose and is bound to `127.0.0.1:5432` only.
+- Stage 0 migrations have been applied and `db_status.sh` confirms `schema_migrations`, `model_task_logs`, `pgcrypto` and `uuid-ossp`.
 - Ollama has been validated in a user-space local install on this host, bound to `127.0.0.1:11434`, with only `qwen3:4b` present.

@@ -4,11 +4,21 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+if [ -f .env ]; then
+  set -a
+  # shellcheck disable=SC1091
+  . ./.env
+  set +a
+fi
+
 MIGRATIONS_DIR=${MIGRATIONS_DIR:-database/migrations}
 DB_NAME=${POSTGRES_DB:-crypto_wallet_intelligence}
 DB_USER=${POSTGRES_USER:-cwi_app}
 DB_HOST=${POSTGRES_HOST:-127.0.0.1}
 DB_PORT=${POSTGRES_PORT:-5432}
+if [ -n "${POSTGRES_PASSWORD:-}" ] && [ -z "${PGPASSWORD:-}" ]; then
+  export PGPASSWORD="$POSTGRES_PASSWORD"
+fi
 
 if ! command -v psql >/dev/null 2>&1; then
   echo "psql is not installed. Install PostgreSQL client tools before applying migrations." >&2
