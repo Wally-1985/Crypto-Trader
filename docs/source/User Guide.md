@@ -64,13 +64,25 @@ Current movement actions:
 - Filter movements by manual-review requirement or large-alert status.
 - Automatically create a review alert when a stored movement crosses the watched wallet's configured USD threshold.
 
+Current alert and polling actions:
+
+- Review generated agent alerts.
+- Inspect decision snapshots for paper-trading-only context.
+- Acknowledge reviewed alerts.
+- Run a dry-run polling skeleton that checks enabled, non-Do-Not-Copy wallets without using external provider keys.
+
 Available backend routes:
 
 - `GET /wallets` — list watched wallets.
 - `POST /wallets` — add a watched wallet.
+- `GET /wallets/{wallet_id}` — get one watched wallet.
+- `PATCH /wallets/{wallet_id}` — update wallet metadata and policy fields.
 - `PATCH /wallets/{wallet_id}/enabled` — enable or disable a watched wallet.
 - `GET /wallets/summary` — wallet and movement counts.
 - `GET /wallet-movements` — list/filter wallet movements.
 - `POST /wallet-movements` — manually store a wallet movement and create review alerts when thresholds are crossed.
+- `GET /agent-alerts` — list/filter generated alerts.
+- `PATCH /agent-alerts/{alert_id}/acknowledge` — acknowledge an alert after review.
+- `POST /wallet-polling/run-once` — run the Stage 1 dry-run polling skeleton.
 
-Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality and manual-review flags. V1 remains paper-trading only.
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality and manual-review flags. Alerts preserve decision snapshots. V1 remains paper-trading only.

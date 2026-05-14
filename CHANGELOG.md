@@ -27,3 +27,4 @@
 - Started Stage 1 with whale wallet, watchlist, wallet movement and agent alert database foundations plus initial wallet management API routes.
 - Added Whale Wallets frontend screen wired to `/wallets`, with wallet creation, chain filtering, summary cards and enable/disable controls.
 - Added `/wallet-movements` API routes, manual movement entry UI, movement filters and review-alert creation for threshold-crossing wallet movements.
+- Added wallet detail/edit routes and UI, agent alert review/acknowledgement routes and UI, and a dry-run wallet polling worker skeleton.

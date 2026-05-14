@@ -4,14 +4,18 @@ import pytest
 
 from app.core.wallet_policy import normalize_wallet_address, should_require_manual_review
 from app.main import app
-from app.schemas.wallets import WhaleWalletCreate, WalletMovementCreate
+from app.schemas.wallets import WhaleWalletCreate, WhaleWalletUpdate, WalletMovementCreate
+from app.workers.wallet_polling import DryRunWalletMovementProvider
 
 
 def test_stage1_wallet_routes_registered():
     routes = {route.path for route in app.routes}
     assert "/wallets" in routes
     assert "/wallets/summary" in routes
+    assert "/wallets/{wallet_id}" in routes
     assert "/wallet-movements" in routes
+    assert "/agent-alerts" in routes
+    assert "/wallet-polling/run-once" in routes
 
 
 def test_frontend_cors_origin_configured():
@@ -31,6 +35,8 @@ def test_do_not_copy_wallet_cannot_be_copy_trade_enabled():
             do_not_copy=True,
             copy_trade_enabled=True,
         )
+    with pytest.raises(ValueError):
+        WhaleWalletUpdate(do_not_copy=True, copy_trade_enabled=True)
 
 
 def test_stage1_wallet_type_policy_accepts_expected_types():
@@ -56,6 +62,12 @@ def test_stage1_movement_type_policy_accepts_expected_types():
     )
     assert movement.movement_type == "DEX buy"
     assert movement.manual_review_required is True
+
+
+def test_dry_run_polling_provider_is_safe_default():
+    provider = DryRunWalletMovementProvider()
+    assert provider.name == "dry_run"
+    assert provider.fetch_movements({"normalized_address": "0xabc"}) == []
 
 
 def test_manual_review_required_for_low_quality_or_risky_wallet_types():

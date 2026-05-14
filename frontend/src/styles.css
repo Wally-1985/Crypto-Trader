@@ -86,6 +86,16 @@ label {
   margin-top: 1rem;
 }
 
+.edit-panel {
+  margin-top: 1rem;
+}
+
+.button-row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .wallet-form,
 .wallet-list {
   padding: 1.4rem;
@@ -210,6 +220,21 @@ input[type="checkbox"] { width: auto; }
   background: rgba(2, 6, 23, 0.42);
   border-radius: 18px;
   padding: 1rem;
+}
+
+.wallet-card p {
+  margin: 0.35rem 0 0;
+  color: #94a3b8;
+}
+
+.wallet-card pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  color: #cbd5e1;
 }
 
 .address {

@@ -40,6 +40,33 @@ class WhaleWalletCreate(BaseModel):
         return normalize_wallet_address(self.wallet_address)
 
 
+class WhaleWalletUpdate(BaseModel):
+    label: str | None = Field(default=None, max_length=160)
+    wallet_type: str | None = None
+    notes: str | None = Field(default=None, max_length=2000)
+    enabled: bool | None = None
+    alert_threshold_usd: Decimal | None = Field(default=None, ge=0)
+    watch_priority: int | None = Field(default=None, ge=1, le=5)
+    confidence_weighting: Decimal | None = Field(default=None, ge=0, le=5)
+    copy_trade_enabled: bool | None = None
+    do_not_copy: bool | None = None
+    tags: list[str] | None = None
+    sectors_of_interest: list[str] | None = None
+
+    @field_validator("wallet_type")
+    @classmethod
+    def wallet_type_allowed(cls, value: str | None) -> str | None:
+        if value is not None and value not in WALLET_TYPES:
+            raise ValueError(f"unsupported wallet_type: {value}")
+        return value
+
+    @model_validator(mode="after")
+    def do_not_copy_disables_copy(self):
+        if self.do_not_copy is True and self.copy_trade_enabled is True:
+            raise ValueError("do_not_copy wallets cannot be copy_trade_enabled")
+        return self
+
+
 class WhaleWallet(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -99,6 +126,32 @@ class WalletMovement(WalletMovementCreate):
     id: UUID
     created_at: datetime
     updated_at: datetime
+
+
+class AgentAlert(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    wallet_id: UUID | None = None
+    wallet_movement_id: UUID | None = None
+    alert_type: str
+    severity: str
+    title: str
+    message: str
+    data_quality_score: int
+    manual_review_required: bool
+    decision_snapshot: dict
+    created_at: datetime
+    acknowledged_at: datetime | None = None
+
+
+class PollingRunSummary(BaseModel):
+    provider: str
+    checked_wallets: int
+    eligible_wallets: int
+    created_movements: int
+    skipped_reason: str | None = None
+    paper_trading_only: bool = True
 
 
 class WalletSummary(BaseModel):
