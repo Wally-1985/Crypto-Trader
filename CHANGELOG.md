@@ -30,3 +30,4 @@
 - Added wallet detail/edit routes and UI, agent alert review/acknowledgement routes and UI, and a dry-run wallet polling worker skeleton.
 - Added provider ingestion pipeline with deterministic mock provider, data quality scoring reasons, dedupe, alert status, analyst notes and candidate decision fields.
 - Started Stage 2 with `signal_outcomes`, deterministic mock price validation, signal outcome APIs and frontend outcome review panel.
+- Added Stage 2 read-only market-data provider interface, due-outcome worker/API, CoinGecko public provider option and frontend provider detail controls.

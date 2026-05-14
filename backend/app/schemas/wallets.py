@@ -217,6 +217,9 @@ class SignalOutcomeRunSummary(BaseModel):
     checked_movements: int
     created_outcomes: int
     skipped_existing: int
+    checked_due_outcomes: int = 0
+    skipped_not_due: int = 0
+    provider_errors: int = 0
     paper_trading_only: bool = True
 
 

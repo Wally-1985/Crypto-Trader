@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 2378 >>
+<< /Length 2402 >>
 stream
 BT
 /F1 10 Tf
@@ -115,18 +115,18 @@ BT
 (- Review data quality score reasons on movement decision snapshots.) Tj T*
 (- Track alert status, candidate decision and analyst notes through the backend API.) Tj T*
 (- Run deterministic mock signal outcomes for 15m, 1h, 4h, 24h and 7d horizons.) Tj T*
+(- Run due-only outcome checks so only horizons whose due time has passed are scored.) Tj T*
+(- Run the narrow read-only CoinGecko public provider for wallet-led token price checks) Tj T*
+(without committed API keys.) Tj T*
 (- Review whether each movement outcome was favorable, unfavorable, neutral or needs) Tj T*
 (manual review.) Tj T*
+(- Inspect provider detail to distinguish mock outcomes from public market-data outcomes.) Tj T*
 () Tj T*
 (Available backend routes:) Tj T*
 () Tj T*
 (- GET /wallets — list watched wallets.) Tj T*
 (- POST /wallets — add a watched wallet.) Tj T*
 (- GET /wallets/{wallet_id} — get one watched wallet.) Tj T*
-(- PATCH /wallets/{wallet_id} — update wallet metadata and policy fields.) Tj T*
-(- PATCH /wallets/{wallet_id}/enabled — enable or disable a watched wallet.) Tj T*
-(- GET /wallets/summary — wallet and movement counts.) Tj T*
-(- GET /wallet-movements — list/filter wallet movements.) Tj T*
 ET
 endstream
 endobj
@@ -134,12 +134,16 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 1412 >>
+<< /Length 2156 >>
 stream
 BT
 /F1 10 Tf
 50 790 Td
 14 TL
+(- PATCH /wallets/{wallet_id} — update wallet metadata and policy fields.) Tj T*
+(- PATCH /wallets/{wallet_id}/enabled — enable or disable a watched wallet.) Tj T*
+(- GET /wallets/summary — wallet and movement counts.) Tj T*
+(- GET /wallet-movements — list/filter wallet movements.) Tj T*
 (- POST /wallet-movements — manually store a wallet movement and create review alerts) Tj T*
 (when thresholds are crossed.) Tj T*
 (- GET /agent-alerts — list/filter generated alerts.) Tj T*
@@ -152,13 +156,19 @@ BT
 (- GET /signal-outcomes/summary — outcome counts by result.) Tj T*
 (- POST /signal-outcomes/run-once?provider=mock — create deterministic mock outcomes for) Tj T*
 (existing movements.) Tj T*
+(- POST /signal-outcomes/run-due?provider=mock — create deterministic mock outcomes only) Tj T*
+(for due horizons.) Tj T*
+(- POST /signal-outcomes/run-due?provider=coingecko_public — create due outcomes with) Tj T*
+(read-only public CoinGecko price checks for supported wallet-led token symbols.) Tj T*
 () Tj T*
 (Wallet records support enabled/disabled status, wallet type, tags, sectors, alert) Tj T*
 (threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and) Tj T*
 (Do Not Copy policy. Movement records support data quality score, data quality reasons) Tj T*
 (and manual-review flags. Alerts preserve decision snapshots and support review status,) Tj T*
 (analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only) Tj T*
-(horizon validation for 15m, 1h, 4h, 24h and 7d. V1 remains paper-trading only.) Tj T*
+(horizon validation for 15m, 1h, 4h, 24h and 7d. Public market-data checks are read-only,) Tj T*
+(narrow and wallet-led; they do not perform broad market discovery or live trading. V1) Tj T*
+(remains paper-trading only.) Tj T*
 ET
 endstream
 endobj
@@ -172,10 +182,10 @@ xref
 0000000323 00000 n
 0000001887 00000 n
 0000002013 00000 n
-0000004443 00000 n
-0000004569 00000 n
+0000004467 00000 n
+0000004593 00000 n
 trailer
 << /Size 10 /Root 1 0 R >>
 startxref
-6033
+6801
 %%EOF

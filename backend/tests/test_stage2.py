@@ -1,7 +1,9 @@
+from datetime import datetime, timezone
 from decimal import Decimal
 
 from app.main import app
-from app.services.signal_outcomes import HORIZONS, MockPriceOutcomeProvider, classify_signal_result
+from app.services.market_data import CoinGeckoPublicMarketDataProvider, DEFAULT_SYMBOL_IDS
+from app.services.signal_outcomes import HORIZONS, MockPriceOutcomeProvider, classify_signal_result, price_change_pct
 
 
 def test_stage2_signal_outcome_routes_registered():
@@ -9,6 +11,7 @@ def test_stage2_signal_outcome_routes_registered():
     assert "/signal-outcomes" in routes
     assert "/signal-outcomes/summary" in routes
     assert "/signal-outcomes/run-once" in routes
+    assert "/signal-outcomes/run-due" in routes
 
 
 def test_stage2_horizons_match_product_question():
@@ -35,3 +38,19 @@ def test_signal_result_classification_respects_movement_direction():
     assert classify_signal_result("DEX sell", Decimal("-2.0"), 80) == ("favorable", "down")
     assert classify_signal_result("DEX buy", Decimal("0.1"), 80) == ("neutral", "flat")
     assert classify_signal_result("DEX buy", Decimal("2.0"), 40) == ("needs_review", "flat")
+
+
+def test_price_change_pct_handles_missing_and_zero_baseline():
+    assert price_change_pct(Decimal("100"), Decimal("110")) == Decimal("10.0")
+    assert price_change_pct(None, Decimal("110")) is None
+    assert price_change_pct(Decimal("0"), Decimal("110")) is None
+
+
+def test_public_market_provider_is_read_only_and_allowlisted_without_network_for_unknown_symbol():
+    provider = CoinGeckoPublicMarketDataProvider()
+    point = provider.price_at_or_after(token_symbol="MOCKUNKNOWN", target_time=datetime.now(timezone.utc))
+    assert provider.name == "coingecko_public"
+    assert point.price_usd is None
+    assert point.paper_trading_only is True
+    assert point.source == "unsupported_symbol_allowlist"
+    assert "ETH" in DEFAULT_SYMBOL_IDS

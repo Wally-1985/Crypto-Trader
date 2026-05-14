@@ -10,6 +10,7 @@ required_paths=(
   database/migrations/0004_stage2_signal_outcomes.sql
   backend/app/api/outcomes.py
   backend/app/services/signal_outcomes.py
+  backend/app/services/market_data.py
   backend/tests/test_stage2.py
 )
 
@@ -31,6 +32,11 @@ for horizon in 15m 1h 4h 24h 7d; do
     exit 1
   fi
 done
+
+if ! grep -q 'coingecko_public' backend/app/api/outcomes.py; then
+  echo "Stage 2 outcomes API must expose the read-only public market-data provider option" >&2
+  exit 1
+fi
 
 if ! grep -q 'paper_trading_only = TRUE' database/migrations/0004_stage2_signal_outcomes.sql; then
   echo "Stage 2 outcomes must enforce paper_trading_only" >&2

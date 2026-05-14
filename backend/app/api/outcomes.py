@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.schemas.wallets import SignalOutcome, SignalOutcomeRunSummary, SignalOutcomeSummary
-from app.services.signal_outcomes import list_signal_outcomes, run_mock_outcome_backfill, summarize_signal_outcomes
+from app.services.signal_outcomes import list_signal_outcomes, run_due_outcome_backfill, run_mock_outcome_backfill, summarize_signal_outcomes
 
 router = APIRouter(prefix="/signal-outcomes", tags=["signal-outcomes"])
 
@@ -17,6 +17,7 @@ def list_outcomes(
     token_symbol: str | None = Query(default=None),
     horizon: str | None = Query(default=None),
     signal_result: str | None = Query(default=None),
+    provider: str | None = Query(default=None),
     limit: int = Query(default=100, ge=1, le=500),
     db: Session = Depends(get_db),
 ) -> list[dict[str, Any]]:
@@ -26,6 +27,7 @@ def list_outcomes(
         token_symbol=token_symbol,
         horizon=horizon,
         signal_result=signal_result,
+        provider=provider,
         limit=limit,
     )
 
@@ -42,4 +44,14 @@ def run_outcome_backfill(
     db: Session = Depends(get_db),
 ) -> SignalOutcomeRunSummary:
     summary = run_mock_outcome_backfill(db, limit=limit, commit=True)
+    return SignalOutcomeRunSummary(**summary.__dict__)
+
+
+@router.post("/run-due", response_model=SignalOutcomeRunSummary)
+def run_due_outcomes(
+    provider: str = Query(default="mock", pattern="^(mock|coingecko_public)$"),
+    limit: int = Query(default=50, ge=1, le=500),
+    db: Session = Depends(get_db),
+) -> SignalOutcomeRunSummary:
+    summary = run_due_outcome_backfill(db, provider_name=provider, limit=limit, commit=True)
     return SignalOutcomeRunSummary(**summary.__dict__)

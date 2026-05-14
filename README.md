@@ -104,7 +104,9 @@ Stage 2 has started with price outcome and signal validation foundations:
 
 - `signal_outcomes` migration for 15m, 1h, 4h, 24h and 7d movement outcome tracking.
 - Deterministic mock price outcome provider; no external market data keys are required or committed.
+- Read-only market data provider interface with a narrow CoinGecko public provider option for wallet-led token price checks.
+- Due-outcome worker that only scores horizons whose due time has passed and dedupes by movement/horizon/provider.
 - Signal classification for favorable, unfavorable, neutral and needs-review outcomes based on movement type and price direction.
-- Backend routes under `/signal-outcomes` for listing outcomes, viewing summary counts and running mock outcome backfills.
-- Frontend Signal Outcomes panel for running mock validation and reviewing recent horizon outcomes.
+- Backend routes under `/signal-outcomes` for listing outcomes, viewing summary counts, running mock outcome backfills and running due-outcome checks.
+- Frontend Signal Outcomes panel for running mock/public validation and reviewing recent horizon outcomes with provider detail.
 - V1 remains research and paper-trading only; outcomes never execute trades.
