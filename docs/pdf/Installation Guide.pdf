@@ -1,0 +1,164 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1337 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(INSTALLATION GUIDE) Tj T*
+() Tj T*
+(App version: v0.1.0-dev) Tj T*
+() Tj T*
+(This guide must be updated after installation, infrastructure, dependency, model,) Tj T*
+(database, backup or environment changes.) Tj T*
+() Tj T*
+(OVERVIEW) Tj T*
+() Tj T*
+(This application runs on an Ubuntu 24.04 computer with OpenClaw, PostgreSQL, Ollama) Tj T*
+(qwen3:4b, FastAPI, React and background workers.) Tj T*
+() Tj T*
+(REQUIRED SERVICES) Tj T*
+() Tj T*
+(- OpenClaw) Tj T*
+(- PostgreSQL) Tj T*
+(- Ollama with qwen3:4b) Tj T*
+(- FastAPI backend) Tj T*
+(- React frontend) Tj T*
+(- Background workers) Tj T*
+() Tj T*
+(ENVIRONMENT VARIABLES) Tj T*
+() Tj T*
+(Use .env.example as the template. Do not commit the real .env file.) Tj T*
+() Tj T*
+(POSTGRESQL SETUP) Tj T*
+() Tj T*
+(Use Docker Compose or native PostgreSQL. PostgreSQL must not be exposed to the internet.) Tj T*
+() Tj T*
+(Stage 0 Docker Compose configuration is provided in the repository root:) Tj T*
+() Tj T*
+(bash) Tj T*
+(docker compose up -d postgres) Tj T*
+() Tj T*
+() Tj T*
+(The included configuration binds PostgreSQL to localhost only:) Tj T*
+() Tj T*
+(text) Tj T*
+(127.0.0.1:5432:5432) Tj T*
+() Tj T*
+() Tj T*
+(Required extensions for the first migration:) Tj T*
+() Tj T*
+(- pgcrypto) Tj T*
+(- uuid-ossp) Tj T*
+() Tj T*
+(OLLAMA SETUP) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1668 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(Install Ollama and run:) Tj T*
+() Tj T*
+(bash) Tj T*
+(ollama pull qwen3:4b) Tj T*
+() Tj T*
+() Tj T*
+(PAID MODEL SETUP) Tj T*
+() Tj T*
+(Configure ChatGPT as the primary development model and Anthropic as fallback.) Tj T*
+() Tj T*
+(Stage 0 model routing policy:) Tj T*
+() Tj T*
+(1. Ollama qwen3:4b for low-risk cleanup, classification, extraction, tagging and first-) Tj T*
+(pass summaries.) Tj T*
+(2. ChatGPT as the primary paid development/reasoning provider.) Tj T*
+(3. Anthropic as fallback when ChatGPT token/rate limits block progress.) Tj T*
+(4. Latest suitable paid models only for final higher-risk production/research analysis) Tj T*
+(later.) Tj T*
+() Tj T*
+(BACKUP AND RESTORE) Tj T*
+() Tj T*
+(Use the backup and restore scripts in /backup.) Tj T*
+() Tj T*
+(Stage 0 scripts:) Tj T*
+() Tj T*
+(- backup/backup_postgres.sh) Tj T*
+(- backup/restore_postgres.sh) Tj T*
+(- backup/backup_app_config.sh) Tj T*
+(- backup/restore_app_config.sh) Tj T*
+() Tj T*
+(Do not include unencrypted secrets in backups.) Tj T*
+() Tj T*
+(VALIDATION CHECKLIST) Tj T*
+() Tj T*
+(Run structural validation:) Tj T*
+() Tj T*
+(bash) Tj T*
+(./scripts/stage0_validate.sh) Tj T*
+() Tj T*
+() Tj T*
+(Stage 0 checklist:) Tj T*
+() Tj T*
+(- Backend skeleton imports and exposes /health) Tj T*
+(- Frontend skeleton exists and builds once Node dependencies are installed) Tj T*
+(- PostgreSQL Docker Compose config binds to localhost only) Tj T*
+(- Ollama is installed and responds with qwen3:4b) Tj T*
+(- ChatGPT primary model is configured through environment/provider settings) Tj T*
+(- Anthropic fallback is configured through environment/provider settings) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 163 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(- ASVS register exists and records that latest stable ASVS must be checked at audit time) Tj T*
+(- No secrets are committed) Tj T*
+ET
+endstream
+endobj
+xref
+0 10
+0000000000 65535 f
+0000000009 00000 n
+0000000058 00000 n
+0000000127 00000 n
+0000000197 00000 n
+0000000323 00000 n
+0000001712 00000 n
+0000001838 00000 n
+0000003558 00000 n
+0000003684 00000 n
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+3898
+%%EOF

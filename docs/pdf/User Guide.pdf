@@ -1,0 +1,83 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1359 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(USER GUIDE) Tj T*
+() Tj T*
+(App version: v0.1.0-dev) Tj T*
+() Tj T*
+(This guide must be updated after user-facing workflow or screen changes.) Tj T*
+() Tj T*
+(OVERVIEW) Tj T*
+() Tj T*
+(The Crypto Wallet Intelligence and Paper Trading App monitors watched wallets, detects) Tj T*
+(patterns, researches wallet-triggered coin activity, creates scored paper-trade) Tj T*
+(candidates and reports whether signals worked.) Tj T*
+() Tj T*
+(KEY PAGES) Tj T*
+() Tj T*
+(- Dashboard) Tj T*
+(- Settings) Tj T*
+(- Whale Wallets) Tj T*
+(- Wallet Movements) Tj T*
+(- Whale Trend Clusters) Tj T*
+(- Wallet Relationships) Tj T*
+(- Pattern Alerts) Tj T*
+(- Research Notes) Tj T*
+(- Copy Trade Candidates) Tj T*
+(- Paper Trading) Tj T*
+(- Reports) Tj T*
+(- Agent Logs) Tj T*
+(- Model Task Logs) Tj T*
+() Tj T*
+(IMPORTANT CONCEPTS) Tj T*
+() Tj T*
+(- Data Quality Score) Tj T*
+(- Liquidity Score) Tj T*
+(- Source Reliability Score) Tj T*
+(- Too-Late Score) Tj T*
+(- Wallet Influence Score) Tj T*
+(- Decision Snapshot) Tj T*
+(- Manual Review Required) Tj T*
+(- Emergency Stop) Tj T*
+() Tj T*
+(SAFETY LIMITS) Tj T*
+() Tj T*
+(V1 is paper trading only. It cannot execute live trades.) Tj T*
+() Tj T*
+(STAGE 0 NOTE) Tj T*
+() Tj T*
+(The current repository state is a foundation skeleton only. User-facing workflows are) Tj T*
+(not implemented yet.) Tj T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f
+0000000009 00000 n
+0000000058 00000 n
+0000000115 00000 n
+0000000185 00000 n
+0000000311 00000 n
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1722
+%%EOF

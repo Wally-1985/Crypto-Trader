@@ -1,0 +1,81 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 1216 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(ASVS AUDIT \(APP VERSION NUMBER\)) Tj T*
+() Tj T*
+(Application version: v0.1.0-dev) Tj T*
+(ASVS version used: To be confirmed against the latest stable OWASP ASVS version at audit) Tj T*
+(time.) Tj T*
+(Audit date: TBD) Tj T*
+(Reviewer: TBD) Tj T*
+() Tj T*
+(SCOPE) Tj T*
+() Tj T*
+(Crypto Wallet Intelligence and Paper Trading App.) Tj T*
+() Tj T*
+(SCORING METHOD) Tj T*
+() Tj T*
+(Passed applicable controls / Applicable controls x 100.) Tj T*
+() Tj T*
+(Target score: 90% or higher.) Tj T*
+() Tj T*
+(SUMMARY) Tj T*
+() Tj T*
+(- Applicable controls: TBD) Tj T*
+(- Passed controls: TBD) Tj T*
+(- Failed controls: TBD) Tj T*
+(- Not applicable controls: TBD) Tj T*
+(- Score: TBD) Tj T*
+() Tj T*
+(CONTROL RESULTS) Tj T*
+() Tj T*
+(Use the ASVS Control Register template in /security/asvs and the Stage 0 control) Tj T*
+(register foundation in /security/asvs/ASVS-Control-Register-Stage0.md.) Tj T*
+() Tj T*
+(The latest stable OWASP ASVS version must be checked and recorded at audit time before) Tj T*
+(any score is finalized.) Tj T*
+() Tj T*
+(FAILED CONTROLS) Tj T*
+() Tj T*
+(TBD) Tj T*
+() Tj T*
+(REMEDIATION ACTIONS) Tj T*
+() Tj T*
+(TBD) Tj T*
+() Tj T*
+(SIGN-OFF) Tj T*
+() Tj T*
+(TBD) Tj T*
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f
+0000000009 00000 n
+0000000058 00000 n
+0000000115 00000 n
+0000000185 00000 n
+0000000311 00000 n
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1579
+%%EOF

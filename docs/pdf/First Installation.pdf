@@ -1,0 +1,290 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2032 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(FIRST INSTALLATION) Tj T*
+() Tj T*
+(PURPOSE) Tj T*
+() Tj T*
+(This repository is the starting point for building the Crypto Wallet Intelligence and) Tj T*
+(Paper Trading App in OpenClaw.) Tj T*
+() Tj T*
+(You have a clean Ubuntu 24.04 computer with OpenClaw installed and ChatGPT connected.) Tj T*
+(Nothing else is assumed to be installed.) Tj T*
+() Tj T*
+(The first objective is to get the project into GitHub, configure OpenClaw with the) Tj T*
+(project memory and prompts, install PostgreSQL, install Ollama with qwen3:4b, and add) Tj T*
+(Anthropic as the fallback paid model.) Tj T*
+() Tj T*
+(WHAT THIS PACKAGE CONTAINS) Tj T*
+() Tj T*
+(- DEVELOPMENT_PLAN.md - the staged development plan OpenClaw should manage.) Tj T*
+(- memory/ - project memory files to give OpenClaw long-term context.) Tj T*
+(- agents/ - agent role files for compartmentalised development.) Tj T*
+(- docs/openclaw-prompts/ - prompts for kickoff, reinstall, setup and maintenance.) Tj T*
+(- docs/source/ - source documents for guides and audit files.) Tj T*
+(- docs/pdf/ - generated PDF documents.) Tj T*
+(- security/asvs/ - ASVS audit templates and control register.) Tj T*
+(- backup/ - backup and restore scripts.) Tj T*
+(- backend/ - FastAPI backend skeleton.) Tj T*
+(- frontend/ - React + Vite frontend skeleton.) Tj T*
+(- workers/ - background worker foundation.) Tj T*
+(- database/ - migration and seed foundations.) Tj T*
+(- .env.example - environment variable template.) Tj T*
+(- docker-compose.yml - initial PostgreSQL Docker Compose file.) Tj T*
+() Tj T*
+(FIRST STEPS) Tj T*
+() Tj T*
+(1. EXTRACT THE PACKAGE) Tj T*
+() Tj T*
+(Copy the zip file to your Ubuntu computer and extract it:) Tj T*
+() Tj T*
+(bash) Tj T*
+(unzip openclaw_crypto_wallet_intelligence_starter.zip) Tj T*
+(cd openclaw_crypto_wallet_intelligence_starter) Tj T*
+() Tj T*
+() Tj T*
+(2. CREATE A GITHUB REPOSITORY) Tj T*
+() Tj T*
+(Create a new private GitHub repository, then push this starter package into it.) Tj T*
+() Tj T*
+(Example:) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 1676 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(bash) Tj T*
+(git init) Tj T*
+(git add .) Tj T*
+(git commit -m "Initial OpenClaw crypto wallet intelligence starter package") Tj T*
+(git branch -M main) Tj T*
+(git remote add origin YOUR_GITHUB_REPOSITORY_URL) Tj T*
+(git push -u origin main) Tj T*
+() Tj T*
+() Tj T*
+(Do not commit real secrets or real .env files.) Tj T*
+() Tj T*
+(3. GIVE OPENCLAW THE PROJECT MEMORY) Tj T*
+() Tj T*
+(In OpenClaw, add the files from /memory as project memory/context:) Tj T*
+() Tj T*
+(- Project Memory.md) Tj T*
+(- Agent Operating Rules.md) Tj T*
+(- Security Memory.md) Tj T*
+(- Product Vision.md) Tj T*
+() Tj T*
+(These files tell OpenClaw what the system is, how it should behave, what must not be) Tj T*
+(built, and how to prioritise work.) Tj T*
+() Tj T*
+(4. GIVE OPENCLAW THE INITIAL KICKOFF PROMPT) Tj T*
+() Tj T*
+(Open:) Tj T*
+() Tj T*
+(docs/openclaw-prompts/00_Initial_Kickoff_Prompt.md) Tj T*
+() Tj T*
+(Paste it into OpenClaw and instruct it to begin Stage 0 only.) Tj T*
+() Tj T*
+(Do not ask OpenClaw to build the entire system in one pass.) Tj T*
+() Tj T*
+(5. ADD ANTHROPIC FALLBACK EARLY) Tj T*
+() Tj T*
+(Open:) Tj T*
+() Tj T*
+(docs/openclaw-prompts/03_Anthropic_Fallback_Setup_Prompt.md) Tj T*
+() Tj T*
+(Use this prompt after the project repo exists and before heavy development begins.) Tj T*
+() Tj T*
+(Development routing should be:) Tj T*
+() Tj T*
+(1. Ollama qwen3:4b for low-risk cleanup and classification.) Tj T*
+(2. ChatGPT as the primary development model.) Tj T*
+(3. Anthropic as fallback if ChatGPT token limits are reached.) Tj T*
+(4. Latest suitable paid models only when the final system is used for higher-risk) Tj T*
+(analysis.) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1577 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+() Tj T*
+(6. INSTALL OLLAMA AND QWEN3:4B EARLY) Tj T*
+() Tj T*
+(Open:) Tj T*
+() Tj T*
+(docs/openclaw-prompts/02_Ollama_Setup_Prompt.md) Tj T*
+() Tj T*
+(The only local model to install is:) Tj T*
+() Tj T*
+(bash) Tj T*
+(ollama pull qwen3:4b) Tj T*
+() Tj T*
+() Tj T*
+(OpenClaw should confirm the model responds before continuing with research or scraping) Tj T*
+(features.) Tj T*
+() Tj T*
+(7. INSTALL POSTGRESQL) Tj T*
+() Tj T*
+(Open:) Tj T*
+() Tj T*
+(docs/openclaw-prompts/04_PostgreSQL_Setup_Prompt.md) Tj T*
+() Tj T*
+(OpenClaw should help configure PostgreSQL locally using either Docker Compose or a) Tj T*
+(native install. The included Docker Compose file binds PostgreSQL to localhost only.) Tj T*
+() Tj T*
+(8. FOLLOW THE STAGED PLAN) Tj T*
+() Tj T*
+(OpenClaw must work stage by stage:) Tj T*
+() Tj T*
+(1. Stage 0 - Foundation, repository, security and local infrastructure) Tj T*
+(2. Stage 1 - Wallet database and movement tracking) Tj T*
+(3. Stage 2 - Price outcomes and signal validation) Tj T*
+(4. Stage 3 - Core pattern intelligence) Tj T*
+(5. Stage 4 - Controlled research) Tj T*
+(6. Stage 5 - Copy-trade candidates and paper trading) Tj T*
+(7. Stage 6 - Reporting and feedback optimisation) Tj T*
+() Tj T*
+(V1 is not complete until Stage 6 is complete and ASVS score is at least 90%.) Tj T*
+() Tj T*
+(IMPORTANT SAFETY RULES) Tj T*
+() Tj T*
+(V1 must not execute real trades.) Tj T*
+() Tj T*
+(The system must not:) Tj T*
+() Tj T*
+(- Store wallet private keys) Tj T*
+(- Ask for seed phrases) Tj T*
+(- Store exchange withdrawal keys) Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 1930 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(- Use margin) Tj T*
+(- Use leverage) Tj T*
+(- Use futures) Tj T*
+(- Execute live trades) Tj T*
+(- Expose PostgreSQL to the internet) Tj T*
+(- Expose Ollama to the internet) Tj T*
+(- Commit secrets to GitHub) Tj T*
+() Tj T*
+(DOCUMENTATION RULES) Tj T*
+() Tj T*
+(The following PDFs must exist and be updated after relevant changes:) Tj T*
+() Tj T*
+(- First Installation.pdf) Tj T*
+(- Installation Guide.pdf) Tj T*
+(- User Guide.pdf) Tj T*
+(- ASVS Audit \(App version number\).pdf) Tj T*
+() Tj T*
+(The ASVS audit filename uses the app version number. The audit document must record the) Tj T*
+(latest stable OWASP ASVS version used.) Tj T*
+() Tj T*
+(BACKUP AND MIGRATION) Tj T*
+() Tj T*
+(Backup and restore must be implemented early.) Tj T*
+() Tj T*
+(The goal is to make it easy to move this system later to a more powerful computer by:) Tj T*
+() Tj T*
+(1. Cloning the GitHub repository.) Tj T*
+(2. Installing dependencies.) Tj T*
+(3. Pulling Ollama qwen3:4b.) Tj T*
+(4. Restoring the PostgreSQL backup.) Tj T*
+(5. Configuring .env.) Tj T*
+(6. Running migrations.) Tj T*
+(7. Starting backend, frontend and workers.) Tj T*
+(8. Running validation checks.) Tj T*
+() Tj T*
+(Use the prompts and scripts in this package to maintain that migration path from the) Tj T*
+(beginning.) Tj T*
+() Tj T*
+(RECOMMENDED FIRST OPENCLAW INSTRUCTION) Tj T*
+() Tj T*
+(Paste this into OpenClaw after loading the memory files:) Tj T*
+() Tj T*
+(text) Tj T*
+(Use the repository files and project memory provided. Begin Stage 0 only. Do not build) Tj T*
+(application features yet. Create the repository structure, configure documentation, set) Tj T*
+(up PostgreSQL, install and test Ollama qwen3:4b, add Anthropic fallback model routing,) Tj T*
+(create the initial FastAPI and React skeletons, create the ASVS audit register) Tj T*
+(foundation, and update the README. Stop after Stage 0 validation and provide a summary) Tj T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 113 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+(of what was completed and what still needs manual configuration.) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+xref
+0 14
+0000000000 65535 f
+0000000009 00000 n
+0000000058 00000 n
+0000000141 00000 n
+0000000211 00000 n
+0000000337 00000 n
+0000002421 00000 n
+0000002547 00000 n
+0000004275 00000 n
+0000004401 00000 n
+0000006030 00000 n
+0000006158 00000 n
+0000008141 00000 n
+0000008269 00000 n
+trailer
+<< /Size 14 /Root 1 0 R >>
+startxref
+8434
+%%EOF
