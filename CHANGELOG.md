@@ -23,3 +23,4 @@
 - Validated a local user-space Ollama install bound to `127.0.0.1:11434` with only `qwen3:4b` present.
 - Added PostgreSQL migration/status scripts, stricter localhost validation and backup/restore tool checks.
 - Validated Docker Compose PostgreSQL runtime, Stage 0 migrations and PostgreSQL backup creation on the host.
+- Added persistent user-space systemd service for local-only Ollama `qwen3:4b` runtime.

@@ -73,7 +73,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 1436 >>
+<< /Length 1510 >>
 stream
 BT
 /F1 10 Tf
@@ -108,15 +108,56 @@ BT
 () Tj T*
 (Ollama must run locally only and the approved V1 local model is qwen3:4b.) Tj T*
 () Tj T*
-(Recommended secure defaults:) Tj T*
+(Recommended secure defaults for a user-space service:) Tj T*
 () Tj T*
 (bash) Tj T*
-(export PATH="$HOME/.local/bin:$PATH"   # only needed for a user-space install) Tj T*
-(export OLLAMA_HOST=127.0.0.1:11434) Tj T*
-(ollama serve) Tj T*
+(mkdir -p ~/.config/systemd/user) Tj T*
+(cat > ~/.config/systemd/user/ollama.service <<'EOF') Tj T*
+([Unit]) Tj T*
+(Description=Ollama local model server \(user-space\)) Tj T*
+(After=network-online.target) Tj T*
+(Wants=network-online.target) Tj T*
+() Tj T*
+([Service]) Tj T*
+(Type=simple) Tj T*
+(Environment=OLLAMA_HOST=127.0.0.1:11434) Tj T*
+(Environment=OLLAMA_MODELS=/home/robot/.ollama/models) Tj T*
+(Environment=PATH=/home/robot/.local/bin:/usr/local/bin:/usr/bin:/bin) Tj T*
+(ExecStart=/home/robot/.local/bin/ollama serve) Tj T*
+(Restart=on-failure) Tj T*
+(RestartSec=5) Tj T*
+() Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 1620 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
+([Install]) Tj T*
+(WantedBy=default.target) Tj T*
+(EOF) Tj T*
+() Tj T*
+(systemctl --user daemon-reload) Tj T*
+(systemctl --user enable --now ollama.service) Tj T*
 () Tj T*
 () Tj T*
-(In another terminal, install and validate the approved model:) Tj T*
+(The host should have user lingering enabled so the service starts after reboot. Validate) Tj T*
+(with:) Tj T*
+() Tj T*
+(bash) Tj T*
+(loginctl show-user "$USER" -p Linger) Tj T*
+(systemctl --user is-enabled ollama.service) Tj T*
+(systemctl --user is-active ollama.service) Tj T*
+() Tj T*
+() Tj T*
+(Install and validate the approved model:) Tj T*
 () Tj T*
 (bash) Tj T*
 (./scripts/install_ollama_qwen3_4b.sh) Tj T*
@@ -127,19 +168,6 @@ BT
 (unexpected local Ollama models are present.) Tj T*
 () Tj T*
 (PAID MODEL SETUP) Tj T*
-ET
-endstream
-endobj
-8 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
-endobj
-9 0 obj
-<< /Length 1763 >>
-stream
-BT
-/F1 10 Tf
-50 790 Td
-14 TL
 () Tj T*
 (Configure ChatGPT as the primary development model and Anthropic as fallback.) Tj T*
 () Tj T*
@@ -160,6 +188,19 @@ BT
 (ANTHROPIC_API_KEY=...) Tj T*
 () Tj T*
 () Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 1906 >>
+stream
+BT
+/F1 10 Tf
+50 790 Td
+14 TL
 (Do not commit real API keys. Do not expose paid provider keys to frontend code.) Tj T*
 () Tj T*
 (Fallback events are recorded through the model_task_logs foundation. Logs must not store) Tj T*
@@ -188,19 +229,6 @@ BT
 () Tj T*
 (bash) Tj T*
 (./scripts/stage0_validate.sh) Tj T*
-ET
-endstream
-endobj
-10 0 obj
-<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
-endobj
-11 0 obj
-<< /Length 931 >>
-stream
-BT
-/F1 10 Tf
-50 790 Td
-14 TL
 () Tj T*
 () Tj T*
 (Stage 0 checklist:) Tj T*
@@ -230,12 +258,12 @@ xref
 0000000330 00000 n
 0000001976 00000 n
 0000002102 00000 n
-0000003590 00000 n
-0000003716 00000 n
-0000005531 00000 n
-0000005659 00000 n
+0000003664 00000 n
+0000003790 00000 n
+0000005462 00000 n
+0000005590 00000 n
 trailer
 << /Size 12 /Root 1 0 R >>
 startxref
-6642
+7549
 %%EOF

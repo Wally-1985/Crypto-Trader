@@ -75,4 +75,4 @@ Runtime validation on this host:
 - Docker and Docker Compose are installed and accessible to the OpenClaw user.
 - PostgreSQL runs through Docker Compose and is bound to `127.0.0.1:5432` only.
 - Stage 0 migrations have been applied and `db_status.sh` confirms `schema_migrations`, `model_task_logs`, `pgcrypto` and `uuid-ossp`.
-- Ollama has been validated in a user-space local install on this host, bound to `127.0.0.1:11434`, with only `qwen3:4b` present.
+- Ollama has been validated in a persistent user-space systemd service on this host, bound to `127.0.0.1:11434`, with only `qwen3:4b` present.

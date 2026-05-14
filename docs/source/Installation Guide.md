@@ -67,15 +67,42 @@ Stage 0 tables:
 
 Ollama must run locally only and the approved V1 local model is `qwen3:4b`.
 
-Recommended secure defaults:
+Recommended secure defaults for a user-space service:
 
 ```bash
-export PATH="$HOME/.local/bin:$PATH"   # only needed for a user-space install
-export OLLAMA_HOST=127.0.0.1:11434
-ollama serve
+mkdir -p ~/.config/systemd/user
+cat > ~/.config/systemd/user/ollama.service <<'EOF'
+[Unit]
+Description=Ollama local model server (user-space)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=OLLAMA_HOST=127.0.0.1:11434
+Environment=OLLAMA_MODELS=/home/robot/.ollama/models
+Environment=PATH=/home/robot/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/robot/.local/bin/ollama serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+EOF
+
+systemctl --user daemon-reload
+systemctl --user enable --now ollama.service
 ```
 
-In another terminal, install and validate the approved model:
+The host should have user lingering enabled so the service starts after reboot. Validate with:
+
+```bash
+loginctl show-user "$USER" -p Linger
+systemctl --user is-enabled ollama.service
+systemctl --user is-active ollama.service
+```
+
+Install and validate the approved model:
 
 ```bash
 ./scripts/install_ollama_qwen3_4b.sh
