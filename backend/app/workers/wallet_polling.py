@@ -103,6 +103,7 @@ class EtherscanReadOnlyMovementProvider:
 
     def _fetch_account_action(self, address: str, action: str) -> list[dict[str, Any]]:
         params = {
+            "chainid": "1",
             "module": "account",
             "action": action,
             "address": address,
@@ -117,6 +118,8 @@ class EtherscanReadOnlyMovementProvider:
             response = client.get(self.base_url, params=params)
             response.raise_for_status()
             payload = response.json()
+        if payload.get("status") == "0" and payload.get("message") == "NOTOK":
+            raise RuntimeError(str(payload.get("result") or "etherscan request failed"))
         result = payload.get("result", [])
         return result if isinstance(result, list) else []
 

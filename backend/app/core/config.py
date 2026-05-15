@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     openai_api_key: str = ""
     anthropic_api_key: str = ""
     etherscan_api_key: str = ""
-    etherscan_base_url: str = "https://api.etherscan.io/api"
+    etherscan_base_url: str = "https://api.etherscan.io/v2/api"
     etherscan_max_transactions_per_wallet: int = 10
     etherscan_timeout_seconds: float = 15.0
 
