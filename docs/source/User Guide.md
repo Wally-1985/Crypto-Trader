@@ -86,7 +86,8 @@ Current alert, polling and outcome actions:
 - Run real movement enrichment to estimate USD value from wallet-led token mappings and read-only CoinGecko prices.
 - Classify enriched protocol hints such as Aave supply/withdrawal while keeping movements manual-review focused.
 - Inspect movement source payloads, enrichment metadata and unsupported-token warnings on recent movements.
-- Review recent pipeline run logs for polling, enrichment and outcome batches, including counts, status, duration and provider errors.
+- Run the full wallet intelligence pipeline with one action: Etherscan watched-wallet ingestion, movement enrichment and due outcome scoring.
+- Review recent pipeline run logs for polling, enrichment, full pipeline and outcome batches, including counts, status, duration and provider errors.
 
 Available backend routes:
 
@@ -104,6 +105,7 @@ Available backend routes:
 - `POST /wallet-polling/run-once?provider=mock` — run deterministic mock provider ingestion through validate, score, dedupe, store and alert.
 - `POST /wallet-polling/run-once?provider=etherscan_readonly` — read watched Ethereum wallet transfers through Etherscan when an API key is configured; no signing/trading.
 - `POST /movement-enrichment/run-once?provider=coingecko_public` — enrich real Etherscan movements with wallet-led token mappings, read-only public prices and protocol classification metadata.
+- `POST /pipeline/run-once` — run the full wallet intelligence pipeline in safe order: watched-wallet ingestion, enrichment and due outcome scoring.
 - `GET /signal-outcomes` — list/filter price outcome records.
 - `GET /signal-outcomes/summary` — outcome counts by result.
 - `POST /signal-outcomes/run-once?provider=mock` — create deterministic mock outcomes for existing movements.

@@ -7,6 +7,7 @@ from app.api.health import router as health_router
 from app.api.movements import router as movements_router
 from app.api.outcomes import router as outcomes_router
 from app.api.performance import router as performance_router
+from app.api.pipeline import router as pipeline_router
 from app.api.run_logs import router as run_logs_router
 from app.api.polling import router as polling_router
 from app.api.tokens import router as tokens_router
@@ -36,5 +37,6 @@ app.include_router(alerts_router)
 app.include_router(polling_router)
 app.include_router(outcomes_router)
 app.include_router(performance_router)
+app.include_router(pipeline_router)
 app.include_router(run_logs_router)
 app.include_router(tokens_router)

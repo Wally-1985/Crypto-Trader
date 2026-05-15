@@ -118,4 +118,5 @@ Stage 2 has started with price outcome and signal validation foundations:
 - Seed mappings for ETH, USDC and Aave aEthUSDC receipt-token handling so real movements can receive current USD estimates while staying review-only.
 - PostgreSQL-backed public market price cache for CoinGecko lookups so enrichment and due-outcome batches reuse recent wallet-led prices and avoid polluting rankings during provider rate limits.
 - Operational pipeline run logs and Etherscan wallet polling cursors so repeated runs are auditable and avoid re-fetching old block ranges.
-- V1 remains research and paper-trading only; imports, mappings, movement ingestion, enrichment, outcomes and rankings never execute trades.
+- One-click wallet intelligence pipeline route/UI that runs watched-wallet Etherscan ingestion, movement enrichment and due outcome scoring in order with one parent run log.
+- V1 remains research and paper-trading only; imports, mappings, movement ingestion, enrichment, outcomes, pipeline runs and rankings never execute trades.

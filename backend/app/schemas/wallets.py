@@ -234,6 +234,21 @@ class MovementEnrichmentRunSummary(BaseModel):
     paper_trading_only: bool = True
 
 
+class IntelligencePipelineRunSummary(BaseModel):
+    provider: str
+    polling: dict
+    enrichment: dict
+    outcomes: dict
+    checked_wallets: int
+    fetched_movements: int
+    created_movements: int
+    enriched_movements: int
+    created_outcomes: int
+    provider_errors: int
+    status: str
+    paper_trading_only: bool = True
+
+
 class SignalOutcome(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

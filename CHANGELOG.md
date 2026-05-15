@@ -37,3 +37,4 @@
 - Updated Etherscan integration to API V2 and added movement enrichment with seeded ETH/USDC/aEthUSDC token mappings, CoinGecko price estimates and Aave protocol classification hints.
 - Added PostgreSQL-backed public market price cache and rate-limit fallback behavior for CoinGecko-backed enrichment/outcomes.
 - Added operational pipeline run logs and Etherscan wallet polling cursors for auditable, cheaper repeated ingestion.
+- Added one-click wallet intelligence pipeline orchestration for watched-wallet ingestion, enrichment and due outcome scoring.
