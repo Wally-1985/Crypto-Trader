@@ -11,6 +11,77 @@ from app.core.config import settings
 from app.services.movement_ingestion import ingest_wallet_movement
 
 
+def _cursor_for_wallet(db: Session, *, wallet_id: Any, provider: str) -> dict[str, Any] | None:
+    row = db.execute(
+        text(
+            """
+            SELECT *
+            FROM wallet_polling_cursors
+            WHERE wallet_id = :wallet_id AND provider = :provider
+            """
+        ),
+        {"wallet_id": wallet_id, "provider": provider},
+    ).fetchone()
+    return dict(row._mapping) if row else None
+
+
+def _update_cursor_success(db: Session, *, wallet: dict, provider: str, movements: list[dict]) -> None:
+    block_numbers = [int(m["block_number"]) for m in movements if m.get("block_number") is not None]
+    times = [m["transaction_time"] for m in movements if m.get("transaction_time") is not None]
+    latest = max(
+        movements,
+        key=lambda m: (m.get("block_number") or 0, m.get("transaction_time") or datetime.min.replace(tzinfo=timezone.utc)),
+        default=None,
+    )
+    db.execute(
+        text(
+            """
+            INSERT INTO wallet_polling_cursors (
+                wallet_id, provider, chain, last_seen_block, last_seen_transaction_time,
+                last_seen_transaction_hash, last_success_at, last_error_at, last_error, metadata
+            ) VALUES (
+                :wallet_id, :provider, :chain, :last_seen_block, :last_seen_transaction_time,
+                :last_seen_transaction_hash, now(), NULL, NULL, CAST(:metadata AS jsonb)
+            )
+            ON CONFLICT (wallet_id, provider)
+            DO UPDATE SET
+                chain = EXCLUDED.chain,
+                last_seen_block = GREATEST(wallet_polling_cursors.last_seen_block, EXCLUDED.last_seen_block),
+                last_seen_transaction_time = GREATEST(wallet_polling_cursors.last_seen_transaction_time, EXCLUDED.last_seen_transaction_time),
+                last_seen_transaction_hash = COALESCE(EXCLUDED.last_seen_transaction_hash, wallet_polling_cursors.last_seen_transaction_hash),
+                last_success_at = now(),
+                last_error_at = NULL,
+                last_error = NULL,
+                metadata = wallet_polling_cursors.metadata || EXCLUDED.metadata,
+                updated_at = now()
+            """
+        ),
+        {
+            "wallet_id": wallet["id"],
+            "provider": provider,
+            "chain": wallet["chain"],
+            "last_seen_block": max(block_numbers) if block_numbers else None,
+            "last_seen_transaction_time": max(times) if times else None,
+            "last_seen_transaction_hash": latest.get("transaction_hash") if latest else None,
+            "metadata": '{"paper_trading_only": true}',
+        },
+    )
+
+
+def _update_cursor_error(db: Session, *, wallet: dict, provider: str, error: Exception) -> None:
+    db.execute(
+        text(
+            """
+            INSERT INTO wallet_polling_cursors (wallet_id, provider, chain, last_error_at, last_error, metadata)
+            VALUES (:wallet_id, :provider, :chain, now(), :last_error, '{"paper_trading_only": true}'::jsonb)
+            ON CONFLICT (wallet_id, provider)
+            DO UPDATE SET last_error_at = now(), last_error = EXCLUDED.last_error, updated_at = now()
+            """
+        ),
+        {"wallet_id": wallet["id"], "provider": provider, "chain": wallet["chain"], "last_error": str(error)[:1000]},
+    )
+
+
 class WalletMovementProvider(Protocol):
     """Provider interface for wallet-led read-only movement ingestion.
 
@@ -20,7 +91,7 @@ class WalletMovementProvider(Protocol):
 
     name: str
 
-    def fetch_movements(self, wallet: dict) -> list[dict]:
+    def fetch_movements(self, wallet: dict, cursor: dict | None = None) -> list[dict]:
         """Return untrusted movement payloads for one watched wallet."""
 
 
@@ -28,7 +99,7 @@ class WalletMovementProvider(Protocol):
 class DryRunWalletMovementProvider:
     name: str = "dry_run"
 
-    def fetch_movements(self, wallet: dict) -> list[dict]:
+    def fetch_movements(self, wallet: dict, cursor: dict | None = None) -> list[dict]:
         return []
 
 
@@ -38,7 +109,7 @@ class MockWalletMovementProvider:
 
     name: str = "mock"
 
-    def fetch_movements(self, wallet: dict) -> list[dict]:
+    def fetch_movements(self, wallet: dict, cursor: dict | None = None) -> list[dict]:
         short_wallet = str(wallet["id"]).replace("-", "")[:16]
         tx_hash = f"mock-{wallet['chain']}-{short_wallet}-stage1"
         threshold = Decimal(str(wallet["alert_threshold_usd"] or 0))
@@ -84,12 +155,14 @@ class EtherscanReadOnlyMovementProvider:
     def configured(self) -> bool:
         return bool(self.api_key)
 
-    def fetch_movements(self, wallet: dict) -> list[dict]:
+    def fetch_movements(self, wallet: dict, cursor: dict | None = None) -> list[dict]:
         if not self.configured() or wallet["chain"] != "ethereum":
             return []
         address = wallet["normalized_address"]
-        native = self._fetch_account_action(address, "txlist")
-        token = self._fetch_account_action(address, "tokentx")
+        last_seen_block = int((cursor or {}).get("last_seen_block") or 0)
+        start_block = last_seen_block + 1 if last_seen_block > 0 else 0
+        native = self._fetch_account_action(address, "txlist", start_block=start_block)
+        token = self._fetch_account_action(address, "tokentx", start_block=start_block)
         movements: list[dict] = []
         for item in native[: self.max_transactions]:
             movement = self._normalize_native_transfer(wallet, item)
@@ -101,13 +174,13 @@ class EtherscanReadOnlyMovementProvider:
                 movements.append(movement)
         return movements[: self.max_transactions]
 
-    def _fetch_account_action(self, address: str, action: str) -> list[dict[str, Any]]:
+    def _fetch_account_action(self, address: str, action: str, *, start_block: int = 0) -> list[dict[str, Any]]:
         params = {
             "chainid": "1",
             "module": "account",
             "action": action,
             "address": address,
-            "startblock": 0,
+            "startblock": max(start_block, 0),
             "endblock": 99999999,
             "page": 1,
             "offset": self.max_transactions,
@@ -234,10 +307,12 @@ def run_wallet_polling_once(db: Session, provider: WalletMovementProvider | None
     provider_errors = 0
 
     for wallet in wallets:
+        cursor = _cursor_for_wallet(db, wallet_id=wallet["id"], provider=active_provider.name)
         try:
-            movement_payloads = active_provider.fetch_movements(wallet)
-        except Exception:
+            movement_payloads = active_provider.fetch_movements(wallet, cursor=cursor)
+        except Exception as exc:
             provider_errors += 1
+            _update_cursor_error(db, wallet=wallet, provider=active_provider.name, error=exc)
             continue
         for movement_payload in movement_payloads:
             fetched_movements += 1
@@ -246,6 +321,7 @@ def run_wallet_polling_once(db: Session, provider: WalletMovementProvider | None
                 created_movements += 1
             else:
                 skipped_duplicates += 1
+        _update_cursor_success(db, wallet=wallet, provider=active_provider.name, movements=movement_payloads)
     db.commit()
 
     skipped_reason = None

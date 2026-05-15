@@ -18,6 +18,7 @@ def test_stage2_signal_outcome_routes_registered():
     assert "/signal-outcomes/run-due" in routes
     assert "/wallet-performance" in routes
     assert "/movement-enrichment/run-once" in routes
+    assert "/pipeline-runs" in routes
     assert "/wallets/import" in routes
     assert "/token-mappings" in routes
 

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.schemas.wallets import PollingRunSummary
+from app.services.run_logs import run_with_log
 from app.workers.wallet_polling import provider_for_name, run_wallet_polling_once
 
 router = APIRouter(prefix="/wallet-polling", tags=["wallet-polling"])
@@ -19,4 +20,9 @@ def run_polling_once(
     `etherscan_readonly` pulls watched-wallet Ethereum transfers only when an
     ETHERSCAN_API_KEY is configured; it never signs or trades.
     """
-    return run_wallet_polling_once(db, provider_for_name(provider))
+    return run_with_log(
+        db,
+        run_type="wallet_polling",
+        provider=provider,
+        operation=lambda: run_wallet_polling_once(db, provider_for_name(provider)),
+    )

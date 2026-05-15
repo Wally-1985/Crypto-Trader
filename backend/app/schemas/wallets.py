@@ -181,6 +181,30 @@ class AgentAlertUpdate(BaseModel):
         return value
 
 
+class PipelineRunLog(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    run_type: str
+    provider: str
+    status: str
+    started_at: datetime
+    finished_at: datetime | None = None
+    duration_ms: int | None = None
+    checked_wallets: int
+    checked_movements: int
+    fetched_movements: int
+    created_movements: int
+    enriched_movements: int
+    created_outcomes: int
+    skipped_duplicates: int
+    skipped_existing: int
+    provider_errors: int
+    skipped_reason: str | None = None
+    metadata: dict
+    paper_trading_only: bool
+
+
 class PollingRunSummary(BaseModel):
     provider: str
     checked_wallets: int

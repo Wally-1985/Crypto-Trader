@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.schemas.wallets import SignalOutcome, SignalOutcomeRunSummary, SignalOutcomeSummary
+from app.services.run_logs import run_with_log
 from app.services.signal_outcomes import list_signal_outcomes, run_due_outcome_backfill, run_mock_outcome_backfill, summarize_signal_outcomes
 
 router = APIRouter(prefix="/signal-outcomes", tags=["signal-outcomes"])
@@ -43,7 +44,13 @@ def run_outcome_backfill(
     limit: int = Query(default=50, ge=1, le=500),
     db: Session = Depends(get_db),
 ) -> SignalOutcomeRunSummary:
-    summary = run_mock_outcome_backfill(db, limit=limit, commit=True)
+    summary = run_with_log(
+        db,
+        run_type="signal_outcomes",
+        provider=provider,
+        operation=lambda: run_mock_outcome_backfill(db, limit=limit, commit=True),
+        summary_to_dict=lambda result: result.__dict__,
+    )
     return SignalOutcomeRunSummary(**summary.__dict__)
 
 
@@ -53,5 +60,11 @@ def run_due_outcomes(
     limit: int = Query(default=50, ge=1, le=500),
     db: Session = Depends(get_db),
 ) -> SignalOutcomeRunSummary:
-    summary = run_due_outcome_backfill(db, provider_name=provider, limit=limit, commit=True)
+    summary = run_with_log(
+        db,
+        run_type="signal_outcomes",
+        provider=provider,
+        operation=lambda: run_due_outcome_backfill(db, provider_name=provider, limit=limit, commit=True),
+        summary_to_dict=lambda result: result.__dict__,
+    )
     return SignalOutcomeRunSummary(**summary.__dict__)

@@ -82,10 +82,11 @@ Current alert, polling and outcome actions:
 - Filter wallet ranking by provider so mock and public market-data outcomes can be evaluated separately.
 - Import curated wallet lists from JSON while skipping duplicates by chain/address.
 - Map wallet-led token symbols/contracts to provider IDs, such as CoinGecko IDs, so future real-price outcomes can resolve token identity cleanly.
-- Run read-only Etherscan ingestion for watched Ethereum wallets when `ETHERSCAN_API_KEY` is configured.
+- Run read-only Etherscan ingestion for watched Ethereum wallets when `ETHERSCAN_API_KEY` is configured; repeated runs use per-wallet polling cursors to avoid re-fetching old block ranges.
 - Run real movement enrichment to estimate USD value from wallet-led token mappings and read-only CoinGecko prices.
 - Classify enriched protocol hints such as Aave supply/withdrawal while keeping movements manual-review focused.
 - Inspect movement source payloads, enrichment metadata and unsupported-token warnings on recent movements.
+- Review recent pipeline run logs for polling, enrichment and outcome batches, including counts, status, duration and provider errors.
 
 Available backend routes:
 
@@ -110,6 +111,7 @@ Available backend routes:
 - `POST /signal-outcomes/run-due?provider=coingecko_public` — create due outcomes with read-only public CoinGecko price checks for supported wallet-led token symbols.
 - `GET /wallet-performance` — rank wallets by signal outcomes, with optional `provider`, `horizon`, `min_outcomes` and `limit` filters.
 - `POST /wallets/import` — bulk import curated wallets; duplicate chain/address records are skipped.
+- `GET /pipeline-runs` — list recent operational run logs for wallet polling, movement enrichment and signal outcome batches.
 - `GET /token-mappings` — list token identity mappings.
 - `POST /token-mappings` — create or update a token/provider identity mapping.
 
