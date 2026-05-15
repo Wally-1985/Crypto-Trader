@@ -245,10 +245,17 @@ def build_real_provider_payload(
     movement: dict[str, Any],
     horizon: str,
     due_at: datetime,
+    price_cache: dict[tuple[str, str, str], PricePoint] | None = None,
 ) -> tuple[Decimal | None, Decimal | None, Decimal | None, datetime, dict[str, Any]]:
     baseline = movement.get("price_at_trade_time")
     baseline_price = Decimal(str(baseline)) if baseline is not None else None
-    price_point: PricePoint = provider.price_at_or_after(token_symbol=movement["token_symbol"], target_time=due_at)
+    cache_key = (provider.name, movement["chain"], movement["token_symbol"].upper())
+    if price_cache is not None and cache_key in price_cache:
+        price_point = price_cache[cache_key]
+    else:
+        price_point = provider.price_at_or_after(token_symbol=movement["token_symbol"], target_time=due_at)
+        if price_cache is not None:
+            price_cache[cache_key] = price_point
     change = price_change_pct(baseline_price, price_point.price_usd)
     raw_payload = {
         "provider": price_point.provider,
@@ -290,6 +297,7 @@ def run_due_outcome_backfill(
     skipped_existing = 0
     skipped_not_due = 0
     provider_errors = 0
+    price_cache: dict[tuple[str, str, str], PricePoint] = {}
 
     for row in rows:
         movement = _row_to_dict(row)
@@ -311,20 +319,15 @@ def run_due_outcome_backfill(
                 try:
                     provider_for_movement = DatabaseBackedCoinGeckoProvider(db, movement["chain"], movement.get("token_contract")) if provider_name == "coingecko_public" else real_provider
                     baseline_price, outcome_price, change, measured_at, raw_payload = build_real_provider_payload(
-                        provider=provider_for_movement, movement=movement, horizon=horizon, due_at=due_at
+                        provider=provider_for_movement,
+                        movement=movement,
+                        horizon=horizon,
+                        due_at=due_at,
+                        price_cache=price_cache,
                     )
-                except Exception as exc:  # provider/network errors are recorded as needs-review outcomes
+                except Exception:
                     provider_errors += 1
-                    baseline_price = Decimal(str(movement["price_at_trade_time"])) if movement.get("price_at_trade_time") is not None else None
-                    outcome_price = None
-                    change = None
-                    measured_at = now
-                    raw_payload = {
-                        "provider": provider_name,
-                        "paper_trading_only": True,
-                        "target_due_at": due_at.isoformat(),
-                        "error": str(exc),
-                    }
+                    continue
             if insert_signal_outcome(
                 db,
                 movement=movement,

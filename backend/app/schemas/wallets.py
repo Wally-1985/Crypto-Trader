@@ -201,6 +201,15 @@ class WalletSummary(BaseModel):
     manual_review_movements: int
 
 
+class MovementEnrichmentRunSummary(BaseModel):
+    provider: str
+    checked_movements: int
+    enriched_movements: int
+    skipped_unmapped: int
+    provider_errors: int
+    paper_trading_only: bool = True
+
+
 class SignalOutcome(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 

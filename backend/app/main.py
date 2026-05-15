@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.alerts import router as alerts_router
+from app.api.enrichment import router as enrichment_router
 from app.api.health import router as health_router
 from app.api.movements import router as movements_router
 from app.api.outcomes import router as outcomes_router
@@ -29,6 +30,7 @@ app.add_middleware(
 app.include_router(health_router, tags=["health"])
 app.include_router(wallets_router)
 app.include_router(movements_router)
+app.include_router(enrichment_router)
 app.include_router(alerts_router)
 app.include_router(polling_router)
 app.include_router(outcomes_router)

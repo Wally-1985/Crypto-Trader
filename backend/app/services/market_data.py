@@ -82,7 +82,10 @@ class CoinGeckoPublicMarketDataProvider:
                 source="unsupported_symbol_allowlist",
                 raw_payload={"supported_symbols": sorted(DEFAULT_SYMBOL_IDS), "target_time": target_time.isoformat()},
             )
+        return self.price_for_coin_id(token_symbol=symbol, coin_id=coin_id, target_time=target_time)
 
+    def price_for_coin_id(self, *, token_symbol: str, coin_id: str, target_time: datetime) -> PricePoint:
+        observed_at = datetime.now(timezone.utc)
         with httpx.Client(timeout=self.timeout_seconds) as client:
             response = client.get(
                 f"{self.base_url}/simple/price",
@@ -98,7 +101,7 @@ class CoinGeckoPublicMarketDataProvider:
             observed_at = datetime.fromtimestamp(int(last_updated), tz=timezone.utc)
         return PricePoint(
             provider=self.name,
-            token_symbol=symbol,
+            token_symbol=token_symbol.upper(),
             price_usd=Decimal(str(price)) if price is not None else None,
             observed_at=observed_at,
             source="coingecko_simple_price_current_usd",

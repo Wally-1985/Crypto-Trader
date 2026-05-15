@@ -114,4 +114,6 @@ Stage 2 has started with price outcome and signal validation foundations:
 - `token_mappings` table, API and frontend form for mapping wallet-led token symbols/contracts to provider IDs such as CoinGecko IDs.
 - Read-only Ethereum watched-wallet ingestion provider (`etherscan_readonly`) with optional `ETHERSCAN_API_KEY`, no private keys, no signing and no broad market scan.
 - Basic normalization of native ETH and ERC-20 transfers into existing movement types with raw source visibility in the frontend.
-- V1 remains research and paper-trading only; imports, mappings, movement ingestion, outcomes and rankings never execute trades.
+- Movement enrichment route and frontend action for wallet-led Etherscan movements using read-only CoinGecko pricing, seeded common token mappings and protocol classification hints such as Aave supply.
+- Seed mappings for ETH, USDC and Aave aEthUSDC receipt-token handling so real movements can receive current USD estimates while staying review-only.
+- V1 remains research and paper-trading only; imports, mappings, movement ingestion, enrichment, outcomes and rankings never execute trades.

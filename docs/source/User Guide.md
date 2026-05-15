@@ -83,7 +83,9 @@ Current alert, polling and outcome actions:
 - Import curated wallet lists from JSON while skipping duplicates by chain/address.
 - Map wallet-led token symbols/contracts to provider IDs, such as CoinGecko IDs, so future real-price outcomes can resolve token identity cleanly.
 - Run read-only Etherscan ingestion for watched Ethereum wallets when `ETHERSCAN_API_KEY` is configured.
-- Inspect movement source payloads and unsupported-token warnings on recent movements.
+- Run real movement enrichment to estimate USD value from wallet-led token mappings and read-only CoinGecko prices.
+- Classify enriched protocol hints such as Aave supply/withdrawal while keeping movements manual-review focused.
+- Inspect movement source payloads, enrichment metadata and unsupported-token warnings on recent movements.
 
 Available backend routes:
 
@@ -100,6 +102,7 @@ Available backend routes:
 - `POST /wallet-polling/run-once?provider=dry_run` — run the Stage 1 dry-run polling skeleton.
 - `POST /wallet-polling/run-once?provider=mock` — run deterministic mock provider ingestion through validate, score, dedupe, store and alert.
 - `POST /wallet-polling/run-once?provider=etherscan_readonly` — read watched Ethereum wallet transfers through Etherscan when an API key is configured; no signing/trading.
+- `POST /movement-enrichment/run-once?provider=coingecko_public` — enrich real Etherscan movements with wallet-led token mappings, read-only public prices and protocol classification metadata.
 - `GET /signal-outcomes` — list/filter price outcome records.
 - `GET /signal-outcomes/summary` — outcome counts by result.
 - `POST /signal-outcomes/run-once?provider=mock` — create deterministic mock outcomes for existing movements.
@@ -110,4 +113,4 @@ Available backend routes:
 - `GET /token-mappings` — list token identity mappings.
 - `POST /token-mappings` — create or update a token/provider identity mapping.
 
-Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons and manual-review flags. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only horizon validation for 15m, 1h, 4h, 24h and 7d. Wallet performance ranking is confidence-adjusted to avoid over-trusting tiny samples. Token mappings let the read-only price provider resolve wallet-led tokens without broad market discovery. Public market-data and Etherscan checks are read-only, narrow and wallet-led; they do not perform broad market discovery, signing or live trading. V1 remains paper-trading only.
+Wallet records support enabled/disabled status, wallet type, tags, sectors, alert threshold, watch priority, confidence weighting, copy-trade disabled/enabled flag, and Do Not Copy policy. Movement records support data quality score, data quality reasons, manual-review flags, enrichment metadata, current-price USD estimates and protocol hints. Alerts preserve decision snapshots and support review status, analyst notes and candidate decisions. Signal outcomes preserve paper-trading-only horizon validation for 15m, 1h, 4h, 24h and 7d. Wallet performance ranking is confidence-adjusted to avoid over-trusting tiny samples. Token mappings let the read-only price provider resolve wallet-led tokens without broad market discovery. Public market-data, enrichment and Etherscan checks are read-only, narrow and wallet-led; they do not perform broad market discovery, signing or live trading. V1 remains paper-trading only.

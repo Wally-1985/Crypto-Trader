@@ -34,3 +34,4 @@
 - Added wallet performance ranking API and frontend panel with confidence-adjusted scores, win rate, average return and provider filtering.
 - Added curated wallet JSON import workflow and token mapping table/API/UI for provider token identity resolution.
 - Added read-only Etherscan watched-wallet ingestion provider, movement source visibility and ETH/ERC-20 normalization into existing movement types.
+- Updated Etherscan integration to API V2 and added movement enrichment with seeded ETH/USDC/aEthUSDC token mappings, CoinGecko price estimates and Aave protocol classification hints.

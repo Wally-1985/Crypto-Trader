@@ -4,6 +4,7 @@ from decimal import Decimal
 from app.main import app
 from app.schemas.wallets import TokenMappingCreate, WhaleWalletImportRequest, WhaleWalletCreate
 from app.services.market_data import CoinGeckoPublicMarketDataProvider, DEFAULT_SYMBOL_IDS
+from app.services.movement_enrichment import classify_protocol_and_type
 from app.services.signal_outcomes import HORIZONS, MockPriceOutcomeProvider, classify_signal_result, price_change_pct
 from app.services.wallet_performance import confidence_adjusted_score
 from app.workers.wallet_polling import EtherscanReadOnlyMovementProvider
@@ -16,6 +17,7 @@ def test_stage2_signal_outcome_routes_registered():
     assert "/signal-outcomes/run-once" in routes
     assert "/signal-outcomes/run-due" in routes
     assert "/wallet-performance" in routes
+    assert "/movement-enrichment/run-once" in routes
     assert "/wallets/import" in routes
     assert "/token-mappings" in routes
 
@@ -60,6 +62,19 @@ def test_public_market_provider_is_read_only_and_allowlisted_without_network_for
     assert point.paper_trading_only is True
     assert point.source == "unsupported_symbol_allowlist"
     assert "ETH" in DEFAULT_SYMBOL_IDS
+
+
+def test_aave_supply_classification_enriches_protocol_without_new_enum():
+    protocol, movement_type, confidence, reasons = classify_protocol_and_type({"token_symbol":"USDC", "movement_type":"Position reduction", "protocol":"Etherscan", "raw_api_payload":{"payload":{"functionName":"supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode)"}}})
+    assert protocol == "Aave supply"
+    assert movement_type == "Stablecoin deployment"
+    assert confidence >= 80
+    assert "aave_supply_underlying_token_detected" in reasons
+
+    receipt_protocol, receipt_type, _, receipt_reasons = classify_protocol_and_type({"token_symbol":"AETHUSDC", "movement_type":"Position reduction", "protocol":"Etherscan", "raw_api_payload":{"payload":{"functionName":"supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode)"}}})
+    assert receipt_protocol == "Aave supply receipt token"
+    assert receipt_type == "Position increase"
+    assert "aave_receipt_token_supply_detected" in receipt_reasons
 
 
 def test_etherscan_token_transfer_normalizes_to_existing_movement_shape():
