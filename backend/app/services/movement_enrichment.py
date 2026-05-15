@@ -7,7 +7,7 @@ from typing import Any
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from app.services.market_data import CoinGeckoPublicMarketDataProvider, resolve_provider_token_id
+from app.services.market_data import DatabaseBackedCoinGeckoProvider, resolve_provider_token_id
 
 
 @dataclass(frozen=True)
@@ -67,7 +67,7 @@ def list_enrichment_candidates(db: Session, *, limit: int) -> list[dict[str, Any
 
 
 def run_movement_enrichment(db: Session, *, provider_name: str = "coingecko_public", limit: int = 100, commit: bool = True) -> MovementEnrichmentSummary:
-    provider = CoinGeckoPublicMarketDataProvider()
+    provider = DatabaseBackedCoinGeckoProvider(db, chain="ethereum")
     checked = 0
     enriched = 0
     skipped_unmapped = 0

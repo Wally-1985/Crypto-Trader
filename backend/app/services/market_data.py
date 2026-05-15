@@ -42,6 +42,12 @@ class PricePoint:
     raw_payload: dict[str, Any] | None = None
 
 
+class MarketDataRateLimited(RuntimeError):
+    def __init__(self, message: str, retry_after_seconds: int | None = None) -> None:
+        super().__init__(message)
+        self.retry_after_seconds = retry_after_seconds
+
+
 class MarketDataProvider(Protocol):
     name: str
 
@@ -92,6 +98,12 @@ class CoinGeckoPublicMarketDataProvider:
                 params={"ids": coin_id, "vs_currencies": "usd", "include_last_updated_at": "true"},
                 headers={"accept": "application/json", "user-agent": f"{settings.app_name}/{settings.app_version}"},
             )
+            if response.status_code == 429:
+                retry_after = response.headers.get("retry-after")
+                raise MarketDataRateLimited(
+                    "CoinGecko public API rate limit reached",
+                    int(retry_after) if retry_after and retry_after.isdigit() else None,
+                )
             response.raise_for_status()
             payload = response.json()
 
@@ -145,6 +157,44 @@ class DatabaseBackedCoinGeckoProvider(CoinGeckoPublicMarketDataProvider):
             token_contract=self.token_contract,
         )
         return mapped or super().coin_id_for_symbol(token_symbol)
+
+    def price_for_coin_id(self, *, token_symbol: str, coin_id: str, target_time: datetime) -> PricePoint:
+        from app.services.market_price_cache import get_cached_price_point, upsert_cached_price_point
+
+        cached = get_cached_price_point(
+            self.db,
+            provider=self.name,
+            provider_token_id=coin_id,
+            token_symbol=token_symbol,
+            allow_stale=False,
+        )
+        if cached is not None:
+            return cached
+        try:
+            point = super().price_for_coin_id(token_symbol=token_symbol, coin_id=coin_id, target_time=target_time)
+        except MarketDataRateLimited:
+            stale = get_cached_price_point(
+                self.db,
+                provider=self.name,
+                provider_token_id=coin_id,
+                token_symbol=token_symbol,
+                allow_stale=True,
+            )
+            if stale is not None:
+                stale_payload = dict(stale.raw_payload or {})
+                stale_payload.update({"rate_limit_fallback": True})
+                return PricePoint(
+                    provider=stale.provider,
+                    token_symbol=stale.token_symbol,
+                    price_usd=stale.price_usd,
+                    observed_at=stale.observed_at,
+                    source=f"{stale.source}_rate_limit_fallback",
+                    raw_payload=stale_payload,
+                )
+            raise
+        if point.price_usd is not None:
+            upsert_cached_price_point(self.db, provider_token_id=coin_id, price_point=point)
+        return point
 
 
 def market_provider_for_name(name: str) -> MarketDataProvider:
